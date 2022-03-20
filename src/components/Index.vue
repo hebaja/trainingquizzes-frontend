@@ -26,6 +26,7 @@ export default {
 	},
 	methods: {
 		redirectToEnglishApp() {
+			console.log(process.env.VUE_APP_GOOGLE_CLIENT_ID)
 			this.$router.push({path: '/english_app'})
 		}
 	}
