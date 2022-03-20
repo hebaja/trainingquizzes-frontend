@@ -169,7 +169,10 @@ export default {
 		authenticate() {
 			if(!this.$v.$invalid) {
 				this.$store.dispatch('signIn', this.user)
-				.then(() => this.redirectUser())
+				.then(() => {
+						this.redirectUser()
+						this.$store.commit('DEFINE_USER_IS_ADMIN')
+					})
 				.catch((error) => {
 					if(error.request.status === 401) {
 						this.errorMessage = 'Invalid email or password.'

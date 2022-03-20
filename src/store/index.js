@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 const state = {
     token: null,
+	userIsAdmin: false,
     user: {},
     finalScoreObject: {},
     exercise: {},
@@ -36,6 +37,13 @@ const mutations = {
     },
     UPDATE_FINAL_SCORE_OBJECT(state) {
         state.finalScoreObject.userId = state.user.id
+    },
+	DEFINE_USER_IS_ADMIN(state) {
+		if(state.user.roles) {
+			state.user.roles.filter(authority => {
+				if(authority === 'ROLE_ADMIN') state.userIsAdmin = true
+			})
+		}
     },
 }
 
@@ -106,13 +114,19 @@ const getters = {
     finalScoreObject: state => state.finalScoreObject,
     storedExercise: state => state.exercise,
     storedUser: state => state.user,
-    userIsAdmin: state => {
-        let result = false
-		state.user.roles.filter(authority => {
-			if(authority === 'ROLE_ADMIN') result = true
-		})
-        return result
-    }
+	userIsAdmin: state => state.userIsAdmin	
+    // userIsAdmin: state => {
+    //     let result = false
+	// 	console.log('here')
+	// 	console.log(state.user.roles)
+	// 	console.log(typeof state.user.roles === 'undefined')
+	// 	if(typeof state.user.roles === 'undefined') {
+	// 		state.user.roles.filter(authority => {
+	// 			if(authority === 'ROLE_ADMIN') result = true
+	// 		})
+	// 	}
+    //     return result
+    // }
 }
 
 // const plugins = 
