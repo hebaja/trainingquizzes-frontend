@@ -39,8 +39,14 @@ export default {
     },
     computed: {
         ...mapGetters(['userIsSignedIn']),
-        ...mapGetters(['userIsAdmin'])
-    }
+        ...mapGetters(['userIsAdmin']),
+		...mapGetters(['storedUser'])
+    },
+	mounted() {
+		console.log(this.userIsAdmin)
+		console.log(this.storedUser)
+		this.storedUser.roles.filter(authority => console.log(authority === 'ROLE_USER'))
+	}
 
 }
 </script>

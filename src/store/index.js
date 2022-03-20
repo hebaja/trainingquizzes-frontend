@@ -108,11 +108,9 @@ const getters = {
     storedUser: state => state.user,
     userIsAdmin: state => {
         let result = false
-        for(let i = 0; i < state.user.roles.length; i++) {
-            if(state.user.roles[i].authority === 'ROLE_ADMIN') {
-                result = true
-            }
-        }
+		state.user.roles.filter(authority => {
+			if(authority === 'ROLE_ADMIN') result = true
+		})
         return result
     }
 }

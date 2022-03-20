@@ -139,7 +139,6 @@ export default {
 			} else {
 				return 'Save result'
 			}
-							
 		},
 		buttonNextLabelReduced: function() {
 			if(this.taskIndex <= 8) {
