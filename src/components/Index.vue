@@ -16,7 +16,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 import AppButton from './buttons/AppButton.vue'
 
 export default {
@@ -24,8 +24,12 @@ export default {
 	components: {
 		AppButton
 	},
+	computed: {
+        ...mapGetters(['userIsSignedIn']),
+    },
 	methods: {
 		redirectToEnglishApp() {
+			console.log(this.userIsSignedIn)
 			this.$router.push({path: '/english_app'})
 		}
 	}

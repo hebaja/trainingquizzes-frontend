@@ -168,7 +168,6 @@ export default {
 	methods: {
 		authenticate() {
 			if(!this.$v.$invalid) {
-				console.log(this.user)
 				this.$store.dispatch('signIn', this.user)
 				.then(() => this.redirectUser())
 				.catch((error) => {
