@@ -30,7 +30,7 @@ export default {
 				accessToken: ''
 			},
 			fbSignInParams: {
-				scope: 'email,user_likes',
+				scope: 'email',
 				return_scopes: true
 			}
 		}
