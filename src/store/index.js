@@ -80,22 +80,22 @@ const actions = {
             })
         })
     },
-    facebookSignIn({ commit }, facebookUser) {
-        return new Promise((resolve, reject) => {
-            http.post('/api/auth/facebook', facebookUser.accessToken)
-            .then((response) => {
-                commit('DEFINE_SIGNED_IN_USER', {
-                    token: facebookUser.accessToken,
-                    user: response.data
-                })
-                resolve(response.data)
-            })
-            .catch(error => {
-                console.log(error)
+	facebookSignIn({ commit }, facebookUser) {
+		return new Promise((resolve, reject) => {
+			http.post('/api/auth/facebook', facebookUser)
+			.then((response) => {
+				commit('DEFINE_SIGNED_IN_USER', {
+					token: facebookUser.token,
+					user: response.data
+				})
+				resolve(response.data)
+			})
+			.catch(error => {
+				console.log(error)
                 reject(error)
-            })
-        })
-    },
+			})
+		})
+	},
     createFinalResultObject({ commit }, finalScoreObject) {
         commit('DEFINE_FINAL_SCORE_OBJECT', {
             finalScoreObject: finalScoreObject
