@@ -146,8 +146,7 @@ export default {
 			this.$bvModal.hide('modal-delete-account-confirm')
 			this.disableButton = 'disabled'
 			this.$http.post('/api/delete-user', this.user)
-			.then((response) => {
-				console.log(response)
+			.then(() => {
 				this.disableButton = ''
 				this.$store.commit('SIGN_OUT_USER')
 				this.$router.push({path: '/signin?user_deleted=done'})

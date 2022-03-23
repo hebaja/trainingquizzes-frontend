@@ -55,15 +55,14 @@ export default {
 			this.$bvModal.hide('modal-delete-account-confirm')
 			this.disableButton = 'disabled'
 			this.$http.post('/api/delete-user', this.user)
-			.then((response) => {
-				console.log(response)
+			.then(() => {
 				this.disableButton = ''
 				this.$store.commit('SIGN_OUT_USER')
 				if(this.isMobile()) window.location.replace('my.special.scheme://details?id=user-removed')
 				else this.$router.push({path: '/signin?user_deleted=done'})
 			})
 			.catch((error) => {
-				console.log(error.response)
+				console.log(error)
 				this.errorMessage = 'There was a problem. User accounted was not deleted.'
 				this.disableButton = ''
 			})

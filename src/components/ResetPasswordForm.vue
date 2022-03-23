@@ -110,8 +110,7 @@ export default {
 			if(!this.$v.$invalid) {
 				this.resetToken.password = this.user.password
 				this.$http.post('/api/reset-password/reset', this.resetToken)
-				.then((response) => {
-					console.log(response.status)
+				.then(() => {
 					this.disableButton = ''
 					this.$router.push({path: '/signin?reset_password=done'})
 				})

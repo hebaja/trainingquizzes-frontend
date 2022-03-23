@@ -29,13 +29,9 @@ export default {
     },
 	methods: {
 		redirectToEnglishApp() {
-			console.log(this.userIsSignedIn)
 			this.$router.push({path: '/english_app'})
 		}
 	},
-	mounted() {
-		console.log(process.env.VUE_APP_FACEBOOK_APP_ID)
-	}
 }
 
 </script>

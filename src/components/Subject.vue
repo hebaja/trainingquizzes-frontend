@@ -182,7 +182,6 @@ export default {
 		},
 	},
 	mounted() {
-		console.log(this.subject)
 		if(this.editSubject.level === 'EASY') this.levels[0].variant = 'success'
 		if(this.editSubject.level === 'MEDIUM') this.levels[1].variant = 'warning'
 		if(this.editSubject.level === 'HARD') this.levels[2].variant = 'danger'
@@ -244,9 +243,7 @@ export default {
 			
 		},
 		saveSubject() {
-
 			let optionsAreValid = true;
-
 			if(!this.$v.$invalid) {
 				for (let j = 0; j < this.editSubject.tasks.length; j++) {
 					let k = 0
@@ -261,9 +258,7 @@ export default {
 						break
 					}
 				}
-
 				if(optionsAreValid) {
-					console.log(this.editSubject)
 					this.$http.put('/api/subjects', this.editSubject)
 					.then((response) => {
 						this.$emit('updateSubjects', response.data)

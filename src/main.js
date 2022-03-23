@@ -71,8 +71,6 @@ Vue.use(FBSignInButton)
 
 Vue.prototype.$http = http
 
-Vue.prototype.Window = window.window;
-
 new Vue({
   router,
   store,

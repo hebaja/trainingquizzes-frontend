@@ -21,8 +21,6 @@ export default {
 		}
 	},
 	mounted() {
-		console.log(process.env.VUE_APP_FACEBOOK_APP_ID)
-
 		window.fbAsyncInit = function() {
 		FB.init({
 		appId      : process.env.VUE_APP_FACEBOOK_APP_ID,
@@ -46,12 +44,7 @@ export default {
 	methods: {
 		signin() {
 		window.FB.login(response => {
-			console.log(response.authResponse.accessToken)
 			FB.api('/me', {fields:['name','first_name', 'last_name', 'email', 'id']}, person => {
-				console.log(person.name)
-				console.log(person.first_name)
-				console.log(person.email)
-				console.log(person.id)
 				this.facebookUser.uid = person.id
 				this.facebookUser.username = person.first_name
 				this.facebookUser.email = person.email

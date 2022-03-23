@@ -87,7 +87,6 @@ export default {
 			if(!this.$v.$invalid) {
 				this.$http.post('/api/reset-password', this.user)
 				.then((response) => {
-					console.log(response)
 					this.errorMessage = ''
 					this.message = 'An e-mail has been sent to ' + response.data.email + '. Check your inbox to reset your password.'
 					this.disableButton = ''

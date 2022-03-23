@@ -2,7 +2,6 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 import http from '@/http'
 import createPersistedState from 'vuex-persistedstate'
-// import * as Cookies from 'js-cookie'
 
 Vue.use(Vuex)
 
@@ -115,28 +114,7 @@ const getters = {
     storedExercise: state => state.exercise,
     storedUser: state => state.user,
 	userIsAdmin: state => state.userIsAdmin	
-    // userIsAdmin: state => {
-    //     let result = false
-	// 	console.log('here')
-	// 	console.log(state.user.roles)
-	// 	console.log(typeof state.user.roles === 'undefined')
-	// 	if(typeof state.user.roles === 'undefined') {
-	// 		state.user.roles.filter(authority => {
-	// 			if(authority === 'ROLE_ADMIN') result = true
-	// 		})
-	// 	}
-    //     return result
-    // }
 }
-
-// const plugins = 
-//     [
-//         createPersistedState({
-//           getState: (key) => Cookies.getJSON(key),
-//           setState: (key, state) => Cookies.set(key, state, { expires: 3, secure: true })
-//         })
-//       ]
-
 
 export default new Vuex.Store({
     state,

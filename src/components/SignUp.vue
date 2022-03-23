@@ -207,7 +207,6 @@ export default {
 			this.disableButton = 'disabled'
 			this.$http.post('/api/user-register', this.user)
 			.then((response) => {
-				console.log(response.status)
 				this.registrationRequest = true
 				this.errorMessage = ''
 				this.message = 'A confirmation e-mail has been sent to ' + response.data.email + ". Check your inbox to complete registration."

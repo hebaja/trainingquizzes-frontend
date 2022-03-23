@@ -23,7 +23,6 @@ export default {
 	},
 	methods: {
 		onSuccess(googleUser) {
-			console.log(googleUser)
 			this.$store.dispatch('googleSignIn', googleUser)
 			.then(() => {
 				this.$emit('onSigninSuccess')

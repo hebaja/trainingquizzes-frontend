@@ -194,7 +194,6 @@ export default {
 			this.$router.push(this.$route.query.redirect || '/')
 			this.errorMessage = ''
 			if(Object.keys(this.finalScoreObject).length !== 0) {
-				console.log('update final score object')
 				this.$store.commit('UPDATE_FINAL_SCORE_OBJECT')
 			}
 		},
