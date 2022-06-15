@@ -13,6 +13,9 @@ import ForgotPassword from '../components/ForgotPassword'
 import ResetPassword from '../components/ResetPassword'
 import SubjectList from '../components/SubjectList'
 import DeleteUser from '../components/android/DeleteUser'
+import Quiz from '../components/Quiz'
+import Profile from '../components/Profile'
+import QuestsByUser from '../components/QuestsByUser'
 
 Vue.use(VueRouter)
 
@@ -68,6 +71,16 @@ const routes = [
 		component: FinalScore
 	},
 	{
+		path: "/profile",
+		name: "profile",
+		component: Profile
+	},
+	{
+		path: "/quests",
+		name: "quests-by-user",
+		component: QuestsByUser
+	},
+	{
 		path: "/forgot_password",
 		name: "forgot_password",
 		component: ForgotPassword,
@@ -92,6 +105,15 @@ const routes = [
 		path: "/android/delete_user",
 		name: "android_delete_register",
 		component: DeleteUser,
+	},
+	{
+		path: "/quiz",
+		name: "quiz",
+		component: Quiz,
+		props: true,
+		meta: {
+			public: true
+		}
 	}
 ]
 

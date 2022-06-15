@@ -21,6 +21,7 @@ import { faAt } from '@fortawesome/free-solid-svg-icons'
 import { faLock } from '@fortawesome/free-solid-svg-icons'
 import { faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -34,6 +35,15 @@ import { faEnvelope as fasEnvelope} from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope as farEnvelope} from '@fortawesome/free-regular-svg-icons'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesRight } from '@fortawesome/free-solid-svg-icons'
+import { faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons'
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faHourglassStart } from '@fortawesome/free-solid-svg-icons'
+import { faHourglassEnd } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(
@@ -43,7 +53,8 @@ library.add(
   faAt, 
   faLock, 
   faUnlock, 
-  faUser, 
+  faUser,
+  faUsers,
   fasEnvelope, 
   farEnvelope, 
   faCaretDown, 
@@ -56,7 +67,16 @@ library.add(
   faArrowLeft, 
   faGoogle,
   faFacebook, 
-  faArrowRight)
+  faArrowRight,
+  faAngleLeft,
+  faAngleRight,
+  faAnglesLeft,
+  faAnglesRight,
+  faMagnifyingGlass,
+  faChalkboardTeacher,
+  faGraduationCap,
+  faHourglassStart,
+  faHourglassEnd)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

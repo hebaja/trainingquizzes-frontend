@@ -8,10 +8,17 @@
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav v-if="userIsSignedIn" class="ms-lg-auto ms-md-3 ms-sm-3 ms-3 me-3">
                 <b-nav-item href="#" to="english_app">Play</b-nav-item>
-                <b-nav-item href="#" to="averages">Averages</b-nav-item>
-                <b-nav-item v-if="userIsAdmin" href="#" to="subject_list">Subjects</b-nav-item>
+                <b-nav-item v-if="userIsStudent" href="#" to="averages">Averages</b-nav-item>
+                <b-nav-item v-if="userIsTeacher" href="#" to="subject_list">Subjects</b-nav-item>
                 <b-nav-item href="#" @click.prevent="signout">Sign out</b-nav-item>
                 <b-nav-item href="#" to="about">About</b-nav-item>
+                <b-nav-item>
+                    <b-avatar 
+                        size="sm"
+                        href="#"
+                        to="profile"
+                        :src="storedUser.pictureUrl ? storedUser.pictureUrl : 'https://icones.pro/wp-content/uploads/2022/02/services-parametres-et-icone-d-engrenage-jaune.png'" />
+                </b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav v-else class="ms-lg-auto ms-md-3 ms-sm-3 ms-3 me-3">
                 <b-nav-item href="#" to="english_app">Play</b-nav-item>
@@ -39,7 +46,8 @@ export default {
     },
     computed: {
         ...mapGetters(['userIsSignedIn']),
-        ...mapGetters(['userIsAdmin']),
+        ...mapGetters(['userIsTeacher']),
+        ...mapGetters(['userIsStudent']),
 		...mapGetters(['storedUser'])
     },
 }

@@ -77,7 +77,7 @@ export default {
 		...mapGetters(['storedUser'])
 	},
     mounted() {
-        this.$http.get('/api/subjects')
+        this.$http.get('/api/subjects/teacher', { params: { id: this.storedUser.id } })
         .then((response) => {
 			this.subjects = response.data
 		})

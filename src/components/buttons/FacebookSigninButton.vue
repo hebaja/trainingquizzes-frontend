@@ -1,7 +1,7 @@
 <template>
 	<b-button class="w-100" style="background-color: #4267b2;"
 		@click="signin">
-		<font-awesome-icon icon="fa-brands fa-facebook" class="fa-lg" />&nbsp;&nbsp;&nbsp;Sign in with Facebook
+		<font-awesome-icon icon="fa-brands fa-facebook" class="fa-lg" />&nbsp;&nbsp;&nbsp;{{ label }}
 	</b-button>
 </template>
 
@@ -16,10 +16,13 @@ export default {
 				uid: '',
 				username: '',
 				email: '',
-				token: ''
+				token: '',
+				pictureUrl: '',
+				role: ''
 			}
 		}
 	},
+	props: ['label', 'role'],
 	mounted() {
 		window.fbAsyncInit = function() {
 		FB.init({
@@ -44,11 +47,14 @@ export default {
 	methods: {
 		signin() {
 		window.FB.login(response => {
-			FB.api('/me', {fields:['name','first_name', 'last_name', 'email', 'id']}, person => {
+			FB.api('/me', {fields:['name','first_name', 'last_name', 'email', 'id', 'picture']}, person => {
 				this.facebookUser.uid = person.id
 				this.facebookUser.username = person.first_name
 				this.facebookUser.email = person.email
 				this.facebookUser.token = response.authResponse.accessToken
+				this.facebookUser.pictureUrl = person.picture.data.url
+				this.facebookUser.role = this.role
+				console.log(person)
 
 				this.$store.dispatch('facebookSignIn', this.facebookUser)
 					.then(() => this.$emit('onSigninSuccess'))

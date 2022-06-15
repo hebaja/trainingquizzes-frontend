@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 const state = {
     token: null,
-	userIsAdmin: false,
+	userIsTeacher: false,
+    userIsStudent: false,
     user: {},
     finalScoreObject: {},
     exercise: {},
@@ -18,9 +19,14 @@ const mutations = {
         state.user = user,
         state.token = token
     },
+    UPDATE_STORED_USER(state, { user }) {
+        state.user = user
+    },
     SIGN_OUT_USER(state) {
         state.token = null,
         state.user = {}
+        state.userIsTeacher = false,
+        state.userIsStudent = false
     },
     DEFINE_FINAL_SCORE_OBJECT(state, { finalScoreObject }) {
         state.finalScoreObject = finalScoreObject
@@ -37,13 +43,24 @@ const mutations = {
     UPDATE_FINAL_SCORE_OBJECT(state) {
         state.finalScoreObject.userId = state.user.id
     },
-	DEFINE_USER_IS_ADMIN(state) {
-		if(state.user.roles) {
-			state.user.roles.filter(authority => {
-				if(authority === 'ROLE_ADMIN') state.userIsAdmin = true
-			})
-		}
+    DEFINE_USER_IS_TEACHER(state) {
+        if(state.user.roles) {
+            let isTeacher = false
+            state.user.roles.filter(authority => {
+                if(authority === 'ROLE_TEACHER') isTeacher = true
+            })
+            state.userIsTeacher = isTeacher
+        }
     },
+    DEFINE_USER_IS_STUDENT(state) {
+        if(state.user.roles) {
+            let isStudent = false
+            state.user.roles.filter(authority => {
+                if(authority === 'ROLE_STUDENT') isStudent = true
+            })
+            state.userIsStudent = isStudent
+        }
+    }
 }
 
 const actions = {
@@ -55,6 +72,7 @@ const actions = {
 					token: response.data.token,
 					user: response.data.user
 				})
+                
                 resolve(response.data)
             })
             .catch(error => {
@@ -63,12 +81,29 @@ const actions = {
             })
         })
     },
-    googleSignIn({ commit }, googleUser) {
+    updateUser({ commit }, userForm) {
         return new Promise((resolve, reject) => {
-            http.post('/api/auth/google', googleUser.wc.id_token)
+            http.post('/api/user/update-roles', userForm)
+            .then((response) => {
+                commit('UPDATE_STORED_USER', {
+                    user: response.data
+                })
+                commit('DEFINE_USER_IS_TEACHER')
+                commit('DEFINE_USER_IS_STUDENT')
+                resolve(response.data)
+            })
+            .catch(error => {
+                console.log(error)
+                reject(error)
+            })
+        })
+    },
+    googleSignIn({ commit }, googleObject) {
+        return new Promise((resolve, reject) => {
+            http.post('/api/auth/google', googleObject)
             .then((response) => {
                 commit('DEFINE_SIGNED_IN_USER', {
-                    token: googleUser.wc.id_token,
+                    token: googleObject.idToken,
                     user: response.data
                 })
                 resolve(response.data)
@@ -113,7 +148,8 @@ const getters = {
     finalScoreObject: state => state.finalScoreObject,
     storedExercise: state => state.exercise,
     storedUser: state => state.user,
-	userIsAdmin: state => state.userIsAdmin	
+	userIsTeacher: state => state.userIsTeacher,
+    userIsStudent: state => state.userIsStudent
 }
 
 export default new Vuex.Store({

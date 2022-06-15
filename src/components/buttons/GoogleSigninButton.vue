@@ -1,7 +1,7 @@
 <template>
 	<GoogleLogin class="btn btn-danger w-100" :params="params" :onSuccess="onSuccess" >
 		<span><font-awesome-icon icon="fa-brands fa-google" class="fa-lg"  /></span>
-			&nbsp;&nbsp;&nbsp;Continue with Google
+			&nbsp;&nbsp;&nbsp;{{ label }}
 	</GoogleLogin>
 </template>
 
@@ -18,12 +18,18 @@ export default {
 			},
 		}
 	},
+	props:['label','role'],
 	components: {
 		GoogleLogin
 	},
 	methods: {
 		onSuccess(googleUser) {
-			this.$store.dispatch('googleSignIn', googleUser)
+			console.log(googleUser)
+			let googleObject = {
+				idToken: googleUser.zc.id_token,
+				role: this.role
+			}
+			this.$store.dispatch('googleSignIn', googleObject)
 			.then(() => {
 				this.$emit('onSigninSuccess')
 			})

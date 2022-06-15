@@ -42,7 +42,7 @@
 						:key="level.levelType" 
 						:variant="level.variant"
 						@click="setLevel(index, level.levelType)">
-						{{ level.label }}
+							{{ level.label }}
 					</b-button>
 				</b-button-group>
 			</b-col>
