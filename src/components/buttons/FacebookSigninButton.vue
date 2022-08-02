@@ -18,7 +18,7 @@ export default {
 				email: '',
 				token: '',
 				pictureUrl: '',
-				role: ''
+				roles: []
 			}
 		}
 	},
@@ -53,8 +53,7 @@ export default {
 				this.facebookUser.email = person.email
 				this.facebookUser.token = response.authResponse.accessToken
 				this.facebookUser.pictureUrl = person.picture.data.url
-				this.facebookUser.role = this.role
-				console.log(person)
+				this.facebookUser.roles.push(this.role)
 
 				this.$store.dispatch('facebookSignIn', this.facebookUser)
 					.then(() => this.$emit('onSigninSuccess'))

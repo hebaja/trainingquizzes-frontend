@@ -16,6 +16,10 @@ export default {
 			params: {
 				client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID
 			},
+			googleObject: {
+				idToken: '',
+				roles: []
+			}
 		}
 	},
 	props:['label','role'],
@@ -24,12 +28,10 @@ export default {
 	},
 	methods: {
 		onSuccess(googleUser) {
-			console.log(googleUser)
-			let googleObject = {
-				idToken: googleUser.zc.id_token,
-				role: this.role
-			}
-			this.$store.dispatch('googleSignIn', googleObject)
+			this.googleObject.idToken = googleUser.getAuthResponse().id_token
+			this.googleObject.roles.push(this.role)
+
+			this.$store.dispatch('googleSignIn', this.googleObject)
 			.then(() => {
 				this.$emit('onSigninSuccess')
 			})
@@ -37,7 +39,13 @@ export default {
 				console.log(error)
 				this.errorMessage = 'There was a problem. Please try again.'
 			})
-        },
+		},
+		tryAuth() {
+			this.$GoogleAuth.then(auth2 => {
+				console.log(auth2.isSignedIn.get());
+				console.log(auth2.currentUser.get())
+			})
+		}
 	}
 }
 </script>

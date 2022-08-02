@@ -1,12 +1,18 @@
 <template>
 	<b-row>
+		<b-col cols="12">
+			<h1 class="text-center mt-4">Input your new password</h1>	
+		</b-col>
+
+		<p v-if="errorMessage" class="text-center text-danger">{{ errorMessage }}</p>
+
 		<b-form @submit.prevent="resetPassword" novalidate>
-			<b-col cols="8" class="mx-auto mt-2">
+			<b-col cols="12" lg="8" class="mx-auto mt-2">
 				<b-row>
-					<b-col cols="3" class="mt-1">
+					<b-col cols="3" class="d-md-none d-sm-none d-none d-lg-block">
 						<label for="form-input-username">Username:</label>
 					</b-col>
-					<b-col cols="9">
+					<b-col cols="12" lg="9">
 						<b-input-group>
 							<span class="input-group-text" id="username-addon"><font-awesome-icon class="ms-1" icon="fa-solid fa-user" /></span>
 							<b-form-input
@@ -21,10 +27,10 @@
 					</b-col>
 				</b-row>
 				<b-row class="mt-1">
-					<b-col cols="3" class="mt-1">
+					<b-col cols="3" class="d-md-none d-sm-none d-none d-lg-block">
 						<label for="form-input-email">E-mail:</label>
 					</b-col>
-					<b-col cols="9">
+					<b-col cols="12" lg="9">
 						<b-input-group>
 							<span class="input-group-text" id="email-addon"><font-awesome-icon class="ms-1" icon="fa-solid fa-envelope" /></span>
 							<b-form-input
@@ -39,10 +45,10 @@
 					</b-col>
 				</b-row>
 				<b-row class="mt-1">
-					<b-col cols="3" class="mt-1">
+					<b-col cols="3" class="d-md-none d-sm-none d-none d-lg-block">
 						<label for="form-input-password">Password</label>
 					</b-col>
-					<b-col cols="9">
+					<b-col cols="12" lg="9">
 						<b-input-group class="mb-2 mr-sm-2 mb-sm-0">
 							<span class="input-group-text" id="password-addon"><font-awesome-icon class="ms-1" icon="fa-solid fa-lock" /></span>
 							<b-form-input 
@@ -63,10 +69,10 @@
 					</b-col>
 				</b-row>
 				<b-row class="mt-1">
-					<b-col cols="3" class="mt-1">
+					<b-col cols="3" class="d-md-none d-sm-none d-none d-lg-block">
 						<label for="form-confirm-password">Confirm paswword</label>
 					</b-col>
-					<b-col cols="9">
+					<b-col cols="12" lg="9">
 						<b-input-group class="mb-2 mr-sm-2 mb-sm-0">
 							<span class="input-group-text" id="confirm-password-addon"><font-awesome-icon class="ms-1" icon="fa-solid fa-unlock" /></span>
 							<b-form-input 
@@ -86,7 +92,7 @@
 					</b-col>
 				</b-row>
 			</b-col>
-			<b-col cols="8" class="mx-auto mt-4">
+			<b-col cols="12" lg="8" class="mx-auto mt-4">
 				<AppButton
 					:class="disableButton"
 					buttonType="submit">
@@ -98,21 +104,75 @@
 </template>
 
 <script>
-import AppButton from './buttons/AppButton.vue'
+import { mapGetters } from 'vuex' 
+import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
+import AppButton from '../../components/buttons/AppButton.vue'
 export default {
-	name: 'reset_password_form',
+	name: 'reset_password',
+	data() {
+		return {
+			user: {
+				username: '',
+				email: '',
+				password: ''
+			},
+			resetPasswordToken: {
+				token: '',
+				password: ''
+			},
+			confirmPassword: '',
+			errorMessage: '',
+			disableButton: ''
+		}
+	},
 	components: {
 		AppButton
+	},
+	mounted() {
+		if(this.userIsSignedIn) {
+			this.$router.push({ name: 'quiz-by-level' })
+		}
+		if(this.$route.query.reset_token) {
+			this.resetPasswordToken.token = this.$route.query.reset_token
+			this.$http.validatePasswordResetToken(this.resetPasswordToken)
+			.then((response) => {
+				this.user = response.data
+			})
+			.catch((error) => {
+				console.log(error)
+				this.errorMessage = 'There was a problem. Please try again later.'
+			})
+		} else {
+			this.$router.push({ name: 'signin' })
+		}
+	},
+	computed: {
+		...mapGetters(['userIsSignedIn']),
+		receivedUsername() {
+			return this.user.username
+		},
+		receivedEmail() {
+			return this.user.email
+		}
 	},
 	methods: {
 		resetPassword() {
 			this.disableButton = 'disabled'
 			if(!this.$v.$invalid) {
-				this.resetToken.password = this.user.password
-				this.$http.post('/api/reset-password/reset', this.resetToken)
-				.then(() => {
+				this.resetPasswordToken.password = this.user.password
+				this.$http.resetPassword(this.resetPasswordToken)
+				.then((response) => {
+					console.log(response.status)
 					this.disableButton = ''
-					this.$router.push({path: '/signin?reset_password=done'})
+					if(this.isMobile()) window.location.replace('my.special.scheme://details?id=password-reset')
+					else {
+						this.$notice['success']({
+							title: 'Success',
+							description: 'Password was successfully changed.',
+							styles: { top: "4em" }
+						})
+						this.$router.push({ name: 'signin' }) 
+					} 
 				})
 				.catch((error) => {
 					console.log(error)
@@ -123,8 +183,31 @@ export default {
 				this.disableButton = ''
 				this.$v.$touch()
 			}
+		},
+		isMobile() {
+			if( screen.width <= 760 ) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
-	}
+	},
+	validations: {
+		user: { 
+			password: { 
+				required,
+				minlength: minLength(6),
+				maxLength: maxLength(20)
+			}
+		},
+		confirmPassword: { 
+			required,
+			sameAs: sameAs(function() {
+				return this.user.password
+			})	
+		}
+	},
 }
 </script>
 

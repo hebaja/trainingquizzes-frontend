@@ -2,7 +2,7 @@
 	<b-form @submit.prevent="saveSubject">
 		<b-row class="mx-auto">
 			<b-col class="mt-2" cols="12" lg="4">
-				<SubjectControlButtons class="col-12" @returnToList="returnToList"/>
+				<FormControlButtons returnButtonLabel="Return to list" saveButtonLabel="Save subject" class="col-12" @returnToList="returnToList"/>
 			</b-col>
 			<b-col cols="12" class="mt-3 d-md-none d-sm-none d-none d-lg-block" >
 				<label for="form-input-subject-title">Subject title:</label>
@@ -135,20 +135,20 @@
 				<hr />
 			</div>
 			<b-col class="mt-2" cols="12" lg="4">
-				<SubjectControlButtons class="col-12" @returnToList="returnToList"/>
+				<FormControlButtons returnButtonLabel="Return to list" saveButtonLabel="Save subject" class="col-12" @returnToList="returnToList"/>
 			</b-col>
 		</b-row>
 	</b-form>
 </template>
 
 <script>
-import SubjectControlButtons from './buttons/SubjectControlButtons.vue'
+import FormControlButtons from './buttons/FormControlButtons.vue'
 import { required } from 'vuelidate/lib/validators'
 export default {
 	name: 'subject',
 	props: ['subject'],
 	components: {
-		SubjectControlButtons
+		FormControlButtons
 	},
 	data() {
 		return {
@@ -197,7 +197,6 @@ export default {
 			else variant = 'danger'
 			this.levels.forEach(level => level.variant = 'outline-secondary')
 			this.levels[index].variant = variant
-
 			this.editSubject.level = levelType
 		},
 		addTask() {
@@ -205,8 +204,8 @@ export default {
 				prompt: '',
 				shuffleOptions: false,
 				options: [
-					{prompt: '', correct: false},
-					{prompt: '', correct: false}
+					{ prompt: '', correct: false },
+					{ prompt: '', correct: false }
 				]
 			})
 		},
@@ -226,7 +225,8 @@ export default {
 			} else {
 				this.$notice['error']({
 					title: 'Attention',
-					description: 'A subject must have at least 10 tasks.'
+					description: 'A subject must have at least 10 tasks.',
+					styles: { top: "4em" }
 				})
 			}
 			
@@ -259,12 +259,13 @@ export default {
 					}
 				}
 				if(optionsAreValid) {
-					this.$http.put('/api/subjects', this.editSubject)
-					.then((response) => {
-						this.$emit('updateSubjects', response.data)
+					this.$store.dispatch('updateUserSubjects', this.editSubject)
+					.then(() => {
 						this.$emit('returnToList')
 					})
-					.catch((error) => console.log(error))
+					.catch((error) => {
+						console.log(error)
+					})
 				} else {
 					this.$notice['error']({
 						title: 'Attention',

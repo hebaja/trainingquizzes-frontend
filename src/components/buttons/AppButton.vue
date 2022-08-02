@@ -1,12 +1,13 @@
 <template>
-	<button 
-		type="buttonType"
+	<b-button 
+		:type="buttonType"
+		:disabled="buttonDisabled"
 		:style="buttonColor"		
 		id="app-button"
 		:class="buttonConfig"
 		@click="$emit('appButtonClick')">
 		<slot></slot>
-	</button>
+	</b-button>
 </template>
 
 <script>
@@ -19,9 +20,16 @@ export default {
 	},
 	props: {
 		label: String,
-		buttonType: String,
 		buttonStyle: String,
-		smallShadow: Boolean
+		smallShadow: Boolean,
+		buttonType: {
+			type: String,
+			default: 'button'
+		},
+		buttonDisabled: {
+			type: Boolean,
+			default: false
+		}
 	},
 	computed: {
 		buttonConfig() {
@@ -43,6 +51,8 @@ export default {
 <style>
 #app-button {
 	transition:0.5s;
+	color:  #333333;
+	border: none;
 }
 
 #app-button:hover {

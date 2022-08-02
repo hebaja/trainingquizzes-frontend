@@ -1,10 +1,10 @@
 <template>
         <b-row id="footer" class="fixed-bottom" style="background-color: #ffc266!important;">
-            <b-col md="6" sm="12" class="mt-md-3 mt-sm-2 mt-2 d-none d-sm-block">
+            <b-col md="6" sm="12" class="mt-md-3 mt-sm-2 mt-2 d-none d-sm-none d-md-block">
                 <p id="footer-header">English Training Quizzes</p>
                 <p id="footer-text">Study English more effectively.</p>
             </b-col>
-            <b-col md="6" sm="12" class="mt-3 mt-sm-0">
+            <b-col md="6" sm="12" class="mt-3 mt-md-1 mt-lg-1">
                 <div id="button-playstore">
                     <a
 						href="https://play.google.com/store/apps/details?id=br.com.hebaja.englishtrainingquizzes&amp;pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
@@ -48,6 +48,10 @@ export default {
 		font-size: .9em;
 		margin-top: 1em;
 	}
+
+	#footer {
+		height: 6em;
+	}
 }
 
 @media only screen and (max-width: 767px) {
@@ -56,7 +60,7 @@ export default {
 	}
 	
 	#footer {
-		height: 8em;
+		height: 4em;
 	}
 	
 	#android-badge {
