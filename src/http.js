@@ -1,9 +1,13 @@
 import axios from 'axios'
 import store from './store'
 
+let url
+
+if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com'
+else url = 'http://localhost:8080'
+
 const http = axios.create({
-	// baseURL: 'https://trainingquizzes.com',
-	baseURL: 'http://localhost:8080',
+	baseURL: url,
 	headers: {
 		'Accept': 'application/json',
 		'Content': 'application/json'
