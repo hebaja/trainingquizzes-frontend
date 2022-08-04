@@ -83,7 +83,6 @@ export default {
 		this.$store.dispatch('getUserSubjects', this.storedUser.id)
         .then((response) => {
 			this.subjects = response
-			console.log(response)
 		})
         .catch((error) => {
             if (error.response) {
