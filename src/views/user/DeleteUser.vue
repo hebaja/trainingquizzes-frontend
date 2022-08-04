@@ -26,12 +26,15 @@
 import { mapGetters } from 'vuex'
 import AppButton from '../../components/buttons/AppButton.vue'
 import Modal from '../../components/Modal.vue'
+import { MobileUtil } from '../../utils/MobileUtil'
+
+const mobileUtil = new MobileUtil()
 
 export default {
 	name: 'delete-user',
 	data() {
 		return {
-			user: {}
+			user: {},
 		}
 	},
 	computed: {
@@ -58,7 +61,7 @@ export default {
 			.then(() => {
 				this.disableButton = ''
 				this.$store.commit('SIGN_OUT_USER')
-				if(this.isMobile()) window.location.replace('my.special.scheme://details?id=user-removed')
+				if(mobileUtil.isMobile()) window.location.replace('my.special.scheme://details?id=user-removed')
 				else this.$router.push({ path: '/signin?user_deleted=done' })
 			})
 			.catch((error) => {
@@ -67,14 +70,6 @@ export default {
 				this.disableButton = ''
 			})
 		},
-		isMobile() {
-			if( screen.width <= 760 ) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
 	}
 }
 </script>

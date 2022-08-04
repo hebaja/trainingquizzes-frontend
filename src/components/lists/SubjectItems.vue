@@ -7,10 +7,11 @@
 						<b-avatar class="mt-1" size="lg" :src="subject.user.pictureUrl ? subject.user.pictureUrl : 'https://cdn-icons-png.flaticon.com/512/64/64572.png'"></b-avatar>
 						<b-row>
 							<b-col cols="12">
-								<h5 class="ms-3 mt-1">{{ subject.title }}</h5>
+								<h6 style="font-size: .8em; line-height: .9;" v-if="mobileUtil.isMobile()" class="ms-3 mt-1">{{ subject.title }}</h6>
+								<h5 v-else class="ms-3 mt-1">{{ subject.title }}</h5>
 							</b-col>
 							<b-col cols="12">
-								<small class="ms-3">
+								<small style="font-size: .7em;" class="ms-3">
 									{{ subject.level }}
 								</small>
 							</b-col>
@@ -34,13 +35,21 @@
 
 <script>
 import { DateUtil } from '../../utils/DateUtil'
+import { MobileUtil } from '../../utils/MobileUtil'
+
 const dateUtil = new DateUtil()
+const mobileUtil = new MobileUtil()
 
 export default {
 	name: 'subjects-items',
 	props: { 
 		subjects: Array, 
 		overlayShow: Boolean 
+	},
+	data() {
+		return {
+			mobileUtil: mobileUtil
+		}
 	},
 	methods: {
 		open(subject) {

@@ -105,6 +105,9 @@ import { required, email, minLength, maxLength } from 'vuelidate/lib/validators'
 import AppButton from '../../components/buttons/AppButton.vue'
 import GoolgeSigninButton from '../../components/buttons/GoogleSigninButton.vue'
 import FacebookSigninButton from '../../components/buttons/FacebookSigninButton.vue'
+import { MobileUtil } from '../../utils/MobileUtil'
+
+const mobileUtil = new MobileUtil()
 
 export default {
 	name: "login",
@@ -175,7 +178,7 @@ export default {
 			this.userRegisterToken.token = this.$route.query.register_token
 			this.$http.confirmUserRegister(this.userRegisterToken)
 			.then((response) => {
-				if(this.isMobile()) window.location.replace('my.special.scheme://details?id=user-register')
+				if(mobileUtil.isMobile()) window.location.replace('my.special.scheme://details?id=user-register')
 				else this.message = response.data.username + ' has been registered. You can sign in now'
 				this.$notice['success']({
 					title: 'Success',
@@ -208,14 +211,6 @@ export default {
 				})
 			} else {
 				this.$v.$touch()
-			}
-		},
-		isMobile() {
-			if( screen.width <= 760 ) {
-				return true;
-			}
-			else {
-				return false;
 			}
 		},
 		setRole(index) {

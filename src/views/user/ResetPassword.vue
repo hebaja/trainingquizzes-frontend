@@ -107,6 +107,10 @@
 import { mapGetters } from 'vuex' 
 import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 import AppButton from '../../components/buttons/AppButton.vue'
+import { MobileUtil } from '../../utils/MobileUtil'
+
+const mobileUtil = new MobileUtil()
+
 export default {
 	name: 'reset_password',
 	data() {
@@ -164,7 +168,7 @@ export default {
 				.then((response) => {
 					console.log(response.status)
 					this.disableButton = ''
-					if(this.isMobile()) window.location.replace('my.special.scheme://details?id=password-reset')
+					if(mobileUtil.isMobile()) window.location.replace('my.special.scheme://details?id=password-reset')
 					else {
 						this.$notice['success']({
 							title: 'Success',
@@ -184,14 +188,6 @@ export default {
 				this.$v.$touch()
 			}
 		},
-		isMobile() {
-			if( screen.width <= 760 ) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
 	},
 	validations: {
 		user: { 

@@ -10,7 +10,7 @@
 						</template>
 						<b-form-input
 							id="search-input"
-							class="w-50"
+							:class='mobileUtil.isMobile() ? "w-25" : "w-50"'
 							v-model="$v.searchQuery.$model"
 							@change="$v.searchQuery.$touch()"
 							type="text"
@@ -18,7 +18,10 @@
 							required>
 						</b-form-input>
 						<b-form-select v-if="!isSubjectsFilteredByUser" class="form-control" v-model="searchOptionSelected" :options="searchOptions"></b-form-select>
-						<b-button style="background-color: #ffa726;" type="submit">Search</b-button>
+						<b-button style="background-color: #ffa726;" type="submit">
+							<span v-if="mobileUtil.isMobile()">Go</span>
+							<span v-else>Search</span>
+						</b-button>
 					</b-input-group>
 					<span v-if="$v.searchQuery.$error" class="text-danger">This field is required</span>
 			</b-form-group>
@@ -43,6 +46,9 @@ import SubjectItems from './lists/SubjectItems.vue'
 import UserItems from './lists/UserItems.vue'
 import Pagination from './Pagination.vue'
 import { required } from 'vuelidate/lib/validators'
+import { MobileUtil } from '../utils/MobileUtil'
+
+const mobileUtil = new MobileUtil()
 
 export default {
 	name: 'search',
@@ -70,6 +76,7 @@ export default {
 			pageSize: 6,
 			overlayShowSearch: true,
 			searchOptionSelected: 0,
+			mobileUtil: mobileUtil,
 			searchOptions: [
 				{ value: 0, text: 'by subject' },
 				{ value: 1, text: 'by user' },

@@ -9,7 +9,10 @@
 								<th>#</th>
 								<th>Subject</th>
 								<th>Level</th>
-								<th class="text-center">Number of tasks</th>		
+								<th class="text-center">
+									<span v-if="mobileUtil.isMobile()">Tasks#</span>
+									<span v-else>Number of tasks</span>
+								</th>
 								<th class="text-center">Edit</th>
 								<th class="text-center">Remove</th>
 							</tr>
@@ -59,6 +62,9 @@ import Modal from '../components/Modal.vue'
 import Subject from '../components/Subject.vue'
 import { mapGetters } from 'vuex'
 import AppButton from '../components/buttons/AppButton.vue'
+import { MobileUtil } from '../utils/MobileUtil'
+
+const mobileUtil = new MobileUtil()
 
 export default {
     name: 'subjects',
@@ -68,7 +74,8 @@ export default {
 			subject: {},
 			editMode: false,
 			subjectToBeRemovedId: null,
-			showOverlay: false
+			showOverlay: false,
+			mobileUtil: mobileUtil
         }
     },
 	components: {

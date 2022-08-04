@@ -17,10 +17,13 @@
 						<b-avatar 
 							size="sm"
 							class="me-2"
-							:src="trial.pictureUrl ? trial.pictureUrl : 'https://cdn-icons-png.flaticon.com/512/64/64572.png'" />
-							{{ trial.username }} ({{ trial.email }}) - 
-							<font-awesome-icon icon="fa-solid fa-flag" class="me-1"/> Trial {{ trial.trialNumber }} - 
-							<font-awesome-icon icon="fa-soli fa-star" class="me-1" /> Score: {{ trial.score }}
+							:src="trial.pictureUrl ? trial.pictureUrl : 'https://cdn-icons-png.flaticon.com/512/64/64572.png'"
+						/>
+						{{ trial.username }} ({{ trial.email }})
+						<br v-if="mobileUtil.isMobile()" />
+						<span v-else>- </span>  
+						<font-awesome-icon icon="fa-solid fa-flag" class="me-1"/> Trial {{ trial.trialNumber }} - 
+						<font-awesome-icon icon="fa-soli fa-star" class="me-1" /> Score: {{ trial.score }}
 					</b-list-group-item>
 				</b-list-group>
 				<span v-else>Nothing was done</span>
@@ -31,6 +34,9 @@
 
 <script>
 import AppButton from '../buttons/AppButton.vue'
+import { MobileUtil } from '../../utils/MobileUtil'
+
+const mobileUtil = new MobileUtil()
 
 export default {
 	name: 'show-trials-done',
@@ -42,6 +48,11 @@ export default {
 		thereIsResult: {
 			type: Boolean,
 			required: true
+		}
+	},
+	data() {
+		return {
+			mobileUtil: mobileUtil
 		}
 	},
 	components: { AppButton }

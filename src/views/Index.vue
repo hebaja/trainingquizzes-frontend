@@ -4,7 +4,7 @@
 			<p id="home-main-text">Assess the knowledge and understanding of your students with steady practice! Join <span style="color: #1a237e;">Training Quizzes</span>!</p>
 		</b-col>
 		<b-col cols="12" xl="10" class="mt-3 mx-auto">
-			<AppSearch />
+			<AppSearch :inputLabel='mobileUtil.isMobile() ? "Text here" : "What are you looking for?"'/>
 		</b-col>
 		<b-col cols="12" xl="10" class="mt-3 mx-auto">
 			<Pagination title="Latest subjects:" :payload="payload" @shiftPage="shiftLatestSubjectsPage">
@@ -23,6 +23,9 @@ import { mapGetters } from 'vuex'
 import Pagination from '../components/Pagination.vue'
 import AppSearch from '../components/Search.vue'
 import SubjectItems from '../components/lists/SubjectItems.vue'
+import { MobileUtil } from '../utils/MobileUtil'
+
+const mobileUtil = new MobileUtil()
 
 export default {
 	name: 'index',
@@ -36,6 +39,7 @@ export default {
 			payload: {},
 			pageSize: 6,
 			overlayShow: false,
+			mobileUtil: mobileUtil
 		}
 	},
 	computed: {
@@ -64,6 +68,14 @@ export default {
 		},
 		redirectToEnglishApp() {
 			this.$router.push({ name: 'quiz-by-levels' })
+		},
+		isMobile() {
+			if( screen.width <= 760 ) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 	},
 }
@@ -118,7 +130,7 @@ export default {
 
 @media only screen and (max-width: 576px) {
 	#home-main-text {
-		font-size: 2.2em!important;
+		font-size: 1.6em!important;
 		text-shadow: 1px 1px #808080;
 	}
 	#home-main-image {

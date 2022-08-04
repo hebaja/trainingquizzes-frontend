@@ -68,6 +68,7 @@
 											<span v-else>Not available</span>
 									</AppButton>
 							</b-col>
+							<hr />
 						</b-row>
 					</b-list-group-item>
 				</b-overlay>

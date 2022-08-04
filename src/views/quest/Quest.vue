@@ -49,6 +49,22 @@
 			</b-col>
 			<ShowSubscribedUsers :quest="quest"/>
 			<ShowTrialsDone :trialsDone="trialsDone" :thereIsResult="thereIsResult"/>
+			<b-col cols="12" class="text-center mt-3 text-danger">
+				<h3>
+					<font-awesome-icon
+						icon="fa-solid fa-trash"
+						@click.prevent="$bvModal.show('modal-delete-finished-quest')"
+						v-b-tooltip.hover title="Delete this quest"
+						style="cursor: pointer;"
+					/>
+				</h3>
+			</b-col>
+			<Modal 
+				:modalId="'modal-delete-finished-quest'"
+				:message="'Do you really want to delete this quest? All related data will be erased.'"
+				@componentFunction="deleteQuest"
+				:confirmButtonLabel="'Delete'">
+			</Modal>
 		</b-row>
 	</div>
 	<div v-else>
@@ -203,14 +219,14 @@
 						<h3>
 							<font-awesome-icon
 								icon="fa-solid fa-trash"
-								@click.prevent="$bvModal.show('modal-delete-quest')"
+								@click.prevent="$bvModal.show('open-modal-delete-open-quest')"
 								v-b-tooltip.hover title="Delete this quest"
 								style="cursor: pointer;"
 							/>
 						</h3>
 					</b-col>
 					<Modal 
-						:modalId="'modal-delete-quest'"
+						:modalId="'modal-delete-open-quest'"
 						:message="'Do you really want to delete this quest? All related data will be erased.'"
 						@componentFunction="deleteQuest"
 						:confirmButtonLabel="'Delete'">

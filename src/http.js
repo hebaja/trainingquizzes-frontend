@@ -3,8 +3,11 @@ import store from './store'
 
 let url
 
-if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com'
-else url = 'http://localhost:8080'
+// if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com'
+// else if (process.env.NODE_ENV === 'development') url = 'http://localhost:8080'
+// else url = 'http://192.168.1.100:8080'
+
+url = 'http://192.168.1.100:8080'
 
 const http = axios.create({
 	baseURL: url,
