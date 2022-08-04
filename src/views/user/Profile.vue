@@ -38,11 +38,13 @@
 						</b-form-group>
 					</b-col>
 					<b-col cols="8" offset="2" class="mt-3">
-						<AppButton
-							:disabled="!optionsSelectedChanged"
-							buttonType="Update profile">
-							Update user
-						</AppButton>
+						<b-overlay :show="buttonOverlayShow" spinner-small>
+							<AppButton
+								:disabled="!optionsSelectedChanged"
+								buttonType="Update profile">
+								Update user
+							</AppButton>
+						</b-overlay>
 					</b-col>
 				</b-form>
 			</b-card>
@@ -89,6 +91,7 @@ export default {
 			optionsSelected: [],
 			message: '',
 			errorMessage: '',
+			buttonOverlayShow: false,
 			options: [
 				{ text: 'Teacher', value: 'ROLE_TEACHER' },
 				{ text: 'Student', value: 'ROLE_STUDENT' }
@@ -125,6 +128,7 @@ export default {
 					email: this.storedUser.email,
 					roles: this.optionsSelected
 				}
+				this.buttonOverlayShow = true
 				this.$store.dispatch('updateUser', userForm)
 				.then(() => {
 					this.$v.$reset()
@@ -135,11 +139,13 @@ export default {
 						styles: { top: "4em" }
 					})
 					this.$router.push({ name: 'index' })
+					this.buttonOverlayShow = false
 				})
 				.catch((error) => {
 					console.log(error)
 					this.errorMessage = 'There was an error. Please try again.'
 					this.message = ''
+					this.buttonOverlayShow = false
 				})
 			} else {
 				this.$v.$touch()

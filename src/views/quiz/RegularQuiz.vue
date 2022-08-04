@@ -32,23 +32,34 @@ export default {
 		.then(response => {
 			this.tasks = response.data
 			this.createReducedTasksList()
+			this.overlayShow = false
 		})
 		.catch(error => {
 			console.log(error)
 			this.errorMessage = 'The quiz could not be loaded'
+			this.overlayShow = false	
 		})
-		this.overlayShow = false
-		
 	},
 	methods: {
 		createReducedTasksList() {
 			if(this.tasks != null) {
-				this.reducedListTasks = this.tasks.slice().sort(() => Math.random() - 0.5)
-				this.reducedListTasks.splice(0, 10)
+				this.shuffle(this.tasks)
+				this.reducedListTasks = this.tasks.splice(0, 10)
 			}
+		},
+
+		shuffle(tasks) {
+			let currentIndex = tasks.length,  randomIndex
+			
+			while (currentIndex != 0) {
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex--
+
+				[tasks[currentIndex], tasks[randomIndex]] = [tasks[randomIndex], tasks[currentIndex]]
+			}
+			return tasks;
 		}
 	}
-
 }
 </script>
 

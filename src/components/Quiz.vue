@@ -202,7 +202,7 @@ export default {
 					score: this.score
 				}
 				this.$store.dispatch('createFinalResultObject', regularQuizResult)
-				this.$router.push({ name: 'final-score' })
+				this.$router.push({ name: 'final-score', params: { subjectId: this.subjectId }})
 			}
 		},
 		showErrorNotice() {

@@ -29,7 +29,7 @@ export default {
 		buttonDisabled: {
 			type: Boolean,
 			default: false
-		}
+		},
 	},
 	computed: {
 		buttonConfig() {

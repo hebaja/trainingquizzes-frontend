@@ -9,11 +9,12 @@
 		<p v-if="errorMessage" class="text-center text-danger">{{ errorMessage }}</p>
 		<hr class="mt-2"/>
 		<b-col cols="12" class="mx-auto d-none d-lg-block">
+			<b-overlay :show="averagesOvelayShow" rounded="sm">
 			<table class="table">
 				<thead>
 					<tr>
 						<th>Subject</th>
-						<th>Maker</th>
+						<th>Author</th>
 						<th>Level</th>
 						<th>Average</th>
 					</tr>
@@ -42,6 +43,7 @@
 					</tr>
 				</tbody>
 			</table>
+			</b-overlay>
 		</b-col>
 		<b-col cols="12" class="mx-auto d-md-block d-lg-none">
 			<div v-for="average in averages" :key="average.uid" class="card mb-1 bg-light border-secondary shadow" style="height: 6.8em;">
@@ -95,7 +97,8 @@ export default {
 			user: {},
 			averages: {},
 			errorMessage: '',
-			disableButton: ''
+			disableButton: '',
+			averagesOvelayShow: false
 		}
 	},
 	computed: {
@@ -108,13 +111,18 @@ export default {
 	mounted() {
 		if(this.storedUser) {
 			this.user = this.storedUser
+			this.averagesOvelayShow = true
 			this.$http.fetchAverages(this.user)
 			.then((response) => {
 				this.errorMessage = ''
 				this.averages = response.data
+				this.averagesOvelayShow = false
 			})
-			.catch((error) => console.log(error.response))
-			this.messageError = 'Averages could not be retrieved. Please try again.'
+			.catch((error) => {
+				console.log(error.response)
+				this.messageError = 'Averages could not be retrieved. Please try again.'
+				this.averagesOvelayShow = false
+			})
 		} else {
 			this.messageError = 'Averages could not be loaded. Please try again.'
 		}

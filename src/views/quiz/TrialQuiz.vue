@@ -1,6 +1,5 @@
 <template>
     <div id="trial-quiz">
-		<b-overlay v-if="overlayShow" :show="overlayShow" rounded="lg" class="mt-5" />
 		<div v-if="errorMessage" class="mt-4">
 			<p class="text-danger text-center">{{ errorMessage }}</p>
 		</div>
@@ -26,18 +25,8 @@ export default {
 			tasks: null,
 			reducedListTasks: null,
 			errorMessage: '',
-			overlayShow: false
-		}
-	},
-	methods: {
-		createReducedTasksList() {
-			if(this.tasks != null) {
-				this.reducedListTasks = this.tasks.slice().sort(() => Math.random() - 0.5)
-				this.reducedListTasks.splice(0, 10)
-			}
 		}
 	}
-
 }
 </script>
 

@@ -80,10 +80,10 @@ export default {
 		...mapGetters(['storedUser'])
 	},
     mounted() {
-        // this.$http.getSubjects(this.storedUser.id)
 		this.$store.dispatch('getUserSubjects', this.storedUser.id)
         .then((response) => {
 			this.subjects = response
+			console.log(response)
 		})
         .catch((error) => {
             if (error.response) {

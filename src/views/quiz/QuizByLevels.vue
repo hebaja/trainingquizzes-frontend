@@ -23,15 +23,17 @@
 				</b-col>
 				<b-row cols="10">
 				<b-col v-for="(level, index) in levels" :key="level.id" cols="12" lg="4" class="mx-auto mt-1">
-					<AppButton
-						:buttonDisabled="level.buttonDisabled"
-						class="mt-2"
-						@appButtonClick="fetchSubjects(level, index)">
-							{{ level.title }}
-					</AppButton>
+					<b-overlay :show="subjectsOvelayShow" spinner-small>
+						<AppButton
+							:buttonDisabled="level.buttonDisabled"
+							class="mt-2"
+							@appButtonClick="fetchSubjects(level, index)">
+								{{ level.title }}
+						</AppButton>
+					</b-overlay>
 				</b-col>
 				</b-row>
-				<Pagination v-if="payload" :payload="payload" @shiftPage="shiftPage" :overlayShow="overlayShow">
+				<Pagination v-if="payload" :payload="payload" @shiftPage="shiftPage" :overlayShow="subjectsOvelayShow">
 					<hr />
 					<SubjectItems :subjects="subjects"/>
 				</Pagination>
@@ -69,9 +71,12 @@ export default {
 			showEndQuiz: false,
 			error: null,
 			payload: null,
-			overlayShow: null,
+			overlayShow: false,
+			subjectsOvelayShow: false,
+			paginationOverlayShow: false,
 			currentUserAuthor: {},
 			pageSize: 6,
+			selectedLevel: {},
 			levels: [
 				{
 					id: 1,
@@ -146,13 +151,16 @@ export default {
 			this.levels.forEach(level => level.buttonDisabled = false)
 			this.levels[index].buttonDisabled = true
 			const page = 0
+			this.selectedLevel = level
 			this.requestSubjects(level, page)
 		},
 		requestSubjects(level, page) {
+			this.subjectsOvelayShow = true
 			this.$http.getSubjectsByUserAndLevel(this.currentUserAuthor.id, page, this.pageSize, level.level)
 			.then((response) => {
 				this.payload = response.data
 				this.subjects = response.data.content
+				this.subjectsOvelayShow = false
 			})
 			.catch((error) => {
 				console.log(error)
@@ -161,6 +169,7 @@ export default {
 					description: 'Could not load subjects. ' + error,
 					styles: { top: "4em" }
 				})
+				this.subjectsOvelayShow = false
 			}) 
 		},
 		fetchQuiz(subjectId) {
@@ -203,12 +212,9 @@ export default {
 			this.showNextQuestionSection = false
 			this.optionButtonDisabled = false
 		},
-		
 		shiftPage(index) {
-			console.log(index)
-			const level = ''
 			const page = index
-			this.requestSubjects(level, page)
+			this.requestSubjects(this.selectedLevel, page)
 		}
 	}
 }

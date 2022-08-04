@@ -35,7 +35,6 @@ export default {
 		return http.post('/api/user/update-roles', user)
 	},
 	authenticateGoogleUser(googleUser) {
-		console.log(googleUser)
 		return http.post('/api/auth/google', googleUser)
 	},
 	authenticateFacebookUser(facebookUser) {

@@ -1,6 +1,7 @@
 <template>
     <div id="pagination" class="mt-2">
-        <h4>{{ title }}</h4>
+		<b-overlay :show="overlayShow" rounded="sm">
+			<h4>{{ title }}</h4>
 			<div v-if="payload.empty">
 				<h5>Nothing was found</h5>
 			</div>
@@ -67,6 +68,7 @@
 					</ul>
 				</nav>
 			</div>
+		</b-overlay>
 	</div>
 </template>
 
@@ -75,7 +77,8 @@ export default {
     name: 'pagination',
 	props: {
 		title: String,
-		payload: Object
+		payload: Object,
+		overlayShow: Boolean
 	},
     data() {
         return {

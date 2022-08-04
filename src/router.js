@@ -73,7 +73,8 @@ const routes = [
 	{
 		path: "/final-score",
 		name: "final-score",
-		component: FinalScore
+		component: FinalScore,
+		props: true
 	},
 	{
 		path: "/profile",
