@@ -1,5 +1,5 @@
-# etq-front
-
+frontend to trainingquizzes using Vue.js
+=======
 ## Project setup
 ```
 npm install
