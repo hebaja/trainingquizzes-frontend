@@ -8,30 +8,92 @@
 						class="ms-2" 
 						icon="fa-solid fa-users" />
 			</AppButton>
+			<br>
 		</b-col>
 		<b-col cols="12" lg="8" offset-lg="2">
-			<b-collapse v-if="quest.subscribedUsers" id="collapse-show-subscribed-users" class="mt-2">
-				<b-list-group v-if="quest.subscribedUsers.length > 0">
-					<b-list-group-item href="#" v-for="subscribedUser in quest.subscribedUsers" :key="subscribedUser.id" @click="openSubscribedUser(subscribedUser.id)">
-						<b-avatar 
-							size="sm"
-							class="me-2"
-							:src="subscribedUser.pictureUrl ? subscribedUser.pictureUrl : 'https://cdn-icons-png.flaticon.com/512/64/64572.png'" />
-							{{ subscribedUser.username }} ({{ subscribedUser.email }})
-					</b-list-group-item>
-				</b-list-group>
-				<span v-else>There are no subscribed users</span>
+			<b-collapse v-if="currentQuest.subscribedUsers" id="collapse-show-subscribed-users" class="mt-2">
+				<b-overlay :show="overlayShow" rounded="sm">
+					<b-list-group v-if="currentQuest.subscribedUsers.length > 0">
+						<b-list-group-item v-for="subscribedUser in currentQuest.subscribedUsers" :key="subscribedUser.id">
+							<div class="d-flex w-100 justify-content-between">
+								<span>
+									<b-avatar 
+										size="sm"
+										class="me-2"
+										:src="subscribedUser.pictureUrl ? subscribedUser.pictureUrl : 'https://cdn-icons-png.flaticon.com/512/64/64572.png'" />
+										{{ subscribedUser.username }} ({{ subscribedUser.email }})
+								</span>
+								<span>
+									<font-awesome-icon
+										class="text-danger"
+										icon="fa-solid fa-trash" 
+										@click.prevent="openRemoveUserModal(subscribedUser)"
+										v-b-tooltip.hover title="Remove this user from quest"
+										style="cursor: pointer;"
+									/>
+								</span>
+							</div>
+						</b-list-group-item>
+					</b-list-group>
+					<span v-else>There are no subscribed users</span>
+				</b-overlay>
 			</b-collapse>
+			<Modal 
+				:modalId="'modal-remove-user'"
+				:message="'Do you really want to remove this user from quest?'"
+				@componentFunction="removeUser"
+				:confirmButtonLabel="'Remove'">
+			</Modal>
 		</b-col>
 	</div>
 </template>
 
 <script>
 import AppButton from '../buttons/AppButton.vue'
+import Modal from '../Modal.vue'
+
 export default {
 	name: 'show-subscribed-users',
 	props: ['quest'],
-	components: { AppButton	}
+	components: { 
+		AppButton,
+		Modal
+	},
+	data() {
+		return {
+			currentQuest: {},
+			userToBeRemoved: {},
+			overlayShow: false,
+		}
+	},
+	mounted() {
+		this.currentQuest = this.quest
+	},
+	methods: {
+		openRemoveUserModal(user) {
+			this.userToBeRemoved = user
+			this.$bvModal.show('modal-remove-user')
+		},
+		removeUser() {
+			this.$bvModal.hide('modal-remove-user')
+			this.overlayShow = true
+			this.$http.unsubscribeUser(this.userToBeRemoved.id, this.currentQuest.id)
+			.then((response) => {
+				this.currentQuest = response.data
+				this.overlayShow = false
+			})
+			.catch((error) => {
+				console.log(error)
+				this.$notice['error']({
+					title: 'Error',
+					description: 'User could not be removed. ' + error,
+					styles: { top: "4em" }
+				})	
+				this.overlayShow = false
+			})
+
+		}
+	}
 }
 </script>
 

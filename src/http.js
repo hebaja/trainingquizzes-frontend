@@ -91,6 +91,12 @@ export default {
 	deleteQuest(questId) {
 		return http.delete('/api/quest', { params: {questId: questId }})
 	},
+	finishQuest(questId) {
+		return http.get('/api/quest/finish', { params: { questId: questId }})
+	},
+	unsubscribeUser(userId, questId) {
+		return http.get('/api/quest/unsubscribe-user', { params: { userId: userId, questId: questId }})
+	},
 
 	getTasksBySubject(subjectId) {
 		return http.get('/api/task', { params: { subjectId: subjectId }})

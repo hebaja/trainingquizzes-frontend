@@ -159,7 +159,7 @@ export default {
 			})
 		},
 		openSubscribedQuest(questId) {
-			this.$http.getQuest(questId, this.storedUser.id)
+			this.$http.getQuest(questId)
 			.then((response) => {
 				this.$router.push({ name: 'subscribed-quest', params: { openQuest: response.data } })
 			})

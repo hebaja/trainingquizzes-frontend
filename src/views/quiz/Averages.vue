@@ -66,19 +66,7 @@
 							Average:
 						</b-col>
 						<b-col cols="9" class="mt-1">
-							<b-progress :max="100" height="1.8em" show-value>
-								<b-progress-bar 
-								:value="average.averageForMeter"
-								:variant="
-								average.averageForMeter <= 40 ? 'danger' :
-								average.averageForMeter > 40 && average.averageForMeter < 80 ? 'warning' :
-								'success'" 
-								show-progress animated>
-									<strong>
-										<span id="average-text">{{ average.averageForMeter }}%</span>
-									</strong>
-								</b-progress-bar>
-							</b-progress>
+							<Gauge :score="average.averageForMeter"/>
 						</b-col>
 					</b-row>
 				</div>
@@ -89,6 +77,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Gauge from '../../components/Gauge.vue'
 
 export default {
 	name: 'averages',
@@ -100,6 +89,9 @@ export default {
 			disableButton: '',
 			averagesOvelayShow: false
 		}
+	},
+	components: {
+		Gauge
 	},
 	computed: {
 		...mapGetters(['storedUser']),

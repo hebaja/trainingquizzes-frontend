@@ -36,6 +36,8 @@ import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 import { faList } from '@fortawesome/free-solid-svg-icons'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
+import { faStarHalfStroke } from '@fortawesome/free-solid-svg-icons'
+import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 
 export class FontAwesomeCreator {
 
@@ -77,7 +79,9 @@ export class FontAwesomeCreator {
 			faCalendarDays,
 			faStar,
 			faList,
-			faLink)
+			faLink,
+			faStarHalfStroke,
+			faCheckDouble)
 
 	}
 
