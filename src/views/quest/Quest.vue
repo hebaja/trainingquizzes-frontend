@@ -21,7 +21,7 @@
 					<h4>Final score</h4>
 				</b-col>
 				<QuestScore :scores="trialsFinishedQuest" class="mt-2"/>
-				<ShowSubscribedUsers :quest="quest"/>
+				<ShowSubscribedUsers :subscribedUsers="quest.subscridUsers ? quest.subscribedUsers : []" :questId="quest.id ? quest.id : 0" @updateUsers="updateSubscribedUsers"/> 
 				<ShowTrialsDone :trialsDone="trialsDone" :thereIsResult="thereIsResult"/>
 				<b-col cols="12" class="text-center mt-3 text-danger">
 					<h3>
@@ -179,7 +179,7 @@
 							</b-list-group-item>
 						</b-list-group>
 					</b-col>
-					<ShowSubscribedUsers :quest="quest"/>
+					<ShowSubscribedUsers :subscribedUsers="quest.subscribedUsers ? quest.subscribedUsers : []" :questId="quest.id ? quest.id : 0" @updateUsers="updateSubscribedUsers"/>
 					<ShowTrialsDone :trialsDone="trialsDone" :thereIsResult="thereIsResult"/>
 					<div v-if="questIsNotNew">
 						<ShowPartialScore :trials="trialsDone" />
@@ -247,7 +247,7 @@ export default {
     props: ['openQuest'],
     data() {
         return {
-            quest: '',
+            quest: {},
 			subject: '',
 			formatStartTime: '',
 			formatFinishTime: '',
@@ -569,6 +569,9 @@ export default {
 				})
 				this.showQuestOverlay = false
 			})
+		},
+		updateSubscribedUsers(quest) {
+			this.quest = quest
 		}
 	}
 }

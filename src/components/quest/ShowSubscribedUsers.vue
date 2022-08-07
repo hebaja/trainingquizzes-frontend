@@ -11,10 +11,10 @@
 			<br>
 		</b-col>
 		<b-col cols="12" lg="8" offset-lg="2">
-			<b-collapse v-if="currentQuest.subscribedUsers" id="collapse-show-subscribed-users" class="mt-2">
+			<b-collapse v-if="subscribedUsers" id="collapse-show-subscribed-users" class="mt-2">
 				<b-overlay :show="overlayShow" rounded="sm">
-					<b-list-group v-if="currentQuest.subscribedUsers.length > 0">
-						<b-list-group-item v-for="subscribedUser in currentQuest.subscribedUsers" :key="subscribedUser.id">
+					<b-list-group v-if="subscribedUsers.length > 0">
+						<b-list-group-item v-for="subscribedUser in subscribedUsers" :key="subscribedUser.id">
 							<div class="d-flex w-100 justify-content-between">
 								<span>
 									<b-avatar 
@@ -54,20 +54,25 @@ import Modal from '../Modal.vue'
 
 export default {
 	name: 'show-subscribed-users',
-	props: ['quest'],
+	props: {
+		subscribedUsers: {
+			type: Array,
+			required: true
+		},
+		questId: {
+			type: Number,
+			required: true
+		}
+	},
 	components: { 
 		AppButton,
 		Modal
 	},
 	data() {
 		return {
-			currentQuest: {},
 			userToBeRemoved: {},
 			overlayShow: false,
 		}
-	},
-	mounted() {
-		this.currentQuest = this.quest
 	},
 	methods: {
 		openRemoveUserModal(user) {
@@ -77,10 +82,10 @@ export default {
 		removeUser() {
 			this.$bvModal.hide('modal-remove-user')
 			this.overlayShow = true
-			this.$http.unsubscribeUser(this.userToBeRemoved.id, this.currentQuest.id)
+			this.$http.unsubscribeUser(this.userToBeRemoved.id, this.questId)
 			.then((response) => {
-				this.currentQuest = response.data
 				this.overlayShow = false
+				this.$emit('updateUsers', response.data)
 			})
 			.catch((error) => {
 				console.log(error)
@@ -91,7 +96,6 @@ export default {
 				})	
 				this.overlayShow = false
 			})
-
 		}
 	}
 }
