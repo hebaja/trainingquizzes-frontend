@@ -2,7 +2,7 @@
     <div>
         <h1 class="text-center mt-3 mb-3">Privacy Policy for English Training Quizzes</h1>
     
-        <p>At English Training Quizzes, accessible from https://trainingquizzes.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by English Training Quizzes and how we use it.</p>
+        <p>At Training Quizzes, accessible from https://trainingquizzes.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by English Training Quizzes and how we use it.</p>
         
         <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
         
@@ -17,6 +17,7 @@
         <p>The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.</p>
         <p>If you contact us directly, we may receive additional information about you such as your name, email address, phone number, the contents of the message and/or attachments you may send us, and any other information you may choose to provide.</p>
         <p>When you register for an Account, we may ask for your contact information, including items such as name, company name, address, email address, and telephone number.</p>
+        <p>In case you need to remove all your data from our servers, we can do it <a href="https://trainingquizzes.com/profile">here</a></p>
         
         <h2>How we use your information</h2>
         

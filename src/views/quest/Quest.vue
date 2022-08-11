@@ -301,49 +301,13 @@ export default {
 			return null
 		},
 		trials() {
-			let trials = []
-			let trialStartDateTimeAdd = 0
-			let startDate = new Date(this.fullSelectedStartDateTime)
-			let finishDate = new Date(this.fullSelectedFinishDateTime)
-			let trialTimeAmount = (finishDate.getTime() - startDate.getTime()) / this.trialsQuantity
-			let trialFinishDateTimeAdd = trialTimeAmount
-
-			for (let index = 0; index < this.trialsQuantity; index++) {
-				trials.push({
-					id: index,
-					startDate: new Date(startDate.getTime() + trialStartDateTimeAdd),
-					finishDate: new Date(startDate.getTime() + trialFinishDateTimeAdd)
-				})
-				trialStartDateTimeAdd =+ trialTimeAmount
-				trialFinishDateTimeAdd =+ trialTimeAmount
-			}
-
-			return trials
+			return questUtil.generateTrials(this.fullSelectedStartDateTime, this.fullSelectedFinishDateTime, this.trialsQuantity)
 		},
 		maxTrialsQuantity() {
-			let possibilitiesStartDate 
-			let possibilitiesFinishDate 
-
-			if(this.fullSelectedStartDateTime && this.fullSelectedFinishDateTime) {
-				possibilitiesStartDate = new Date(this.fullSelectedStartDateTime)
-				possibilitiesFinishDate = new Date(this.fullSelectedFinishDateTime)
-			}
-
-			let max = 0
-			while (possibilitiesStartDate < possibilitiesFinishDate) {
-				max++
-				possibilitiesStartDate.setDate(possibilitiesStartDate.getDate() + 1)
-			}
-
-			return max
+			return questUtil.generateMaximumTrialsQuantity(this.fullSelectedStartDateTime, this.fullSelectedFinishDateTime)
 		},
 		finishDateIsHigherThanOneDay() {
-			const aDate = new Date(this.fullSelectedStartDateTime)
-			const bDate = new Date(this.fullSelectedFinishDateTime)
-			const diffDate = new Date(aDate)
-			diffDate.setDate(aDate.getDate() + 1)
-
-			return bDate.getTime() >= diffDate.getTime()
+			return questUtil.assertFinishDateHigherThanOneDay(this.fullSelectedStartDateTime, this.fullSelectedFinishDateTime)
 		},
 		thereIsResult() {
 			let thereIsResult = false

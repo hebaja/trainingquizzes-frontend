@@ -63,4 +63,49 @@ export class QuestUtil {
 		return reducedUserScores.sort((scoreA, scoreB) => scoreB.score - scoreA.score)
 	}
 
+	generateTrials(fullSelectedStartDateTime, fullSelectedFinishDateTime, trialsQuantity) {
+		let trials = []
+		let trialStartDateTimeAdd = 0
+		let startDate = new Date(fullSelectedStartDateTime)
+		let finishDate = new Date(fullSelectedFinishDateTime)
+		let trialTimeAmount = (finishDate.getTime() - startDate.getTime()) / trialsQuantity
+		let trialFinishDateTimeAdd = trialTimeAmount
+
+		for (let index = 0; index < trialsQuantity; index++) {
+			trials.push({
+				id: index,
+				startDate: new Date(startDate.getTime() + trialStartDateTimeAdd),
+				finishDate: new Date(startDate.getTime() + trialFinishDateTimeAdd)
+			})
+			trialStartDateTimeAdd =+ trialTimeAmount
+			trialFinishDateTimeAdd =+ trialTimeAmount
+		}
+		return trials
+	}
+
+	generateMaximumTrialsQuantity(fullSelectedStartDateTime, fullSelectedFinishDateTime) {
+		let possibilitiesStartDate 
+		let possibilitiesFinishDate 
+
+		if(fullSelectedStartDateTime && fullSelectedFinishDateTime) {
+			possibilitiesStartDate = new Date(fullSelectedStartDateTime)
+			possibilitiesFinishDate = new Date(fullSelectedFinishDateTime)
+		}
+
+		let max = 0
+		while (possibilitiesStartDate < possibilitiesFinishDate) {
+			max++
+			possibilitiesStartDate.setDate(possibilitiesStartDate.getDate() + 1)
+		}
+		return max
+	}
+
+	assertFinishDateHigherThanOneDay(fullSelectedStartDateTime, fullSelectedFinishDateTime) {
+		const startDate = new Date(fullSelectedStartDateTime)
+		const finishDate = new Date(fullSelectedFinishDateTime)
+		const diffDate = new Date(startDate)
+		diffDate.setDate(startDate.getDate() + 1)
+		return finishDate.getTime() >= diffDate.getTime()
+	}
+
 }
