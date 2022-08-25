@@ -70,15 +70,15 @@ export class QuestUtil {
 		let finishDate = new Date(fullSelectedFinishDateTime)
 		let trialTimeAmount = (finishDate.getTime() - startDate.getTime()) / trialsQuantity
 		let trialFinishDateTimeAdd = trialTimeAmount
-
+		
 		for (let index = 0; index < trialsQuantity; index++) {
 			trials.push({
 				id: index,
 				startDate: new Date(startDate.getTime() + trialStartDateTimeAdd),
 				finishDate: new Date(startDate.getTime() + trialFinishDateTimeAdd)
 			})
-			trialStartDateTimeAdd =+ trialTimeAmount
-			trialFinishDateTimeAdd =+ trialTimeAmount
+			trialStartDateTimeAdd += trialTimeAmount
+			trialFinishDateTimeAdd += trialTimeAmount
 		}
 		return trials
 	}
