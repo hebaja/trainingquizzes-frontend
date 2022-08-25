@@ -6,11 +6,14 @@
 		</b-col>
 		<b-card v-if="quest" class="mt-4">
 			<b-row >
-				<b-col cols="6">
+				<b-col cols="12" sm="6" class="text-center text-sm-start">
 					<h4><b>{{ quest.title }}</b></h4>
 				</b-col>
-				<b-col cols="6" class="d-flex justify-content-end">
-					<h4>{{ quest.user.username }}</h4><b-avatar :src="quest.user.pictureUrl"></b-avatar>
+				<b-col cols="12" sm="6" offset="5" offset-sm="0" class="d-sm-flex justify-content-end">
+					<div>
+						<b-avatar :src="quest.user.pictureUrl"></b-avatar>
+						<h4>{{ quest.user.username }}</h4>
+					</div>
 				</b-col>
 				<b-col cols="12">
 					<h5><font-awesome-icon icon="fa-solid fa-book" /> {{ quest.subject.title }} - Level: {{ quest.subject.level }}</h5>

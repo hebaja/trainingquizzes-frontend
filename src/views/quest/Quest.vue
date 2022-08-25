@@ -183,6 +183,11 @@
 					<ShowTrialsDone :trialsDone="trialsDone" :thereIsResult="thereIsResult"/>
 					<div v-if="questIsNotNew">
 						<ShowPartialScore :trials="trialsDone" />
+
+						<b-col cols="12" lg="8" offset-lg="2" class="mt-3">
+							<b-alert variant="success" show class="text-center">Subscription link: {{ urlBase }}/#/quest-subscribe?questId={{ quest.id }}</b-alert>
+						</b-col>
+
 						<b-col cols="12" class="text-center mt-3">
 							<b-link v-b-tooltip.hover title="Link to send to your students" style="text-decoration: none;" @click.prevent="copySubscriptionInvitation">
 								<h5>
@@ -261,7 +266,8 @@ export default {
 			startDateForm: '',
 			finishDateForm: '',
 			errorMessage: '',
-			showQuestOverlay: false
+			showQuestOverlay: false,
+			urlBase: process.env.VUE_APP_DEFAULT_BASE_URL
         }
     },
 	components: {
@@ -401,7 +407,7 @@ export default {
 					timeInterval: this.trialsQuantity,
 					trials: this.trials,
 					userId: this.storedUser.id,
-					subscribedUsers: this.quest.subscribedUsers
+					subscribedUsers: this.quest.subscribedUsers,
 				}
 				this.showQuestOverlay = true
 				this.$http.registerQuest(questForm)
