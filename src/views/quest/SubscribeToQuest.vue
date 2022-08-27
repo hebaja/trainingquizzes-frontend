@@ -1,6 +1,5 @@
 <template>
-	<b-overlay v-if="overlayShow" :show="overlayShow" rounded="lg" class="mt-5" />
-	<b-row v-else>
+	<b-row>
 		<b-col cols="12">
 			<p v-if="errorMessage" class="text-center text-danger">{{ errorMessage }}</p>	
 		</b-col>
@@ -22,8 +21,10 @@
 					<font-awesome-icon icon="fa-solid fa-calendar-days" class="me-1"/>From <u>{{ formatStartDate }}</u> to <u>{{ formatFinishDate }}</u>
 				</b-col>
 				<b-col cols="12" class="mt-3">
-					<AppButton v-if="userIsAlreadySubscribed" disabled="true" >User is already subscribed</AppButton>
-					<AppButton v-else @appButtonClick="subscribe">Subscribe to quest</AppButton>
+					<b-overlay :show="overlayShow" spinner-small class="mt-5" >
+						<AppButton v-if="userIsAlreadySubscribed" disabled="true" >User is already subscribed</AppButton>
+						<AppButton v-else @appButtonClick="subscribe">Subscribe to quest</AppButton>
+					</b-overlay>
 				</b-col>
 			</b-row>
 		</b-card>
@@ -68,16 +69,13 @@ export default {
 	},
 	mounted() {
 		if(this.$route.query.questId) {
-			this.overlayShow = true
 			const questId = this.$route.query.questId
 			this.$http.getQuest(questId)
 			.then((response) => {
 				this.quest = response.data
-				this.overlayShow = false
 			})
 			.catch((error) => {
 				console.log(error)
-				this.overlayShow = false
 			}
 		)}
 	},
@@ -87,6 +85,7 @@ export default {
 				questId: this.quest.id,
 				userId: this.storedUser.id
 			}
+			this.overlayShow = true;
 			this.$http.subscribeToQuest(subscribeForm)
 			.then((response) => {
 				if(response.status == 200) {
@@ -99,10 +98,12 @@ export default {
 				} else {
 					this.errorMessage = 'There was an error trying to save the quest'
 				}
+				this.overlayShow = false;
 			})
 			.catch((error) => {
 				console.log(error)
 				this.errorMessage = 'There was an error when trying to subscribe to quest'
+				this.overlayShow = false;
 			})
 		},
 		generateFormatDate(rawDate) {
