@@ -39,7 +39,7 @@ export class QuestUtil {
 	}
 
 	calculateUserScores(scores, property) {
-		let filteredScores = scores.reduce((accumulator, scoreObject) => {
+		let filteredScoresMap = scores.reduce((accumulator, scoreObject) => {
 			let key = scoreObject[property];
 			if (!accumulator[key]) {
 				accumulator[key] = [];
@@ -47,10 +47,15 @@ export class QuestUtil {
 			accumulator[key].push(scoreObject);
 			return accumulator;
 		}, {});
-		const userScores = Object.values(filteredScores)
+
+		const userScores = Object.values(filteredScoresMap)
+
+		
 		let reducedUserScores = []
-		userScores.forEach((score) => {
-			reducedUserScores.push(score.reduce((previousValue, nextValue) => {
+		userScores.forEach((scoresMap) => {
+			
+
+			reducedUserScores.push(scoresMap.reduce((previousValue, nextValue) => {
 				return {
 					userId: previousValue.userId,
 					username: previousValue.username,
@@ -60,6 +65,9 @@ export class QuestUtil {
 				}
 			}))
 		})
+
+		console.log(reducedUserScores)
+
 		return reducedUserScores.sort((scoreA, scoreB) => scoreB.score - scoreA.score)
 	}
 

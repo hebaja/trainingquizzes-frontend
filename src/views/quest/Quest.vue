@@ -354,6 +354,26 @@ export default {
 		},
 		questScore() {
 			return questUtil.calculateUserScores(this.quest.trials, 'userId')
+		},
+		numberThatScoreShouldBeDividedBy() {
+
+			console.log(this.quest.timeInterval)
+			console.log(this.quest.finishDate)
+			const convertedFinishDate = new Date(this.quest.finishDate)
+
+			console.log(convertedFinishDate.getTime())
+
+			if(this.quest.finished) {
+				console.log('quest is finished')
+			} else {
+				console.log('quest is NOT finished')
+
+
+
+
+
+			}
+			return 1
 		}
 		
 	},
@@ -366,6 +386,10 @@ export default {
 			this.trialsQuantity = this.quest.timeInterval
 			this.userSubjectsOptions = this.quest.user.subjects.filter(subject => subject.id != this.subject.id)
 			this.formatDates()
+
+			console.log(this.quest)
+			console.log(this.numberThatScoreShouldBeDividedBy)
+
 		} else {
 			this.$router.push({ name: 'quests-by-user' })
 		}

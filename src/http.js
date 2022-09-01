@@ -1,23 +1,25 @@
 import axios from 'axios'
 import store from './store'
 
-let url
+// let url
 
-function isMobile() {
-	if( screen.width <= 760 ) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
+// function isMobile() {
+// 	if( screen.width <= 760 ) {
+// 		return true;
+// 	}
+// 	else {
+// 		return false;
+// 	}
+// }
 
-if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com'
-else if(isMobile()) url = 'http://192.168.1.100:8080'
-else url = 'http://localhost:8080'
+// if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com'
+// else if(isMobile()) url = 'http://192.168.1.100:8080'
+// else url = 'http://localhost:8080'
 
 const http = axios.create({
-	baseURL: url,
+	// baseURL: url,
+	// baseURL: 'https://trainingquizzes.com',
+	baseURL: 'http://155.138.197.39:8080',
 	headers: {
 		'Accept': 'application/json',
 		'Content': 'application/json'
