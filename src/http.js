@@ -18,8 +18,8 @@ import store from './store'
 
 const http = axios.create({
 	// baseURL: url,
-	// baseURL: 'https://trainingquizzes.com',
-	baseURL: 'http://155.138.197.39:8080',
+	baseURL: 'https://trainingquizzes.com',
+	// baseURL: 'http://155.138.197.39:8080',
 	headers: {
 		'Accept': 'application/json',
 		'Content': 'application/json'
