@@ -30,18 +30,17 @@ const questUtil = new QuestUtil()
 export default {
 	name: 'show-partial-score',
 	props: {
-		trials: {
-			type: Array,
+		quest: {
+			type: Object,
 			required: true
 		},
-
 	},
 	components: {
 		QuestScore
 	},
 	computed: {
 		questScore() {
-			return questUtil.calculateUserScores(this.trials, 'userId')
+			return questUtil.calculateUserScores(this.quest)
 		}
 	},
 	

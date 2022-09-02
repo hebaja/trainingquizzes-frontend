@@ -35,19 +35,26 @@
 <script>
 import AppButton from '../buttons/AppButton.vue'
 import { MobileUtil } from '../../utils/MobileUtil'
+import { QuestUtil } from '../../utils/QuestUtil'
 
 const mobileUtil = new MobileUtil()
+const questUtil = new QuestUtil()
 
 export default {
 	name: 'show-trials-done',
 	props: {
-		trialsDone: {
+		trials: {
 			type: Array,
 			required: true
 		},
 		thereIsResult: {
 			type: Boolean,
 			required: true
+		}
+	},
+	computed: {
+		trialsDone() {
+			return questUtil.trialsDone(this.trials)
 		}
 	},
 	data() {

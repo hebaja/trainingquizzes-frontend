@@ -22,7 +22,9 @@
 				</b-col>
 				<QuestScore :scores="trialsFinishedQuest" class="mt-2"/>
 				<ShowSubscribedUsers :subscribedUsers="quest.subscridUsers ? quest.subscribedUsers : []" :questId="quest.id ? quest.id : 0" @updateUsers="updateSubscribedUsers"/> 
-				<ShowTrialsDone :trialsDone="trialsDone" :thereIsResult="thereIsResult"/>
+				<div v-if="quest.trials">
+					<ShowTrialsDone :trials="quest.trials" :thereIsResult="thereIsResult"/>
+				</div>
 				<b-col cols="12" class="text-center mt-3 text-danger">
 					<h3>
 						<font-awesome-icon
@@ -180,9 +182,11 @@
 						</b-list-group>
 					</b-col>
 					<ShowSubscribedUsers :subscribedUsers="quest.subscribedUsers ? quest.subscribedUsers : []" :questId="quest.id ? quest.id : 0" @updateUsers="updateSubscribedUsers"/>
-					<ShowTrialsDone :trialsDone="trialsDone" :thereIsResult="thereIsResult"/>
+					<div v-if="quest.trials">
+						<ShowTrialsDone :trials="quest.trials" :thereIsResult="thereIsResult"/>
+					</div>
 					<div v-if="questIsNotNew">
-						<ShowPartialScore :trials="trialsDone" />
+						<ShowPartialScore :quest="quest" />
 
 						<b-col cols="12" lg="8" offset-lg="2" class="mt-3">
 							<b-alert variant="success" show class="text-center">Subscription link: {{ urlBase }}/#/quest-subscribe?questId={{ quest.id }}</b-alert>
@@ -326,9 +330,9 @@ export default {
 			}
 			return thereIsResult
 		},
-		trialsDone() {
-			return questUtil.trialsDone(this.quest.trials)
-		},
+		// trialsDone() {
+		// 	return questUtil.trialsDone(this.quest.trials)
+		// },
 		trialsFinishedQuest() {
 			const finishedTrials = questUtil.trialsFinishedQuest(this.quest.trials)
 			return questUtil.calculateUserScores(finishedTrials, 'userId')
@@ -355,27 +359,9 @@ export default {
 		questScore() {
 			return questUtil.calculateUserScores(this.quest.trials, 'userId')
 		},
-		numberThatScoreShouldBeDividedBy() {
-
-			console.log(this.quest.timeInterval)
-			console.log(this.quest.finishDate)
-			const convertedFinishDate = new Date(this.quest.finishDate)
-
-			console.log(convertedFinishDate.getTime())
-
-			if(this.quest.finished) {
-				console.log('quest is finished')
-			} else {
-				console.log('quest is NOT finished')
-
-
-
-
-
-			}
-			return 1
-		}
-		
+		// numberToDivideScores() {
+		// 	return questUtil.getNumberToDivideScores(this.currentDateTime, this.quest)
+		// }
 	},
 	mounted() {
 		if(this.openQuest) {
@@ -386,10 +372,6 @@ export default {
 			this.trialsQuantity = this.quest.timeInterval
 			this.userSubjectsOptions = this.quest.user.subjects.filter(subject => subject.id != this.subject.id)
 			this.formatDates()
-
-			console.log(this.quest)
-			console.log(this.numberThatScoreShouldBeDividedBy)
-
 		} else {
 			this.$router.push({ name: 'quests-by-user' })
 		}

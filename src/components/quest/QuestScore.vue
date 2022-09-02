@@ -3,15 +3,15 @@
 		<b-list-group v-for="score in scores" :key="score.key">
 			<b-list-group-item>
 				<div class="d-flex w-100 justify-content-between">
-					<span>
+					<span class="w-75">
 						<b-avatar 
 							size="sm"
 							class="me-2"
 							:src="score.pictureUrl ? score.pictureUrl : 'https://cdn-icons-png.flaticon.com/512/64/64572.png'"
 						/>
-						{{ score.username }} ({{ score.email }}) 
+						{{ score.username }} ({{ score.email }})
 					</span>
-					<span class="w-50">
+					<span class="w-25">
 						<Gauge :score="score.score"/>
 					</span>
 				</div>
