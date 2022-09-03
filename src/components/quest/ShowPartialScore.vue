@@ -12,7 +12,7 @@
 		</b-col>
 		<b-col v-if="questScore" cols="12" lg="8" offset-lg="2">
 			<b-collapse id="collapse-show-partial-results" class="mt-2">
-				<span v-if="questScore">
+				<span v-if="scores">
 					<QuestScore :scores="questScore" />
 				</span>
 				<span v-else>Nothing was done</span>
@@ -23,29 +23,24 @@
 
 <script>
 import QuestScore from './QuestScore.vue';
-import { QuestUtil } from '../../utils/QuestUtil';
-
-const questUtil = new QuestUtil()
 
 export default {
 	name: 'show-partial-score',
 	props: {
-		quest: {
-			type: Object,
+		scores: {
+			type: Array,
 			required: true
 		},
 	},
 	components: {
 		QuestScore
 	},
+
 	computed: {
 		questScore() {
-			return questUtil.calculateUserScores(this.quest)
+			return this.scores
 		}
 	},
-	
-	
-
 }
 </script>
 

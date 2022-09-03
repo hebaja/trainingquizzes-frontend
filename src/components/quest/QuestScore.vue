@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-list-group v-for="score in scores" :key="score.key">
+		<b-list-group v-for="score in scores" :key="score.username">
 			<b-list-group-item>
 				<div class="d-flex w-100 justify-content-between">
 					<span class="w-75">
@@ -9,7 +9,7 @@
 							class="me-2"
 							:src="score.pictureUrl ? score.pictureUrl : 'https://cdn-icons-png.flaticon.com/512/64/64572.png'"
 						/>
-						{{ score.username }} ({{ score.email }})
+						{{ score.username }}
 					</span>
 					<span class="w-25">
 						<Gauge :score="score.score"/>

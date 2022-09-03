@@ -20,10 +20,13 @@
 				<b-col cols="12" class="text-center mt-2">
 					<h4>Final score</h4>
 				</b-col>
-				<QuestScore :scores="trialsFinishedQuest" class="mt-2"/>
+				<QuestScore :scores="quest.scores" class="mt-2"/>
 				<ShowSubscribedUsers :subscribedUsers="quest.subscridUsers ? quest.subscribedUsers : []" :questId="quest.id ? quest.id : 0" @updateUsers="updateSubscribedUsers"/> 
 				<div v-if="quest.trials">
 					<ShowTrialsDone :trials="quest.trials" :thereIsResult="thereIsResult"/>
+				</div>
+				<div v-if="quest.scores">
+					<ShowPartialScore :scores="quest.scores" />
 				</div>
 				<b-col cols="12" class="text-center mt-3 text-danger">
 					<h3>
@@ -186,7 +189,7 @@
 						<ShowTrialsDone :trials="quest.trials" :thereIsResult="thereIsResult"/>
 					</div>
 					<div v-if="questIsNotNew">
-						<ShowPartialScore :quest="quest" />
+						<ShowPartialScore :scores="quest.scores" />
 
 						<b-col cols="12" lg="8" offset-lg="2" class="mt-3">
 							<b-alert variant="success" show class="text-center">Subscription link: {{ urlBase }}/#/quest-subscribe?questId={{ quest.id }}</b-alert>
@@ -333,10 +336,10 @@ export default {
 		// trialsDone() {
 		// 	return questUtil.trialsDone(this.quest.trials)
 		// },
-		trialsFinishedQuest() {
-			const finishedTrials = questUtil.trialsFinishedQuest(this.quest.trials)
-			return questUtil.calculateUserScores(finishedTrials, 'userId')
-		},
+		// trialsFinishedQuest() {
+		// 	const finishedTrials = questUtil.trialsFinishedQuest(this.quest.trials)
+		// 	return questUtil.calculateUserScores(finishedTrials, 'userId')
+		// },
 		resultBuilt() {
 			let results = []
 			if(this.quest.results != null) {
@@ -356,12 +359,6 @@ export default {
 		questIsNotNew() {
 			return this.quest.id != null
 		},
-		questScore() {
-			return questUtil.calculateUserScores(this.quest.trials, 'userId')
-		},
-		// numberToDivideScores() {
-		// 	return questUtil.getNumberToDivideScores(this.currentDateTime, this.quest)
-		// }
 	},
 	mounted() {
 		if(this.openQuest) {

@@ -19,8 +19,8 @@ else url = 'http://localhost:8080'
 console.log(url)
 
 const http = axios.create({
-	baseURL: url,
-	// baseURL: 'https://trainingquizzes.com',
+	// baseURL: url,
+	baseURL: 'https://trainingquizzes.com',
 	headers: {
 		'Accept': 'application/json',
 		'Content': 'application/json'
