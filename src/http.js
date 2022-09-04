@@ -12,15 +12,12 @@ function isMobile() {
 	}
 }
 
-console.log(url)
-
 if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com'
 else if(isMobile()) url = 'http://192.168.1.100:8080'
 else url = 'http://localhost:8080'
 
 const http = axios.create({
 	baseURL: url,
-	// baseURL: 'https://trainingquizzes.com',
 	headers: {
 		'Accept': 'application/json',
 		'Content': 'application/json'
