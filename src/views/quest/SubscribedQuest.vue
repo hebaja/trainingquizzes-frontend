@@ -19,7 +19,7 @@
 						<h4>Final score</h4>
 					</b-col>
 					<QuestScore :scores="trialsFinishedQuest" class="mt-2"/>
-					<ShowTrialsDone :trialsDone="trialsDone" :thereIsResult="thereIsResult"/>
+					<ShowTrialsDone :trials="quest.trials" :thereIsResult="thereIsResult"/>
 				</b-row>
 			</div>
 			<div v-else>
@@ -95,8 +95,8 @@
 						</b-list-group-item>
 					</b-overlay>
 				</b-col>
-				<ShowTrialsDone :trialsDone="trialsDone" :thereIsResult="thereIsResult"/>
-				<ShowPartialScore :trials="trialsDone"/>
+				<ShowTrialsDone :trials="quest.trials" :thereIsResult="thereIsResult"/>
+				<ShowPartialScore :scores="quest.scores"/>
 			</div>
 		</div>
     </b-row>
@@ -217,7 +217,6 @@ export default {
 			return dateUtil.formatDateAndTime(rawDate)
 		}
 	}
-    
 }
 </script>
 

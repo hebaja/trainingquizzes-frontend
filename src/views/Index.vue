@@ -19,7 +19,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-			
 import Pagination from '../components/Pagination.vue'
 import AppSearch from '../components/Search.vue'
 import SubjectItems from '../components/lists/SubjectItems.vue'
