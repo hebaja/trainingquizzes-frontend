@@ -1,29 +1,32 @@
 <template>
 	<b-row class="mt-4">
-		<b-col v-if="!userHasSingleRole" cols="12">
-			<b-nav pills fill class="quest-tab">
-				<b-nav-item :active="createdQuestsTabActive" :class="createdQuestsTabClass" @click="activateCreatedQuestsTab">Created quests</b-nav-item>
-				<b-nav-item :active="subscribedQuestTabActive" :class="subscribedQuestsTabClass" @click="activateSubscribedQuestsTab">Subscribed quests</b-nav-item>
-			</b-nav>
-		</b-col>
-		<b-col cols="12">
-			<p v-if="errorMessage" class="text-center text-danger">{{ errorMessage }}</p>	
-		</b-col>
-		<div v-if="createdQuestsTabActive">
-			<Pagination :payload="payload" :overlayShow="overlayShow">
-				<QuestItems :quests="payload.content" @questItemClick="openCreatedQuest($event)"/>
-			</Pagination>
-			<b-col cols="12" lg="8"  class="mx-auto mt-2">
-				<AppButton 
-					@appButtonClick="addQuest">
-					Add quest
-				</AppButton>
+		<b-overlay v-if="overlayShow" :show="overlayShow" class="mt-5" />
+		<div v-else>
+			<b-col v-if="!userHasSingleRole" cols="12">
+				<b-nav pills fill class="quest-tab">
+					<b-nav-item :active="createdQuestsTabActive" :class="createdQuestsTabClass" @click="activateCreatedQuestsTab">Created quests</b-nav-item>
+					<b-nav-item :active="subscribedQuestTabActive" :class="subscribedQuestsTabClass" @click="activateSubscribedQuestsTab">Subscribed quests</b-nav-item>
+				</b-nav>
 			</b-col>
-		</div>
-		<div v-if="subscribedQuestTabActive">
-			<Pagination :payload="payload" :overlayShow="overlayShow">
-				<QuestItems :quests="payload.content" @questItemClick="openSubscribedQuest($event)"/>
-			</Pagination>
+			<b-col cols="12">
+				<p v-if="errorMessage" class="text-center text-danger">{{ errorMessage }}</p>	
+			</b-col>
+			<div v-if="createdQuestsTabActive">
+				<Pagination :payload="payload" :overlayShow="overlayShow">
+					<QuestItems :quests="payload.content" @questItemClick="openCreatedQuest($event)"/>
+				</Pagination>
+				<b-col cols="12" lg="8"  class="mx-auto mt-2">
+					<AppButton 
+						@appButtonClick="addQuest">
+						Add quest
+					</AppButton>
+				</b-col>
+			</div>
+			<div v-if="subscribedQuestTabActive">
+				<Pagination :payload="payload" :overlayShow="overlayShow">
+					<QuestItems :quests="payload.content" @questItemClick="openSubscribedQuest($event)"/>
+				</Pagination>
+			</div>
 		</div>
 	</b-row>
 </template>

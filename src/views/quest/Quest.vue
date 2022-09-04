@@ -21,12 +21,13 @@
 					<h4>Final score</h4>
 				</b-col>
 				<QuestScore :scores="quest.scores" class="mt-2"/>
-				<ShowSubscribedUsers :subscribedUsers="quest.subscridUsers ? quest.subscribedUsers : []" :questId="quest.id ? quest.id : 0" @updateUsers="updateSubscribedUsers"/> 
+				<ShowSubscribedUsers 
+					:subscribedUsers="quest.subscribedUsers ? quest.subscribedUsers : []" 
+					:questId="quest.id ? quest.id : 0" 
+					:questIsFinished="true"
+					@updateUsers="updateSubscribedUsers"/> 
 				<div v-if="quest.trials">
 					<ShowTrialsDone :trials="quest.trials" :thereIsResult="thereIsResult"/>
-				</div>
-				<div v-if="quest.scores">
-					<ShowPartialScore :scores="quest.scores" />
 				</div>
 				<b-col cols="12" class="text-center mt-3 text-danger">
 					<h3>
@@ -184,7 +185,11 @@
 							</b-list-group-item>
 						</b-list-group>
 					</b-col>
-					<ShowSubscribedUsers :subscribedUsers="quest.subscribedUsers ? quest.subscribedUsers : []" :questId="quest.id ? quest.id : 0" @updateUsers="updateSubscribedUsers"/>
+					<ShowSubscribedUsers
+						:subscribedUsers="quest.subscribedUsers ? quest.subscribedUsers : []"
+						:questId="quest.id ? quest.id : 0"
+						:questIsFinished="false"
+						@updateUsers="updateSubscribedUsers"/>
 					<div v-if="quest.trials">
 						<ShowTrialsDone :trials="quest.trials" :thereIsResult="thereIsResult"/>
 					</div>
@@ -333,13 +338,6 @@ export default {
 			}
 			return thereIsResult
 		},
-		// trialsDone() {
-		// 	return questUtil.trialsDone(this.quest.trials)
-		// },
-		// trialsFinishedQuest() {
-		// 	const finishedTrials = questUtil.trialsFinishedQuest(this.quest.trials)
-		// 	return questUtil.calculateUserScores(finishedTrials, 'userId')
-		// },
 		resultBuilt() {
 			let results = []
 			if(this.quest.results != null) {

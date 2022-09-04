@@ -23,7 +23,7 @@
 										:src="subscribedUser.pictureUrl ? subscribedUser.pictureUrl : 'https://cdn-icons-png.flaticon.com/512/64/64572.png'" />
 										{{ subscribedUser.username }} ({{ subscribedUser.email }})
 								</span>
-								<span>
+								<span v-show="!questIsFinished">
 									<font-awesome-icon
 										class="text-danger"
 										icon="fa-solid fa-trash" 
@@ -61,6 +61,10 @@ export default {
 		},
 		questId: {
 			type: Number,
+			required: true
+		},
+		questIsFinished: {
+			type: Boolean,
 			required: true
 		}
 	},
