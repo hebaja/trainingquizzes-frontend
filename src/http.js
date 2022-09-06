@@ -64,7 +64,7 @@ export default {
 		return http.put('/api/subject', subject)
 	},
 	deleteSubject(subjectId) {
-		return http.delete('/api/subject/' + subjectId)
+		return http.delete('/api/subject/', { params: { subjectId: subjectId } })
 	},
 	getSubjectsByUserAndLevel(userAuthorId, page, size, level) {
 		return http.get('/api/subject/user', { params: { userId: userAuthorId, page: page, size: size, sort: 'creationDate,desc', level: level }})

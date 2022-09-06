@@ -18,7 +18,7 @@
 					<b-col cols="12" class="text-center mt-2">
 						<h4>Final score</h4>
 					</b-col>
-					<QuestScore :scores="trialsFinishedQuest" class="mt-2"/>
+					<QuestScore :scores="questScores" class="mt-2"/>
 					<ShowTrialsDone :trials="quest.trials" :thereIsResult="thereIsResult"/>
 				</b-row>
 			</div>
@@ -175,9 +175,8 @@ export default {
 
 			return thereIsResult
 		},
-		trialsFinishedQuest() {
-			const finishedTrials = questUtil.trialsFinishedQuest(this.quest.trials)
-			return questUtil.calculateUserScores(finishedTrials, 'userId')
+		questScores() {
+			return this.openQuest.scores
 		}
 	},
 	methods: {

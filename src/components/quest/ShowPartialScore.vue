@@ -13,7 +13,7 @@
 		<b-col v-if="questScore" cols="12" lg="8" offset-lg="2">
 			<b-collapse id="collapse-show-partial-results" class="mt-2">
 				<span v-if="scores.length > 0">
-					<QuestScore :scores="questScore" />
+					<QuestScore :scores="questScores" />
 				</span>
 				<span v-else>Nothing was done</span>
 			</b-collapse>
@@ -37,7 +37,7 @@ export default {
 	},
 
 	computed: {
-		questScore() {
+		questScores() {
 			return this.scores
 		}
 	},
