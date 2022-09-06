@@ -10,7 +10,7 @@
 						icon="fa-solid fa-star-half-stroke" />
 			</AppButton>
 		</b-col>
-		<b-col v-if="questScore" cols="12" lg="8" offset-lg="2">
+		<b-col v-if="questScores" cols="12" lg="8" offset-lg="2">
 			<b-collapse id="collapse-show-partial-results" class="mt-2">
 				<span v-if="scores.length > 0">
 					<QuestScore :scores="questScores" />
