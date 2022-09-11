@@ -101,12 +101,12 @@ export default {
 	getTasksBySubject(subjectId) {
 		return http.get('/api/task', { params: { subjectId: subjectId }})
 	},
-	fetchTrialTasks(trialTasks) {
-		return http.post('/api/task/trial-tasks', trialTasks)
-	},
 
-	saveTrial(trial) {
-		return http.post('/api/trial/save', trial)
+	openTrial(trial) {
+		return http.post('/api/trial/open', trial)
+	},
+	updateTrial(trial) {
+		return http.post('/api/trial/update', trial)
 	},
 
 

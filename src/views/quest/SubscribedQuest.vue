@@ -118,7 +118,6 @@ export default {
     name: 'subscribed-quest',
     props: {
 		openQuest: Object,
-		questId: Number
 	},
 	components: { 
 		AppButton,
@@ -135,20 +134,12 @@ export default {
     mounted() {
         if(this.openQuest) {
 			this.quest = this.openQuest
-		} else if(this.questId) {
-			this.$http.getQuest(this.questId, this.storedUser.id)
-			.then((response) => {
-				this.quest = response.data
-			})
-			.catch((error) => {
-				this.$notice(['error'])({
-					title: 'Error',
-					description: 'Could not load quest' + error,
-					style: { top: '4em' }
-				})
-				console.log(error)
-			})
 		} else {
+			this.$notice['error']({
+				title: 'Error',
+				description: 'Could not load quest.',
+				styles: { top: '4em' }
+			})
 			this.$router.push({ name: 'quests-by-user' })
 		}
     },
@@ -172,7 +163,6 @@ export default {
 					}
 				})
 			}
-
 			return thereIsResult
 		},
 		questScores() {
@@ -181,22 +171,22 @@ export default {
 	},
 	methods: {
 		takeTrial(trial) {
-			const trialTasksForm = {
+			const trialForm = {
 				trialId: trial.id,
 				userId: this.storedUser.id,
 				trialNumber: trial.trialNumber
 			}
 			this.trialsOverlayShow = true
-			this.$http.fetchTrialTasks(trialTasksForm)
+			this.$http.openTrial(trialForm)
 			.then((response) => {
-				this.$router.push({ name: 'trial-quiz', params: { trial: response.data, questId: this.openQuest.id } })
+				this.$router.push({ name: 'trial-quiz', params: { receivedTrial: response.data, questId: this.openQuest.id } })
 				this.trialsOverlayShow = false
 			})
 			.catch((error) => {
-				this.$notice(['error'])({
+				this.$notice['error']({
 					title: 'Error',
 					description: 'Could not initialize trial' + error,
-					style: { top: '4em' }
+					styles: { top: '4em' }
 				})
 				console.log(error)
 				this.trialsOverlayShow = false

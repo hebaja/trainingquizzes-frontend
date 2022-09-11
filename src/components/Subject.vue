@@ -215,7 +215,8 @@ export default {
 			} else {
 				this.$notice['error']({
 					title: 'Attention',
-					description: 'You must not have more than 5 options.'
+					description: 'You must not have more than 5 options.',
+					styles: { top: '4em' }
 				})	
 			}
 		},
