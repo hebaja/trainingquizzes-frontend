@@ -168,7 +168,7 @@ export default {
 				.then((response) => {
 					console.log(response.status)
 					this.disableButton = ''
-					if(mobileUtil.isMobile()) window.location.replace('my.special.scheme://details?id=password-reset')
+					if(mobileUtil.isMobile()) window.location.href = "http://tq-androidapp-user.com?intent=reset"
 					else {
 						this.$notice['success']({
 							title: 'Success',

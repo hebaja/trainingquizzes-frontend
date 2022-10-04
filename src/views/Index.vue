@@ -15,6 +15,7 @@
 			<img id="home-main-image" class="center" src="../assets/home.svg" alt="English training quizzes home image">
 		</b-col>
 	</b-row>
+
 </template>
 
 <script>
@@ -76,7 +77,7 @@ export default {
 				return false;
 			}
 		}
-	},
+	}
 }
 
 </script>

@@ -109,6 +109,25 @@ const actions = {
             })
         })
     },
+
+    updateUserProfile({ commit }, userId) {
+        return new Promise((resolve, reject) => {
+            http.getUser(userId)
+            .then((response) => {
+                commit('UPDATE_STORED_USER', {
+                    user: response.data
+                })
+                commit('DEFINE_USER_IS_TEACHER')
+                commit('DEFINE_USER_IS_STUDENT')
+                resolve(response.data)
+            })
+            .catch(error => {
+                console.log(error)
+                reject(error)
+            })
+        })
+    },
+
     updateUserSubjects({ commit }, subject) {
         return new Promise((resolve, reject) => {
             http.updateSubjects(subject)

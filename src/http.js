@@ -83,7 +83,7 @@ export default {
 		return http.get('/api/quest/subscribed-quests', { params: { userId: userId }})
 	},
 	registerQuest(quest) {
-		return http.post('/api/quest', quest)
+		return http.put('/api/quest', quest)
 	},
 	subscribeToQuest(subscribeQuest) {
 		return http.post('/api/quest/subscribe', subscribeQuest)

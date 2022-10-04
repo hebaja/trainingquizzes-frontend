@@ -299,23 +299,19 @@ export default {
 		minFinishDate() {
 			const date = new Date()
 			date.setDate(this.currentDateTime.getDate() + 1)
-
 			return date
 		},
 		maxFinishDate() {
 			const date = new Date()
 			date.setDate(this.currentDateTime.getDate() + 7) 
-
 			return date
 		},
 		fullSelectedStartDateTime() {
 			if(this.startDateContext && this.startTimeContext) return this.startDateContext['selectedYMD'] + 'T' + this.startTimeContext['value']
-
 			return null
 		},
 		fullSelectedFinishDateTime() {
 			if(this.finishDateContext && this.finishTimeContext) return this.finishDateContext['selectedYMD'] + 'T' + this.finishTimeContext['value']
-
 			return null
 		},
 		trials() {
@@ -367,6 +363,9 @@ export default {
 			this.trialsQuantity = this.quest.timeInterval
 			this.userSubjectsOptions = this.quest.user.subjects.filter(subject => subject.id != this.subject.id)
 			this.formatDates()
+
+
+			console.log(this.quest)
 		} else {
 			this.$router.push({ name: 'quests-by-user' })
 		}

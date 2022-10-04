@@ -103,9 +103,32 @@ export default {
 		Modal
 	},
 	mounted() {
-		this.storedUser.roles.forEach(role => {
-			this.optionsSelected.push(role)
+
+		this.$store.dispatch('updateUserProfile', this.storedUser.id)
+		.then((response) => {
+			let user = response
+			user.roles.forEach(role => this.optionsSelected.push(role))
 		})
+		.catch((error) => {
+			console.log(error)
+		})
+
+
+		// this.$http.getUser(this.storedUser.id)
+		// .then((response) => {
+		// 	let user = response.data
+
+		// 	this.$store.commit('UPDATE_STORED_USER', user)
+
+		// 	user.roles.forEach(role => this.optionsSelected.push(role))
+		// })
+		// .catch((error) => {
+		// 	console.log(error)
+		// })
+
+		// this.storedUser.roles.forEach(role => {
+		// 	this.optionsSelected.push(role)
+		// })
 	},
 	computed: {
 		...mapGetters(['storedUser']),

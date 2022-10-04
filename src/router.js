@@ -20,6 +20,7 @@ import QuestsByUser from './views/quest/QuestsByUser'
 import Quest from './views/quest/Quest'
 import SubscribeToQuest from './views/quest/SubscribeToQuest'
 import SubscribedQuest from './views/quest/SubscribedQuest'
+import AndroidRedirect from './views/user/AndroidRedirect'
 
 Vue.use(VueRouter)
 
@@ -143,6 +144,14 @@ const routes = [
 		name: "trial-quiz",
 		component: TrialQuiz,
 		props: true
+	},
+	{
+		path: "/android-redirect",
+		name: "android-redirect",
+		component: AndroidRedirect,
+		meta: {
+			public: true
+		}
 	}
 ]
 

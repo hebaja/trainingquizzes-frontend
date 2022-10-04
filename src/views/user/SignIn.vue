@@ -15,11 +15,11 @@
 			<b-col cols="12" lg="8" class="mx-auto mt-3 mt-sm-2">
 				<GoolgeSigninButton :label="googleButtonLabel" :role="role.role" @onSigninSuccess="redirectUser" />
 			</b-col>
-			<b-col cols="12" lg="8" class="mx-auto mt-2">
+			<!-- <b-col cols="12" lg="8" class="mx-auto mt-2">
 				<b-col cols="12" lg="12" class="mt-2">
 					<FacebookSigninButton :label="facebookButtonLabel" :role="role.role" @onSigninSuccess="redirectUser"/>
 				</b-col>
-			</b-col>
+			</b-col> -->
 			<b-col cols="12" lg="8" class="mx-auto mt-2">
 				<hr class="d-none d-sm-block"/>
 			</b-col>
@@ -104,7 +104,7 @@ import { mapGetters } from 'vuex'
 import { required, email, minLength, maxLength } from 'vuelidate/lib/validators'
 import AppButton from '../../components/buttons/AppButton.vue'
 import GoolgeSigninButton from '../../components/buttons/GoogleSigninButton.vue'
-import FacebookSigninButton from '../../components/buttons/FacebookSigninButton.vue'
+// import FacebookSigninButton from '../../components/buttons/FacebookSigninButton.vue'
 import { MobileUtil } from '../../utils/MobileUtil'
 
 const mobileUtil = new MobileUtil()
@@ -141,7 +141,7 @@ export default {
 	},
 	components: {
 		GoolgeSigninButton,
-		FacebookSigninButton,
+		// FacebookSigninButton,
 		AppButton
 	},
 	validations: {
@@ -168,6 +168,8 @@ export default {
 		}
 	},
 	mounted() {
+
+		
 		if(this.userIsSignedIn) {
 			this.$router.push({ name: 'quiz-by-levels' })
 		}
@@ -178,7 +180,8 @@ export default {
 			this.userRegisterToken.token = this.$route.query.register_token
 			this.$http.confirmUserRegister(this.userRegisterToken)
 			.then((response) => {
-				if(mobileUtil.isMobile()) window.location.replace('my.special.scheme://details?id=user-register')
+				if(mobileUtil.isMobile()) this.$router.push({ name: 'android-redirect' })
+				// if(mobileUtil.isMobile()) window.location.href = "http://tq-androidapp-user.com?intent=signin"
 				else this.message = response.data.username + ' has been registered. You can sign in now'
 				this.$notice['success']({
 					title: 'Success',
