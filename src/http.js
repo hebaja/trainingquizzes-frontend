@@ -77,10 +77,10 @@ export default {
 		return http.get('/api/quest', { params: { questId: questId, userId: userId }})
 	},
 	getCreatedQuests(userId) {
-		return http.get('/api/quest/created-quests', { params: { userId: userId }})
+		return http.get('/api/quest/created-quests', { params: { userId: userId, sort: 'startDate,desc' }})
 	},
 	getSubscribedQuests(userId) {
-		return http.get('/api/quest/subscribed-quests', { params: { userId: userId }})
+		return http.get('/api/quest/subscribed-quests', { params: { userId: userId, sort: 'startDate,desc' }})
 	},
 	registerQuest(quest) {
 		return http.put('/api/quest', quest)
@@ -89,7 +89,7 @@ export default {
 		return http.post('/api/quest/subscribe', subscribeQuest)
 	},
 	deleteQuest(questId) {
-		return http.delete('/api/quest', { params: {questId: questId }})
+		return http.delete('/api/quest/' + questId)
 	},
 	finishQuest(questId) {
 		return http.get('/api/quest/finish', { params: { questId: questId }})
