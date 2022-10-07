@@ -14,8 +14,10 @@
 		<b-col cols="12" class="mx-auto">
 			<img id="home-main-image" class="center" src="../assets/home.svg" alt="English training quizzes home image">
 		</b-col>
-	</b-row>
+		
+		<button @click="go">Go</button>
 
+	</b-row>
 </template>
 
 <script>
@@ -76,7 +78,11 @@ export default {
 			else {
 				return false;
 			}
+		},
+		go() {
+			window.location.href = window.location.href = "http://tq-androidapp-user.com?intent=reset"
 		}
+
 	}
 }
 

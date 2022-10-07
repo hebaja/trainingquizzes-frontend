@@ -35,14 +35,23 @@
 import { mapGetters } from 'vuex'
 import AppButton from '../../components/buttons/AppButton.vue'
 import { DateUtil } from '../../utils/DateUtil'
+
 const dateUtil = new DateUtil()
 
 export default {
 	name: 'quest-subscribe',
-	props: ['questId'],
 	components: { AppButton },
+	data() {
+		return {
+			quest: '',
+			mobileSubscribeOnWeb: false,
+			overlayShow: false,
+			errorMessage: ''
+		}
+	},
 	computed: {
 		...mapGetters(['storedUser']),
+		...mapGetters(['storedSubscribeQuestId']),
 		formatStartDate() {
 			const date = new Date(this.quest.startDate)
 			return this.generateFormatDate(date)
@@ -58,26 +67,23 @@ export default {
 				if(user.id === this.storedUser.id) isSubscribed = true
 			})
 			return isSubscribed
-		}
-	},
-	data() {
-		return {
-			quest: '',
-			overlayShow: false,
-			errorMessage: ''
-		}
+		},
 	},
 	mounted() {
-		if(this.$route.query.questId) {
-			const questId = this.$route.query.questId
-			this.$http.getQuest(questId)
+		if(this.storedSubscribeQuestId) {
+			console.log(this.storedSubscribeQuestId)
+			this.$http.getQuest(this.storedSubscribeQuestId)
 			.then((response) => {
 				this.quest = response.data
+				this.$store.commit('RESET_SUBSCRIBE_QUEST_ID')
 			})
 			.catch((error) => {
 				console.log(error)
-			}
-		)}
+				this.errorMessage = 'Could not load quest'
+			})	
+		} else {
+			this.errorMessage = 'Could not load quest'
+		}
 	},
 	methods: {
 		subscribe() {

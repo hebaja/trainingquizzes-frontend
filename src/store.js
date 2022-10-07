@@ -14,6 +14,7 @@ const state = {
     userAuthor: {},
     finalScoreObject: {},
     exercise: {},
+    subscribeQuestId: null
 }
 
 const mutations = {
@@ -54,6 +55,12 @@ const mutations = {
     },
     UPDATE_FINAL_SCORE_OBJECT(state) {
         state.finalScoreObject.userId = state.user.id
+    },
+    DEFINE_SUBSCRIBE_QUEST_ID(state, questId) {
+        state.subscribeQuestId = questId
+    },
+    RESET_SUBSCRIBE_QUEST_ID(state) {
+        state.subscribeQuestId = null
     },
     DEFINE_USER_IS_TEACHER(state) {
         if(state.user.roles) {
@@ -204,7 +211,7 @@ const actions = {
         commit('DEFINE_USER_AUTHOR', {
             user: user
         })
-    }
+    },
 }
 
 const getters = {
@@ -216,7 +223,8 @@ const getters = {
 	userIsTeacher: state => state.userIsTeacher,
     userIsStudent: state => state.userIsStudent,
     userHasSingleRole: state => state.user.roles ? state.user.roles.length === 1 : true,
-    storedUserAuthor: state => state.userAuthor
+    storedUserAuthor: state => state.userAuthor,
+    storedSubscribeQuestId: state => state.subscribeQuestId
 }
 
 export default new Vuex.Store({

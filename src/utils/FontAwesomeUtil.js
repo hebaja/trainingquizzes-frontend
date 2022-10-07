@@ -38,6 +38,8 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { faStarHalfStroke } from '@fortawesome/free-solid-svg-icons'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
+import { faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { faAndroid } from '@fortawesome/free-brands-svg-icons'
 
 export class FontAwesomeCreator {
 
@@ -81,9 +83,9 @@ export class FontAwesomeCreator {
 			faList,
 			faLink,
 			faStarHalfStroke,
-			faCheckDouble)
-
+			faCheckDouble,
+			faGlobe,
+			faAndroid)
 	}
-
 }
 

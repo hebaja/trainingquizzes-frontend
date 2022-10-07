@@ -197,7 +197,7 @@
 						<ShowPartialScore :scores="quest.scores" />
 
 						<b-col cols="12" lg="8" offset-lg="2" class="mt-3">
-							<b-alert variant="success" show class="text-center">Subscription link: {{ urlBase }}/#/quest-subscribe?questId={{ quest.id }}</b-alert>
+							<b-alert variant="success" show class="text-center">Subscription link: {{ urlBase }}/#/quest-subscribe-filter?questId={{ quest.id }}</b-alert>
 						</b-col>
 
 						<b-col cols="12" class="text-center mt-3">
@@ -483,7 +483,7 @@ export default {
 		},
 		copySubscriptionInvitation() {
 			const urlBase = process.env.VUE_APP_DEFAULT_BASE_URL
-			navigator.clipboard.writeText(urlBase + '/#/quest-subscribe?questId=' + this.quest.id)
+			navigator.clipboard.writeText(urlBase + '/#/quest-subscribe-filter?questId=' + this.quest.id)
 
 			this.$notice['success']({
 				title: 'Success',

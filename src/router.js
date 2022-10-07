@@ -21,6 +21,7 @@ import Quest from './views/quest/Quest'
 import SubscribeToQuest from './views/quest/SubscribeToQuest'
 import SubscribedQuest from './views/quest/SubscribedQuest'
 import AndroidRedirect from './views/user/AndroidRedirect'
+import QuestSubscribeFilter from './views/quest/QuestSubscribeFilter'
 
 Vue.use(VueRouter)
 
@@ -102,7 +103,8 @@ const routes = [
 	{
 		path: "/quest-subscribe",
 		name: "quest-subscribe",
-		component: SubscribeToQuest
+		component: SubscribeToQuest,
+		props: true
 	},
 	{
 		path: "/reset-password-request",
@@ -149,6 +151,14 @@ const routes = [
 		path: "/android-redirect",
 		name: "android-redirect",
 		component: AndroidRedirect,
+		meta: {
+			public: true
+		}
+	},
+	{
+		path: "/quest-subscribe-filter",
+		name: "quest-subscribe-filter",
+		component: QuestSubscribeFilter,
 		meta: {
 			public: true
 		}
