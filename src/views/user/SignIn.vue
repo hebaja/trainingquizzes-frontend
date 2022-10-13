@@ -168,8 +168,6 @@ export default {
 		}
 	},
 	mounted() {
-
-		
 		if(this.userIsSignedIn) {
 			this.$router.push({ name: 'quiz-by-levels' })
 		}
@@ -181,7 +179,6 @@ export default {
 			this.$http.confirmUserRegister(this.userRegisterToken)
 			.then((response) => {
 				if(mobileUtil.isMobile()) this.$router.push({ name: 'android-redirect' })
-				// if(mobileUtil.isMobile()) window.location.href = "http://tq-androidapp-user.com?intent=signin"
 				else this.message = response.data.username + ' has been registered. You can sign in now'
 				this.$notice['success']({
 					title: 'Success',

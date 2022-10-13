@@ -109,7 +109,6 @@ export default {
 		return http.post('/api/trial/update', trial)
 	},
 
-
 	getTeachers(page, size, query) {
 		return http.get('/api/user/teachers', { params: { page, size, query }})
 	},
