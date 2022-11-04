@@ -33,14 +33,19 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import AppButton from '../../components/buttons/AppButton.vue'
 import { DateUtil } from '../../utils/DateUtil'
+import AppButton from '../../components/buttons/AppButton.vue'
 
 const dateUtil = new DateUtil()
 
 export default {
 	name: 'quest-subscribe',
 	components: { AppButton },
+	props: {
+		receivedQuest: {
+			type: Object
+		}
+	},
 	data() {
 		return {
 			quest: '',
@@ -71,7 +76,6 @@ export default {
 	},
 	mounted() {
 		if(this.storedSubscribeQuestId) {
-			console.log(this.storedSubscribeQuestId)
 			this.$http.getQuest(this.storedSubscribeQuestId)
 			.then((response) => {
 				this.quest = response.data
@@ -81,9 +85,10 @@ export default {
 				console.log(error)
 				this.errorMessage = 'Could not load quest'
 			})	
-		} else {
-			this.errorMessage = 'Could not load quest'
-		}
+		} 
+		else if(this.receivedQuest) this.quest = this.receivedQuest
+		else this.errorMessage = 'Could not load quest'
+		
 	},
 	methods: {
 		subscribe() {

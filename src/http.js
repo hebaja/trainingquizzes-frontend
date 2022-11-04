@@ -16,6 +16,8 @@ if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com'
 else if(isMobile()) url = 'http://192.168.1.100:8080'
 else url = 'http://localhost:8080'
 
+// url = 'http://192.168.122.2:8080'
+
 const http = axios.create({
 	baseURL: url,
 	headers: {
@@ -76,11 +78,14 @@ export default {
 	getQuest(questId, userId) {
 		return http.get('/api/quest', { params: { questId: questId, userId: userId }})
 	},
-	getCreatedQuests(userId) {
-		return http.get('/api/quest/created-quests', { params: { userId: userId, sort: 'startDate,desc' }})
+	getQuestByPin(pin) {
+		return http.get('/api/quest/pin', { params: { pin: pin }})
 	},
-	getSubscribedQuests(userId) {
-		return http.get('/api/quest/subscribed-quests', { params: { userId: userId, sort: 'startDate,desc' }})
+	getCreatedQuests(userId, page, size) {
+		return http.get('/api/quest/created-quests', { params: { userId: userId, page: page, size: size,  sort: 'startDate,desc' }})
+	},
+	getSubscribedQuests(userId, page, size) {
+		return http.get('/api/quest/subscribed-quests', { params: { userId: userId, page: page, size: size, sort: 'startDate,desc' }})
 	},
 	registerQuest(quest) {
 		return http.put('/api/quest', quest)

@@ -122,7 +122,6 @@ export default {
 		},
 		shiftPage(index) {
 			this.$emit('shiftPage', index)
-			
 		},
 		pageBack() {
 			let shift = this.pageRequest - 1

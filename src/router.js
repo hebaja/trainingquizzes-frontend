@@ -22,6 +22,7 @@ import SubscribeToQuest from './views/quest/SubscribeToQuest'
 import SubscribedQuest from './views/quest/SubscribedQuest'
 import AndroidRedirect from './views/user/AndroidRedirect'
 import QuestSubscribeFilter from './views/quest/QuestSubscribeFilter'
+import QuestPinInsert from './views/quest/QuestPinInsert'
 
 Vue.use(VueRouter)
 
@@ -162,6 +163,11 @@ const routes = [
 		meta: {
 			public: true
 		}
+	},
+	{
+		path: "/pin",
+		name: "quest-pin-insert",
+		component: QuestPinInsert,
 	}
 ]
 

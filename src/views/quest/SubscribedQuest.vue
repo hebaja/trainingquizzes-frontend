@@ -179,7 +179,7 @@ export default {
 			this.trialsOverlayShow = true
 			this.$http.openTrial(trialForm)
 			.then((response) => {
-				this.$router.push({ name: 'trial-quiz', params: { receivedTrial: response.data, questId: this.openQuest.id } })
+				this.$router.push({ name: 'trial-quiz', params: { receivedTrial: response.data, receivedQuestId: this.openQuest.id } })
 				this.trialsOverlayShow = false
 			})
 			.catch((error) => {

@@ -3,7 +3,14 @@
 		<b-col cols="12" style="line-height: normal;">
 			<p id="home-main-text">Assess the knowledge and understanding of your students with steady practice! Join <span style="color: #1a237e;">Training Quizzes</span>!</p>
 		</b-col>
-		<b-col cols="12" xl="10" class="mt-3 mx-auto">
+
+		<b-col cols="10" class="mx-auto mt-2">
+			<AppButton @appButtonClick="subscribeToQuest">
+				Subscribe to quest
+			</AppButton>
+		</b-col>
+
+		<b-col cols="12" xl="10" class="mt-4 mx-auto">
 			<AppSearch :inputLabel='mobileUtil.isMobile() ? "Text here" : "What are you looking for?"'/>
 		</b-col>
 		<b-col cols="12" xl="10" class="mt-3 mx-auto">
@@ -11,7 +18,8 @@
 				<SubjectItems :subjects="payload.content" :overlayShow="overlayShow"/>
 			</Pagination>
 		</b-col>
-		<b-col cols="12" class="mx-auto">
+			
+		<b-col cols="12" class="mx-auto mt-2">
 			<img id="home-main-image" class="center" src="../assets/home.svg" alt="English training quizzes home image">
 		</b-col>
 	</b-row>
@@ -23,6 +31,7 @@ import Pagination from '../components/Pagination.vue'
 import AppSearch from '../components/Search.vue'
 import SubjectItems from '../components/lists/SubjectItems.vue'
 import { MobileUtil } from '../utils/MobileUtil'
+import AppButton from '../components/buttons/AppButton.vue'
 
 const mobileUtil = new MobileUtil()
 
@@ -31,7 +40,8 @@ export default {
 	components: {
 		Pagination,
 		AppSearch,
-		SubjectItems
+		SubjectItems,
+		AppButton
 	},
 	data() {
 		return {
@@ -75,6 +85,9 @@ export default {
 			else {
 				return false;
 			}
+		},
+		subscribeToQuest() {
+			this.$router.push({ name: 'quest-pin-insert' })
 		}
 	}
 }

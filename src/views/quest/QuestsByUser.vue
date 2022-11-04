@@ -12,7 +12,7 @@
 				<p v-if="errorMessage" class="text-center text-danger">{{ errorMessage }}</p>	
 			</b-col>
 			<div v-if="createdQuestsTabActive">
-				<Pagination :payload="payload" :overlayShow="overlayShow">
+				<Pagination :payload="payload" :overlayShow="overlayShow" @shiftPage="shiftQuestsPage">
 					<QuestItems :quests="payload.content" @questItemClick="openCreatedQuest($event)"/>
 				</Pagination>
 				<b-col cols="12" lg="8"  class="mx-auto mt-2">
@@ -23,7 +23,7 @@
 				</b-col>
 			</div>
 			<div v-if="subscribedQuestTabActive">
-				<Pagination :payload="payload" :overlayShow="overlayShow">
+				<Pagination :payload="payload" :overlayShow="overlayShow" @shiftPage="shiftQuestsPage">
 					<QuestItems :quests="payload.content" @questItemClick="openSubscribedQuest($event)"/>
 				</Pagination>
 			</div>
@@ -47,7 +47,8 @@ export default {
 			subscribedQuestTabActive: false,
 			createdQuestsTabClass: '',
 			subscribedQuestsTabClass: '',
-			errorMessage: ''
+			errorMessage: '',
+			pageSize: 6
 		}
 	},
 	components: {
@@ -63,10 +64,11 @@ export default {
 	},
 	mounted() {
 		this.overlayShow = true
+		const page = 0
 		if(this.userIsTeacher) {
-			this.requestCreatedQuests()
+			this.requestCreatedQuests(page)
 		} else {
-			this.requestSubscribedQuests()
+			this.requestSubscribedQuests(page)
 		}
 	},
 	methods: {
@@ -102,8 +104,8 @@ export default {
 			})
 			
 		},
-		requestCreatedQuests() {
-			this.$http.getCreatedQuests(this.storedUser.id)
+		requestCreatedQuests(page) {
+			this.$http.getCreatedQuests(this.storedUser.id, page, this.pageSize)
 			.then((response) => {
 				this.payload = response.data
 				this.overlayShow = false
@@ -117,8 +119,8 @@ export default {
 				this.errorMessage = 'There was a problem when loading quests'
 			})
 		},
-		requestSubscribedQuests() {
-			this.$http.getSubscribedQuests(this.storedUser.id)
+		requestSubscribedQuests(page) {
+			this.$http.getSubscribedQuests(this.storedUser.id, page, this.pageSize)
 			.then((response) => {
 				this.payload = response.data
 				this.overlayShow = false
@@ -131,6 +133,14 @@ export default {
 				this.overlayShow = false
 				this.errorMessage = 'There was a problem when loading quests'
 			})
+		},
+		shiftQuestsPage(page) {
+			this.overlayShow = true
+			if(this.userIsTeacher) {
+				this.requestCreatedQuests(page)
+			} else {
+				this.requestSubscribedQuests(page)
+			}
 		},
 		activateCreatedQuestsTab() {
 			this.requestCreatedQuests()

@@ -197,7 +197,11 @@
 						<ShowPartialScore :scores="quest.scores" />
 
 						<b-col cols="12" lg="8" offset-lg="2" class="mt-3">
-							<b-alert variant="success" show class="text-center">Subscription link: {{ urlBase }}/#/quest-subscribe-filter?questId={{ quest.id }}</b-alert>
+							<b-alert variant="success" show class="text-center">
+								Subscription link: {{ urlBase }}/#/quest-subscribe-filter?questId={{ quest.id }}
+								<br/>
+								Subscription code: {{ quest.pin }}
+							</b-alert>
 						</b-col>
 
 						<b-col cols="12" class="text-center mt-3">

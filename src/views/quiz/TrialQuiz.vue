@@ -3,6 +3,9 @@
 		<div v-if="errorMessage" class="mt-4">
 			<p class="text-danger text-center">{{ errorMessage }}</p>
 		</div>
+
+		<b-overlay :show="trialOverlayShow" rounded="lg"/>
+
 		<div id="quiz" v-if="trial.task">
 			<b-col cols="12">
 				<h3 class="text-center mt-3">{{ trial.task.prompt }}</h3>
@@ -49,6 +52,7 @@
 
 <script>
 import { QuizUtil } from '../../utils/QuizUtil'
+import { mapGetters } from 'vuex'
 
 const quizUtil = new QuizUtil()
 
@@ -56,7 +60,7 @@ export default {
 	name: 'trial-quiz',
 	props: {
 		receivedTrial: Object,
-		questId: Number
+		receivedQuestId: Number
 	},
 	data() {
 		return {
@@ -66,12 +70,14 @@ export default {
 
 			trial: {},
 			transientTrial: {},
+			questId: null,
 			score: 0,
 
 			optionButtonDisabled: false,
 			showNextQuestionSection: false,
 			currentTask: null,
 			overlayShow: false,
+			trialOverlayShow: false,
 			finishTrialOverlayShow: false,
 
 			warning: {
@@ -83,6 +89,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters(['storedUser']),
 		buttonNextLabel: function() {
 			return quizUtil.configureNextButtonLabel(this.trial.tasksIndex, true)
 		},
@@ -94,8 +101,40 @@ export default {
 		}
 	},
 	mounted() {
-		this.trial = this.receivedTrial
-		this.score = this.receivedTrial.score
+		if(this.receivedTrial) {
+			if(!this.receivedTrial.finished) {
+				this.trial = this.receivedTrial
+				this.questId = this.receivedQuestId
+			} else this.errorMessage = 'This trial has already been done'
+		} else if(this.$route.query.trialId){
+			if(this.storedUser.id == this.$route.query.userId) {
+				const trialForm = {
+					trialId: this.$route.query.trialId,
+					userId: this.$route.query.userId,
+					trialNumber: this.$route.query.trialNumber
+				}
+				this.trialOverlayShow = true
+				this.$http.openTrial(trialForm)
+				.then((response) => {
+					
+					if(!response.data.finished) {
+						this.trial = response.data
+						this.questId = response.data.questId
+					} else this.errorMessage = 'This trial has already been done'
+					this.trialOverlayShow = false
+				})
+				.catch((error) => {
+					console.log(error)
+					this.trialOverlayShow = false
+					this.errorMessage = "It was not possible to load quest"	
+				})
+			} else {
+				this.errorMessage = "This trial does not belong to this user"
+				this.trialOverlayShow = false
+			}
+		} else {
+			this.errorMessage = "It was not possible to load quest"
+		}
 	},
 	methods: {
 		checkOption(correct) {
