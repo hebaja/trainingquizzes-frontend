@@ -17,7 +17,7 @@
 						spinner-small
 						spinner-variant="primary"
 						class="d-inline-block">
-						<b-button style="background-color: #ffa726;" type="submit">Button</b-button>
+						<b-button style="background-color: #ffa726;" type="submit">Subscribe</b-button>
 					</b-overlay>
 				</b-input-group>
 				<span v-if="$v.pin.$error" class="text-danger">This field is required</span>
