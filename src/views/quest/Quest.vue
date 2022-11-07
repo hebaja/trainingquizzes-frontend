@@ -283,6 +283,7 @@ export default {
 			finishDateForm: '',
 			errorMessage: '',
 			showQuestOverlay: false,
+			timeZone: '',
 			urlBase: process.env.VUE_APP_DEFAULT_BASE_URL
         }
     },
@@ -365,9 +366,9 @@ export default {
 			this.startDateForm = this.quest.startDate
 			this.finishDateForm = this.quest.finishDate
 			this.trialsQuantity = this.quest.timeInterval
+			this.timeZone = this.quest.timeZone
 			this.userSubjectsOptions = this.quest.user.subjects.filter(subject => subject.id != this.subject.id)
 			this.formatDates()
-
 
 			console.log(this.quest)
 		} else {
@@ -407,7 +408,7 @@ export default {
 					title: this.quest.title,
 					startDate: this.fullSelectedStartDateTime,
 					finishDate: this.fullSelectedFinishDateTime,
-					timeZone: dateUtil.getTimeZone(),
+					timeZone: this.timeZone,
 					subjectId: this.subject.id,
 					timeInterval: this.trialsQuantity,
 					trials: this.trials,

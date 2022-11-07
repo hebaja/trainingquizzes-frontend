@@ -36,6 +36,9 @@ import { mapGetters } from 'vuex'
 import Pagination from '../../components/Pagination.vue'
 import QuestItems from '../../components/lists/QuestItems.vue'
 import AppButton from '../../components/buttons/AppButton.vue'
+import { DateUtil } from '../../utils/DateUtil'
+
+const dateUtil = new DateUtil()
 
 export default {
 	name: 'quests-by-user',
@@ -91,6 +94,7 @@ export default {
 					timeUnit: 'NANOS',
 					title: '',
 					trials: [],
+					timeZone: dateUtil.getTimeZone(),
 					user: this.storedUser
 				}
 				this.$router.push({ name: 'quest', params: { openQuest: createdQuest } })
