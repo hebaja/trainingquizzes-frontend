@@ -17,6 +17,7 @@ else if(isMobile()) url = 'http://192.168.1.100:8080'
 else url = 'http://localhost:8080'
 
 // url = 'http://192.168.122.2:8080'
+// url = 'https://trainingquizzes.com'
 
 const http = axios.create({
 	baseURL: url,

@@ -28,4 +28,8 @@ export class DateUtil {
         return hours + ":" + minutes
     }
 
+    getTimeZone() {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone
+    }
+
 }

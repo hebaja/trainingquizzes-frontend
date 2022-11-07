@@ -407,12 +407,16 @@ export default {
 					title: this.quest.title,
 					startDate: this.fullSelectedStartDateTime,
 					finishDate: this.fullSelectedFinishDateTime,
+					timeZone: dateUtil.getTimeZone(),
 					subjectId: this.subject.id,
 					timeInterval: this.trialsQuantity,
 					trials: this.trials,
 					userId: this.storedUser.id,
 					subscribedUsers: this.quest.subscribedUsers,
 				}
+
+				console.log(questForm)
+
 				this.showQuestOverlay = true
 				this.$http.registerQuest(questForm)
 				.then((response) => {
