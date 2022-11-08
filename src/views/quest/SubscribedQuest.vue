@@ -195,6 +195,20 @@ export default {
 		trialIsBetweenStartAndFinishDate(receivedStartDate, receivedFinishDate) {
 			const startDate = new Date(receivedStartDate)
 			const finishDate = new Date(receivedFinishDate)
+
+			const systemTimeZone = dateUtil.getTimeZone()
+			const questTimeZone = this.quest.timeZone
+
+			if(systemTimeZone != questTimeZone) {
+				const convertedStartDate = dateUtil.convertToLocalDateTime(startDate)
+				const convertedFinishDate = dateUtil.convertToLocalDateTime(finishDate)
+
+				return this.checkIfTrialCanBeTaken(convertedStartDate, convertedFinishDate)
+			} else {
+				return this.checkIfTrialCanBeTaken(startDate, finishDate)
+			}
+		},
+		checkIfTrialCanBeTaken(startDate, finishDate) {
 			const trialCanBeTaken = startDate.getTime() < this.currentDate.getTime() && finishDate.getTime() > this.currentDate.getTime()
 			return !trialCanBeTaken
 		},
@@ -203,7 +217,22 @@ export default {
 			return this.currentDate > finishDate
 		},
 		generateDate(rawDate) {
-			return dateUtil.formatDateAndTime(rawDate)
+
+			const systemTimeZone = dateUtil.getTimeZone()
+			const questTimeZone = this.quest.timeZone
+
+			if(systemTimeZone != questTimeZone) {
+				
+				const convertedRawDate = dateUtil.convertToLocalDateTime(rawDate)
+				return dateUtil.formatDateAndTime(convertedRawDate)
+				
+			} else {
+				
+				return dateUtil.formatDateAndTime(rawDate)
+				
+			}
+
+			
 		}
 	}
 }

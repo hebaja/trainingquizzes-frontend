@@ -1,7 +1,7 @@
 <template>
 	<b-row class="mt-lg-4 mt-3 mx-auto">
 		<b-col cols="12" style="line-height: normal;">
-			<p id="home-main-text">Assess the knowledge and understanding of your students with steady practice! Join <span style="color: #1a237e;">Training Quizzes</span>!!!</p>
+			<p id="home-main-text">Assess the knowledge and understanding of your students with steady practice! Join <span style="color: #1a237e;">Training Quizzes</span>!</p>
 		</b-col>
 
 		<b-col cols="10" class="mx-auto mt-2">

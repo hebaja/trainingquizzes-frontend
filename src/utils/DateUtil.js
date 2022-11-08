@@ -32,4 +32,36 @@ export class DateUtil {
         return Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
+    convertToLocalDateTime(rawDate) {
+        const date = new Date(rawDate)
+        const offset = (date.getTimezoneOffset() / 60) * -1
+        const utc = date.getTime()
+        
+        return new Date(utc + (3600000*offset))
+    }
+
+    convertToUTCDateTime(date) {
+        const utcYear = date.getUTCFullYear()
+        const utcMonth = date.getUTCMonth()
+        const utcDay = date.getUTCDate()
+        const utcHours = date.getUTCHours()
+        const utcMinutes = date.getUTCMinutes()
+        const utcSeconds = date.getUTCSeconds()
+        const utcMillis = date.getUTCMilliseconds()
+
+        return new Date(utcYear, utcMonth, utcDay, utcHours, utcMinutes, utcSeconds, utcMillis)
+    }
+
+    // convertToFullUTCDateTime(date) {
+    //     const utcYear = date.getUTCFullYear()
+    //     const utcMonth = date.getUTCMonth()
+    //     const utcDay = date.getUTCDate()
+    //     const utcHours = date.getUTCHours()
+    //     const utcMinutes = date.getUTCMinutes()
+    //     const utcSeconds = date.getUTCSeconds()
+    //     const utcMillis = date.getUTCMilliseconds()
+
+    //     return new Date(utcYear, utcMonth, utcDay, utcHours, utcMinutes, utcSeconds, utcMillis)
+    // }
+
 }

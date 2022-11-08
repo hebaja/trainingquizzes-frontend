@@ -363,14 +363,10 @@ export default {
 		if(this.openQuest) {
 			this.quest = this.openQuest
 			this.subject = this.quest.subject
-			this.startDateForm = this.quest.startDate
-			this.finishDateForm = this.quest.finishDate
 			this.trialsQuantity = this.quest.timeInterval
 			this.timeZone = this.quest.timeZone
 			this.userSubjectsOptions = this.quest.user.subjects.filter(subject => subject.id != this.subject.id)
 			this.formatDates()
-
-			console.log(this.quest)
 		} else {
 			this.$router.push({ name: 'quests-by-user' })
 		}
@@ -403,11 +399,12 @@ export default {
 		},
 		saveQuest() {
 			if(!this.$v.$invalid && this.finishDateIsHigherThanOneDay) {
+
 				let questForm = {
 					id: this.quest.id,
 					title: this.quest.title,
-					startDate: this.fullSelectedStartDateTime,
-					finishDate: this.fullSelectedFinishDateTime,
+					startDate: dateUtil.convertToUTCDateTime(new Date(this.fullSelectedStartDateTime)),
+					finishDate: dateUtil.convertToUTCDateTime(new Date(this.fullSelectedFinishDateTime)),
 					timeZone: this.timeZone,
 					subjectId: this.subject.id,
 					timeInterval: this.trialsQuantity,
@@ -473,8 +470,22 @@ export default {
 			this.userSubjectsOptions = this.userSubjectsOptions.filter(element => element.id != this.subject.id)
 		},
 		formatDates() {
-			const startDate = new Date(this.quest.startDate)
-			const finishDate = new Date(this.quest.finishDate)
+			const systemTimeZone = dateUtil.getTimeZone()
+			const questTimeZone = this.quest.timeZone
+
+			if(systemTimeZone != questTimeZone) {
+				const startDate = new Date(dateUtil.convertToLocalDateTime(this.quest.startDate))
+				const finishDate = new Date(dateUtil.convertToLocalDateTime(this.quest.finishDate))
+				this.generateDates(startDate, finishDate)
+			} else {
+				const startDate = new Date(this.quest.startDate)
+				const finishDate = new Date(this.quest.finishDate)
+				this.generateDates(startDate, finishDate)
+			}
+		},
+		generateDates(startDate, finishDate) {
+			this.startDateForm = startDate
+			this.finishDateForm = finishDate
 			this.formatStartTime = this.generateTime(startDate)
 			this.formatFinishTime = this.generateTime(finishDate)
 		},
@@ -551,7 +562,7 @@ export default {
 		},
 		updateSubscribedUsers(quest) {
 			this.quest = quest
-		}
+		},
 	}
 }
 </script>
