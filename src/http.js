@@ -12,7 +12,7 @@ function isMobile() {
 	}
 }
 
-if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com'
+if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com:8443'
 else if(isMobile()) url = 'http://192.168.1.100:8080'
 else url = 'http://localhost:8080'
 

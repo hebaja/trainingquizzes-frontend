@@ -67,6 +67,9 @@ export default {
 		requestSubjects(page) {
 			this.$http.getReducedSubjects(page, this.pageSize, 'creationDate,desc')
 			.then((response) => {
+
+				console.log(response.data)
+
 				this.payload = response.data
 				this.overlayShow = false
 			})
