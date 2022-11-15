@@ -87,15 +87,15 @@ export default {
 
 				let createdQuest = {
 					id: null,
-					startDate: dateUtil.convertToUTCDateTime(today),
-					finishDate: dateUtil.convertToUTCDateTime(tomorrow),
+					startDate: today,
+					finishDate: tomorrow,
 					subscribedUsers: [],
 					subject: '',
 					timeInterval: 1,
 					timeUnit: 'NANOS',
 					title: '',
 					trials: [],
-					timeZone: 'UTC',
+					timeZone: dateUtil.getTimeZone(),
 					user: this.storedUser
 				}
 				this.$router.push({ name: 'quest', params: { openQuest: createdQuest } })

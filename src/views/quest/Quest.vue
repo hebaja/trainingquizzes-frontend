@@ -367,6 +367,9 @@ export default {
 			this.timeZone = this.quest.timeZone
 			this.userSubjectsOptions = this.quest.user.subjects.filter(subject => subject.id != this.subject.id)
 			this.formatDates()
+
+			console.log(this.openQuest.startDate)
+
 		} else {
 			this.$router.push({ name: 'quests-by-user' })
 		}
@@ -401,9 +404,10 @@ export default {
 			if(!this.$v.$invalid && this.finishDateIsHigherThanOneDay) {
 
 
-
-				// console.log(this.fullSelectedStartDateTime)
-				// console.log(this.fullSelectedFinishDateTime)
+				// const aDate = new Date(this.fullSelectedStartDateTime)
+				// console.log(aDate)
+				console.log(this.fullSelectedStartDateTime)
+				console.log(this.fullSelectedFinishDateTime)
 
 				let questForm = {
 					id: this.quest.id,
@@ -475,18 +479,24 @@ export default {
 			this.userSubjectsOptions = this.userSubjectsOptions.filter(element => element.id != this.subject.id)
 		},
 		formatDates() {
-			const systemTimeZone = dateUtil.getTimeZone()
-			const questTimeZone = this.quest.timeZone
+			// const systemTimeZone = dateUtil.getTimeZone()
+			// const questTimeZone = this.quest.timeZone
 
-			if(systemTimeZone != questTimeZone) {
-				const startDate = new Date(dateUtil.convertToLocalDateTime(this.quest.startDate))
-				const finishDate = new Date(dateUtil.convertToLocalDateTime(this.quest.finishDate))
-				this.generateDates(startDate, finishDate)
-			} else {
+			// if(systemTimeZone != questTimeZone) {
+
+				// console.log(this.quest.startDate)
+
 				const startDate = new Date(this.quest.startDate)
 				const finishDate = new Date(this.quest.finishDate)
+
+				// console.log(startDate)
+
 				this.generateDates(startDate, finishDate)
-			}
+			// } else {
+			// 	const startDate = new Date(this.quest.startDate)
+			// 	const finishDate = new Date(this.quest.finishDate)
+			// 	this.generateDates(startDate, finishDate)
+			// }
 		},
 		generateDates(startDate, finishDate) {
 			this.startDateForm = startDate
