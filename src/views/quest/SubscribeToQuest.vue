@@ -94,7 +94,8 @@ export default {
 		subscribe() {
 			const subscribeForm = {
 				questId: this.quest.id,
-				userId: this.storedUser.id
+				userId: this.storedUser.id,
+				timeZone: dateUtil.getTimeZone()
 			}
 			this.overlayShow = true;
 			this.$http.subscribeToQuest(subscribeForm)
