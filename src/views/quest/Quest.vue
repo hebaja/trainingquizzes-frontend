@@ -402,13 +402,6 @@ export default {
 		},
 		saveQuest() {
 			if(!this.$v.$invalid && this.finishDateIsHigherThanOneDay) {
-
-
-				// const aDate = new Date(this.fullSelectedStartDateTime)
-				// console.log(aDate)
-				console.log(this.fullSelectedStartDateTime)
-				console.log(this.fullSelectedFinishDateTime)
-
 				let questForm = {
 					id: this.quest.id,
 					title: this.quest.title,
@@ -421,9 +414,6 @@ export default {
 					userId: this.storedUser.id,
 					subscribedUsers: this.quest.subscribedUsers,
 				}
-
-				console.log(questForm)
-
 				this.showQuestOverlay = true
 				this.$http.registerQuest(questForm)
 				.then((response) => {
@@ -479,24 +469,9 @@ export default {
 			this.userSubjectsOptions = this.userSubjectsOptions.filter(element => element.id != this.subject.id)
 		},
 		formatDates() {
-			// const systemTimeZone = dateUtil.getTimeZone()
-			// const questTimeZone = this.quest.timeZone
-
-			// if(systemTimeZone != questTimeZone) {
-
-				// console.log(this.quest.startDate)
-
-				const startDate = new Date(this.quest.startDate)
-				const finishDate = new Date(this.quest.finishDate)
-
-				// console.log(startDate)
-
-				this.generateDates(startDate, finishDate)
-			// } else {
-			// 	const startDate = new Date(this.quest.startDate)
-			// 	const finishDate = new Date(this.quest.finishDate)
-			// 	this.generateDates(startDate, finishDate)
-			// }
+			const startDate = new Date(this.quest.startDate)
+			const finishDate = new Date(this.quest.finishDate)
+			this.generateDates(startDate, finishDate)
 		},
 		generateDates(startDate, finishDate) {
 			this.startDateForm = startDate
