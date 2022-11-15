@@ -368,7 +368,7 @@ export default {
 			this.userSubjectsOptions = this.quest.user.subjects.filter(subject => subject.id != this.subject.id)
 			this.formatDates()
 
-			console.log(this.openQuest.startDate)
+			console.log(this.openQuest)
 
 		} else {
 			this.$router.push({ name: 'quests-by-user' })
