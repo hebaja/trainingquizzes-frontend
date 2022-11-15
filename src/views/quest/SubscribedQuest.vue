@@ -217,22 +217,7 @@ export default {
 			return this.currentDate > finishDate
 		},
 		generateDate(rawDate) {
-
-			const systemTimeZone = dateUtil.getTimeZone()
-			const questTimeZone = this.quest.timeZone
-
-			if(systemTimeZone != questTimeZone) {
-				
-				const convertedRawDate = dateUtil.convertToLocalDateTime(rawDate)
-				return dateUtil.formatDateAndTime(convertedRawDate)
-				
-			} else {
-				
-				return dateUtil.formatDateAndTime(rawDate)
-				
-			}
-
-			
+			return dateUtil.formatDateAndTime(rawDate)
 		}
 	}
 }
