@@ -35,11 +35,6 @@ import AppButton from '../components/buttons/AppButton.vue'
 
 const mobileUtil = new MobileUtil()
 
-
-
-
-
-
 export default {
 	name: 'index',
 	components: {
@@ -63,10 +58,6 @@ export default {
 		const page = 0
 		this.overlayShow = true
 		this.requestSubjects(page)
-
-
-		console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
-
 	},
 	methods: {
 		shiftLatestSubjectsPage(page) {
