@@ -41,13 +41,13 @@ export class DateUtil {
     }
 
     convertToUTCDateTime(date) {
-        const utcYear = date.getUTCFullYear()
-        const utcMonth = date.getUTCMonth()
-        const utcDay = date.getUTCDate()
+        const utcYear = date.getFullYear()
+        const utcMonth = date.getMonth()
+        const utcDay = date.getDate()
         const utcHours = date.getUTCHours()
-        const utcMinutes = date.getUTCMinutes()
-        const utcSeconds = date.getUTCSeconds()
-        const utcMillis = date.getUTCMilliseconds()
+        const utcMinutes = date.getMinutes()
+        const utcSeconds = date.getSeconds()
+        const utcMillis = date.getMilliseconds()
 
         return new Date(utcYear, utcMonth, utcDay, utcHours, utcMinutes, utcSeconds, utcMillis)
     }

@@ -400,11 +400,16 @@ export default {
 		saveQuest() {
 			if(!this.$v.$invalid && this.finishDateIsHigherThanOneDay) {
 
+
+
+				// console.log(this.fullSelectedStartDateTime)
+				// console.log(this.fullSelectedFinishDateTime)
+
 				let questForm = {
 					id: this.quest.id,
 					title: this.quest.title,
-					startDate: dateUtil.convertToUTCDateTime(new Date(this.fullSelectedStartDateTime)),
-					finishDate: dateUtil.convertToUTCDateTime(new Date(this.fullSelectedFinishDateTime)),
+					startDate: this.fullSelectedStartDateTime,
+					finishDate: this.fullSelectedFinishDateTime,
 					timeZone: this.timeZone,
 					subjectId: this.subject.id,
 					timeInterval: this.trialsQuantity,
