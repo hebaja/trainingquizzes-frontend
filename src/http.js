@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from './store'
+import router from './router'
 
 let url
 
@@ -36,6 +37,18 @@ http.interceptors.request.use(function(config) {
 }, function(error) {
 	return Promise.reject(error)
 })
+
+http.interceptors.response.use(function (response) {
+	return response;
+}, async function (error) {
+
+	console.log(error)
+
+	store.commit('SIGN_OUT_USER')
+	router.push({ name: 'signin' })
+	window.sessionStorage.clear()
+    return Promise.reject(error);
+});
 
 export default {
 	signin(user) {

@@ -230,7 +230,6 @@ export default {
 					styles: { top: "4em" }
 				})
 			}
-			
 		},
 		removeOption(index, optionIndex) {
 			if(this.editSubject.tasks[index].options.length > 2) {
@@ -241,7 +240,6 @@ export default {
 					description: 'You must have at least 2 options.'
 				})	
 			}
-			
 		},
 		saveSubject() {
 			let optionsAreValid = true;
@@ -260,6 +258,9 @@ export default {
 					}
 				}
 				if(optionsAreValid) {
+
+					console.log(this.editSubject)
+
 					this.$store.dispatch('updateUserSubjects', this.editSubject)
 					.then(() => {
 						this.$emit('returnToList')

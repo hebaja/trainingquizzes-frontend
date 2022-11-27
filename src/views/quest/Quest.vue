@@ -367,9 +367,6 @@ export default {
 			this.timeZone = this.quest.timeZone
 			this.userSubjectsOptions = this.quest.user.subjects.filter(subject => subject.id != this.subject.id)
 			this.formatDates()
-
-			console.log(this.openQuest)
-
 		} else {
 			this.$router.push({ name: 'quests-by-user' })
 		}
