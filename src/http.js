@@ -20,6 +20,8 @@ else url = 'http://localhost:8080'
 // url = 'http://192.168.122.2:8080'
 // url = 'https://trainingquizzes.com:8443'
 
+console.log(url)
+
 const http = axios.create({
 	baseURL: url,
 	headers: {
