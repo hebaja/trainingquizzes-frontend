@@ -1,8 +1,7 @@
 <template>
     <b-navbar toggleable="lg" style="background-color: #ffa726!important;">
         <b-navbar-brand class="ms-3" href="" to="/">
-            <img class="d-none d-lg-block" src="../assets/logo.svg" alt="English Training Quizzes main logo" />
-            <img class="d-sm-block d-lg-none" src="../assets/logo_reduced.svg" alt="English Training Quizzes main reduced logo">
+            <img src="../assets/logo.svg" alt="English Training Quizzes main logo" />
         </b-navbar-brand>
         <b-nav-toggle  class="me-3" target="nav-collapse"><font-awesome-icon class="ms-1" icon="fa-solid fa-caret-down" /></b-nav-toggle>
         <b-collapse id="nav-collapse" is-nav>

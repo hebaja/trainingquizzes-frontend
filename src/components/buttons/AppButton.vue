@@ -2,7 +2,8 @@
 	<b-button 
 		:type="buttonType"
 		:disabled="buttonDisabled"
-		:style="buttonColor"		
+		:style="buttonColor"
+		variant="success"		
 		id="app-button"
 		:class="buttonConfig"
 		@click="$emit('appButtonClick')">
@@ -38,6 +39,7 @@ export default {
 		},
 		buttonColor() {
 			if(this.buttonStyle == 'delete') return 'background-color: #dc3545!important; color: white!important;'
+			if(this.buttonStyle == 'save') return 'background-color: #118841!important; color: white!important;'
 			return 'background-color: #ffa726!important;'
 		},
 		isSmallShadow() {

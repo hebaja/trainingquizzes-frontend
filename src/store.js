@@ -14,7 +14,8 @@ const state = {
     userAuthor: {},
     finalScoreObject: {},
     exercise: {},
-    subscribeQuestId: null
+    subscribeQuestId: null,
+    editSubjectId: null
 }
 
 const mutations = {
@@ -58,6 +59,12 @@ const mutations = {
     },
     DEFINE_SUBSCRIBE_QUEST_ID(state, questId) {
         state.subscribeQuestId = questId
+    },
+    DEFINE_EDIT_SUBJECT_ID(state, subjectId) {
+        state.editSubjectId = subjectId
+    },
+    RESET_EDIT_SUBJECT_ID(state) {
+        state.editSubjectId = null
     },
     RESET_SUBSCRIBE_QUEST_ID(state) {
         state.subscribeQuestId = null
@@ -224,7 +231,8 @@ const getters = {
     userIsStudent: state => state.userIsStudent,
     userHasSingleRole: state => state.user.roles ? state.user.roles.length === 1 : true,
     storedUserAuthor: state => state.userAuthor,
-    storedSubscribeQuestId: state => state.subscribeQuestId
+    storedSubscribeQuestId: state => state.subscribeQuestId,
+    storedEditSubjectId: state => state.editSubjectId
 }
 
 export default new Vuex.Store({

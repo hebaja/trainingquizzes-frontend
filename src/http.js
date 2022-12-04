@@ -15,12 +15,10 @@ function isMobile() {
 
 if(process.env.NODE_ENV === 'production') url = 'https://trainingquizzes.com:8443'
 else if(isMobile()) url = 'http://192.168.1.100:8080'
-else url = 'http://localhost:8080'
+else url = 'http://192.168.1.100:8080'
 
-url = 'http://192.168.122.2:8080'
+// url = 'http://192.168.122.2:8080'
 // url = 'https://trainingquizzes.com:8443'
-
-console.log(url)
 
 const http = axios.create({
 	baseURL: url,
@@ -43,12 +41,12 @@ http.interceptors.request.use(function(config) {
 http.interceptors.response.use(function (response) {
 	return response;
 }, async function (error) {
-
 	console.log(error)
-
-	store.commit('SIGN_OUT_USER')
-	router.push({ name: 'signin' })
-	window.sessionStorage.clear()
+	if(error == 'Error: Request failed with status code 401') {
+		store.commit('SIGN_OUT_USER')
+		router.push({ name: 'signin' })
+		window.sessionStorage.clear()
+	}
     return Promise.reject(error);
 });
 
@@ -72,13 +70,16 @@ export default {
 		return http.delete('/api/user', { params: { userId: userId } })
 	},
 
+	getSubject(subjectId) {
+		return http.get('/api/subject', { params: { subjectId: subjectId } })
+	},
 	getSubjects(userId) {
 		return http.get('/api/subject/teacher', { params: { id: userId } })
 	},
 	getReducedSubjects(page, size, sort, query, userId) {
 		return http.get('/api/subject/reduced-list', { params:{ query: query, page: page, size: size, sort: sort, userId: userId }})
 	},
-	updateSubjects(subject) {
+	updateSubject(subject) {
 		return http.put('/api/subject', subject)
 	},
 	deleteSubject(subjectId) {
@@ -87,6 +88,10 @@ export default {
 	getSubjectsByUserAndLevel(userAuthorId, page, size, level) {
 		return http.get('/api/subject/user', { params: { userId: userAuthorId, page: page, size: size, sort: 'creationDate,desc', level: level }})
 	},
+	getSubjectByTeacerh(userId, page, size) {
+		return http.get('/api/subject/pageable-teacher', { params: { userId: userId, page: page, size: size, sort:'creationDate,desc' }})
+	},
+
 	getRegularQuiz(subjectId) {
 		return http.get('/api/task', { params: { subjectId: subjectId }})
 	},
@@ -136,8 +141,8 @@ export default {
 	saveResult(finalScore) {
 		return http.post('/api/exercise/save', finalScore)
 	},
-	fetchAverages(user) {
-		return http.post('/api/averages', user)
+	fetchAverages(userId, page, size) {
+		return http.get('/api/averages', { params: { userId: userId, page: page, size: size } })
 	},
 	requestPasswordReset(user) {
 		return http.post('/api/reset-password/request', user)

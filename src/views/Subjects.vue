@@ -1,68 +1,27 @@
 <template>
 	<b-row class="mt-3">
-		<b-overlay :show="showOverlay">
-			<div v-if="!editMode">
-				<b-col cols="12">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Subject</th>
-								<th>Level</th>
-								<th class="text-center">
-									<span v-if="mobileUtil.isMobile()">Tasks#</span>
-									<span v-else>Number of tasks</span>
-								</th>
-								<th class="text-center">Edit</th>
-								<th class="text-center">Remove</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(subject, index) in subjects" :key="subject.id">
-								<th>{{ index + 1 }}</th>
-								<td>{{ subject.title }}</td>
-								<td>{{ subject.level.charAt(0) + subject.level.slice(1).toLowerCase() }}</td>
-								<td class="text-center">{{ subject.tasks.length }}</td>
-								<td class="text-center">
-									<b-link href="#" class="custom-link" @click="edit(index)">
-										<font-awesome-icon class="ms-1" icon="fa-solid fa-pencil" />
-									</b-link>
-								</td>
-								<td class="text-center">
-									<b-link href="#" class="custom-link" @click="showDeleteModal(subject.id)">
-										<font-awesome-icon class="ms-1" icon="fa-solid fa-trash" />
-									</b-link>
-								</td>
-							</tr>
-							<Modal 
-								:modalId="'modal-delete-subject'"
-								:message="'Do you really want to delete this subject?'"
-								@componentFunction="deleteSubject(subjectToBeRemovedId)"
-								:confirmButtonLabel="'Delete'">
-							</Modal>
-						</tbody>
-					</table>
-				</b-col>
-				<b-col cols="12" lg="8"  class="mx-auto mt-2">
-					<AppButton 
-						@appButtonClick="addSubject">
-						Add subject
-					</AppButton>
-				</b-col>
-			</div>
-			<div v-else>
-				<Subject :subject="subject" @returnToList="returnToList" @updateSubjects="updateSubjects($event)"/>
-			</div>
+		<b-overlay :show="overlayShow" rounded="sm" opacity="0.9" variant="transparent" blur="5px">
+			<b-col cols="12" v-if="payload != ''">
+				<Pagination :payload="payload" :overlayShow="overlayShow" @shiftPage="shiftSubjectsPage">
+					<SubjectsItems :subjects="payload.content" @subjectItemClick="openSubject($event)" />
+				</Pagination>
+			</b-col>
+			<b-col cols="12" lg="8"  class="mx-auto mt-2">
+				<AppButton 
+					@appButtonClick="addSubject">
+					Add subject
+				</AppButton>
+			</b-col>
 		</b-overlay>
 	</b-row>
 </template>
 
 <script>
-import Modal from '../components/Modal.vue'
-import Subject from '../components/Subject.vue'
 import { mapGetters } from 'vuex'
 import AppButton from '../components/buttons/AppButton.vue'
 import { MobileUtil } from '../utils/MobileUtil'
+import Pagination from '../components/Pagination.vue'
+import SubjectsItems from '../components/lists/SubjectsItems.vue'
 
 const mobileUtil = new MobileUtil()
 
@@ -72,21 +31,30 @@ export default {
         return {
             subjects: '',
 			subject: {},
-			editMode: false,
 			subjectToBeRemovedId: null,
-			showOverlay: false,
-			mobileUtil: mobileUtil
+			overlayShow: false,
+			mobileUtil: mobileUtil,
+			pageSize: 2,
+
+			payload: ''
         }
     },
 	components: {
-		Modal,
-		Subject,
-		AppButton
+		AppButton,
+		Pagination,
+		SubjectsItems
 	},
 	computed: {
 		...mapGetters(['storedUser'])
 	},
     mounted() {
+
+		const page = 0
+
+		this.requestSubjects(page)
+
+
+
 		this.$store.dispatch('getUserSubjects', this.storedUser.id)
         .then((response) => {
 			this.subjects = response
@@ -114,19 +82,19 @@ export default {
 		},
 		deleteSubject(subjectId) {
 			this.$bvModal.hide('modal-delete-subject')
-			this.showOverlay = true
+			this.overlayShow = true
 			this.$http.deleteSubject(subjectId)
 			.then((response) => {
 				this.subjects = response.data
 				this.$store. commit('UPDATE_STORED_USER_SUBJECTS', {
                     subjects: response.data
                 })
-				this.showOverlay = false
+				this.overlayShow = false
 			})
 			.catch((error) => {
 				console.log(error.request)
 				this.$bvModal.hide('modal-delete-subject')
-				this.showOverlay = false
+				this.overlayShow = false
 			})
 		},
 		returnToList() {
@@ -148,13 +116,34 @@ export default {
 					prompt: '',
 					shuffleOptions: false,
 					options: [
-						{prompt: '', correct: false},
-						{prompt: '', correct: false}
+						{ prompt: '', correct: false },
+						{ prompt: '', correct: false }
 					]
 				})
 			}
-			this.subject = subject
-			this.editMode = true
+			this.$router.push({ name: 'subject', params: { newSubject: subject } })
+		},
+
+		requestSubjects(page) {
+			this.overlayShow = true
+			this.$http.getSubjectByTeacerh(this.storedUser.id, page, this.pageSize)
+			.then((response) => {
+				this.payload = response.data
+				this.overlayShow = false
+			})
+			.catch((error) => {
+				console.log('Error', error.message);
+				this.errorMessage = 'There was a problem. Please try again.'
+				this.overlayShow = false
+			})
+		},
+		shiftSubjectsPage(page) {
+			this.requestSubjects(page)
+
+		},
+		openSubject(subjectId) {
+			this.$store.commit('DEFINE_EDIT_SUBJECT_ID', subjectId)
+			this.$router.push({ name: 'subject', params: { subjectId: subjectId} })
 		}
 	}
 }

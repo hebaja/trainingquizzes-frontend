@@ -13,6 +13,7 @@ import ResetPassword from './views/user/ResetPassword'
 import DeleteUser from './views/user/DeleteUser'
 import Profile from './views/user/Profile'
 import Subjects from './views/Subjects'
+import Subject from './views/Subject'
 import QuizByLevels from './views/quiz/QuizByLevels'
 import RegularQuiz from './views/quiz/RegularQuiz'
 import TrialQuiz from './views/quiz/TrialQuiz'
@@ -127,6 +128,12 @@ const routes = [
 		path: "/subjects",
 		name: "subjects",
 		component: Subjects,
+	},
+	{
+		path: "/subject",
+		name: "subject",
+		component: Subject,
+		props: true
 	},
 	{
 		path: "/delete-user",

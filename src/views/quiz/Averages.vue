@@ -1,97 +1,43 @@
 <template>
 	<b-row>
-		<b-col cols="12" class="mt-4">
-			<font-awesome-icon class="ms-1" icon="fa-solid fa-user" /> {{ user.username }}
-		</b-col>
-		<b-col cols="12">
-			<font-awesome-icon class="ms-1" icon="fa-solid fa-at" /> {{ user.email }}
-		</b-col>
-		<p v-if="errorMessage" class="text-center text-danger">{{ errorMessage }}</p>
-		<hr class="mt-2"/>
-		<b-col cols="12" class="mx-auto d-none d-lg-block">
-			<b-overlay :show="averagesOvelayShow" rounded="sm">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Subject</th>
-						<th>Author</th>
-						<th>Level</th>
-						<th>Average</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="average in averages" :key="average.uid">
-						<td>{{ average.subjectTitle }}</td>
-						<td>{{ average.user.username }}</td>
-						<td>{{ average.levelCapitalize }}</td>
-						<td>
-							<b-progress :max="100" height="1.8em"
-							show-value>
-								<b-progress-bar 
-								:value="average.averageForMeter"
-								:variant="
-								average.averageForMeter <= 40 ? 'danger' :
-								average.averageForMeter > 40 && average.averageForMeter < 80 ? 'warning' :
-								'success'" 
-								show-progress animated>
-									<strong>
-										<span id="average-text">{{ average.averageForMeter }}%</span>
-									</strong>
-								</b-progress-bar>
-							</b-progress>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			</b-overlay>
-		</b-col>
-		<b-col cols="12" class="mx-auto d-md-block d-lg-none">
-			<div v-for="average in averages" :key="average.uid" class="card mb-1 bg-light border-secondary shadow" style="height: 6.8em;">
-				<div class="card-header">
-					{{ average.subjectTitle }}
-				</div>
-				<div class="card-body">
-					<h6 class="card-subtitle mb-1 text-muted">
-						<b-row>
-							<b-col>
-								Level: {{ average.levelCapitalize }}
-							</b-col>
-							<b-col>
-								Maker: {{ average.user.username }}
-							</b-col>
-						</b-row>
-					</h6>
-					<b-row>
-						<b-col cols="3">
-							Average:
-						</b-col>
-						<b-col cols="9" class="mt-1">
-							<Gauge :score="average.averageForMeter"/>
-						</b-col>
-					</b-row>
-				</div>
-			</div>
-		</b-col>
+		<b-overlay :show="overlayShow" rounded="sm" opacity="0.9" variant="transparent" blur="5px">
+			<b-col cols="12" class="mt-4">
+				<font-awesome-icon class="ms-1" icon="fa-solid fa-user" /> {{ storedUser.username }}
+			</b-col>
+			<b-col cols="12">
+				<font-awesome-icon class="ms-1" icon="fa-solid fa-at" /> {{ storedUser.email }}
+			</b-col>
+			<p v-if="errorMessage" class="text-center text-danger">{{ errorMessage }}</p>
+			<hr class="mt-2"/>
+			<b-col v-if="payload" cols="12">
+				<Pagination :payload="payload" @shiftPage="shiftAveragesPage">
+					<AverageItems :averages="payload.content" />
+				</Pagination>
+			</b-col>
+		</b-overlay>
 	</b-row>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Gauge from '../../components/Gauge.vue'
+import Pagination from '../../components/Pagination.vue'
+import AverageItems from '../../components/lists/AverageItems.vue'
 
 export default {
 	name: 'averages',
 	data() {
 		return {
 			user: {},
-			averages: {},
+			payload: null,
 			errorMessage: '',
 			disableButton: '',
-			averagesOvelayShow: false
+			pageSize: 2,
+			overlayShow: false
 		}
 	},
 	components: {
-		Gauge
+		Pagination,
+		AverageItems
 	},
 	computed: {
 		...mapGetters(['storedUser']),
@@ -102,21 +48,30 @@ export default {
 	},
 	mounted() {
 		if(this.storedUser) {
-			this.user = this.storedUser
-			this.averagesOvelayShow = true
-			this.$http.fetchAverages(this.user)
+			this.overlayShow = true
+			const page = 0
+			this.requestAverages(page, this.pageSize)
+		} else {
+			this.messageError = 'Averages could not be loaded. Please try again.'
+		}
+	},
+	methods: {
+		requestAverages(page, pageSize) {
+			this.$http.fetchAverages(this.storedUser.id, page, pageSize)
 			.then((response) => {
 				this.errorMessage = ''
-				this.averages = response.data
-				this.averagesOvelayShow = false
+				this.payload = response.data
+				this.overlayShow = false
 			})
 			.catch((error) => {
 				console.log(error.response)
 				this.messageError = 'Averages could not be retrieved. Please try again.'
-				this.averagesOvelayShow = false
+				this.overlayShow = false
 			})
-		} else {
-			this.messageError = 'Averages could not be loaded. Please try again.'
+		},
+		shiftAveragesPage(page) {
+			this.overlayShow = true
+			this.requestAverages(page, this.pageSize)
 		}
 	}
 }
