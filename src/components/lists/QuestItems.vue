@@ -1,6 +1,6 @@
 <template>
 	<b-list-group>
-		<b-list-group-item href="#" v-for="quest in quests" :key="quest.id" @click="openQuest(quest.id)">
+		<b-list-group-item href="#" v-for="quest in quests" :key="quest.id" @click="openQuest(quest.id)" :style="questIsFinished(quest)">
 			<b-col class="mx-auto d-none d-md-none d-lg-block">
 				<b-col class="d-flex w-100 justify-content-between">
 					<b-col>
@@ -43,6 +43,9 @@ export default {
 		formatDate(rawDate) {
 			return dateUtil.formatDate(rawDate)
         },
+		questIsFinished(quest) {
+			return quest.finished ? 'color: #bfbfbf;' : ''
+		}
 		
 	},
 }
