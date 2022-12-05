@@ -51,7 +51,7 @@ export default {
 			createdQuestsTabClass: '',
 			subscribedQuestsTabClass: '',
 			errorMessage: '',
-			pageSize: 6
+			pageSize: 10
 		}
 	},
 	components: {

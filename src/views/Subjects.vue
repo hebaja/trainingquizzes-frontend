@@ -34,7 +34,7 @@ export default {
 			subjectToBeRemovedId: null,
 			overlayShow: false,
 			mobileUtil: mobileUtil,
-			pageSize: 2,
+			pageSize: 10,
 
 			payload: ''
         }

@@ -31,7 +31,7 @@ export default {
 			payload: null,
 			errorMessage: '',
 			disableButton: '',
-			pageSize: 2,
+			pageSize: 10,
 			overlayShow: false
 		}
 	},
