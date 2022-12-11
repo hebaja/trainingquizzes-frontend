@@ -2,7 +2,7 @@
 	<b-row class="mt-3">
 		<b-overlay :show="overlayShow" rounded="sm" opacity="0.9" variant="transparent" blur="5px">
 			<b-col cols="12" v-if="payload != ''">
-				<Pagination :payload="payload" :overlayShow="overlayShow" @shiftPage="shiftSubjectsPage">
+				<Pagination :payload="payload" @shiftPage="shiftSubjectsPage">
 					<SubjectsItems :subjects="payload.content" @subjectItemClick="openSubject($event)" />
 				</Pagination>
 			</b-col>
@@ -48,28 +48,9 @@ export default {
 		...mapGetters(['storedUser'])
 	},
     mounted() {
-
 		const page = 0
-
+		this.overlayShow = true
 		this.requestSubjects(page)
-
-
-
-		this.$store.dispatch('getUserSubjects', this.storedUser.id)
-        .then((response) => {
-			this.subjects = response
-		})
-        .catch((error) => {
-            if (error.response) {
-				console.log(error.response.status)
-				this.errorMessage = 'There was a problem. Please try again.'
-            } else if (error.request) {
-				this.$router.push({ name: 'index' })
-            } else {
-				console.log('Error', error.message);
-				this.errorMessage = 'There was a problem. Please try again.'
-            }
-        })
     },
 	methods: {
 		edit(index) {
@@ -96,13 +77,6 @@ export default {
 				this.$bvModal.hide('modal-delete-subject')
 				this.overlayShow = false
 			})
-		},
-		returnToList() {
-			this.subjects = this.storedUser.subjects
-			this.editMode = false
-		},
-		updateSubjects(subjectsReceived) {
-			this.subjects = subjectsReceived
 		},
 		addSubject() {
 			let subject = ({
@@ -138,8 +112,8 @@ export default {
 			})
 		},
 		shiftSubjectsPage(page) {
+			this.overlayShow = true
 			this.requestSubjects(page)
-
 		},
 		openSubject(subjectId) {
 			this.$store.commit('DEFINE_EDIT_SUBJECT_ID', subjectId)

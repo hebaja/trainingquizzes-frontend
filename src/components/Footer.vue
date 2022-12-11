@@ -1,8 +1,8 @@
 <template>
         <b-row id="footer" class="fixed-bottom" style="background-color: #ffc266!important;">
             <b-col md="6" sm="12" class="mt-md-3 mt-sm-2 mt-2 d-none d-sm-none d-md-block">
-                <p id="footer-header">English Training Quizzes</p>
-                <p id="footer-text">Study English more effectively.</p>
+                <p id="footer-header">Training Quizzes</p>
+                <p id="footer-text">Learn with consistent practice.</p>
             </b-col>
             <b-col md="6" sm="12" class="mt-3 mt-md-1 mt-lg-1">
                 <div id="button-playstore">

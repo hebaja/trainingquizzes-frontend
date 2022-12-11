@@ -141,37 +141,6 @@ const actions = {
             })
         })
     },
-
-    updateUserSubjects({ commit }, subject) {
-        return new Promise((resolve, reject) => {
-            http.updateSubjects(subject)
-            .then((response) => {
-                commit('UPDATE_STORED_USER_SUBJECTS', {
-                    subjects: response.data
-                })
-                resolve(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-                reject(error)
-            })
-        })
-    },
-    getUserSubjects({ commit }, userId) {
-        return new Promise((resolve, reject) => {
-            http.getSubjects(userId)
-            .then((response) => {
-                commit('UPDATE_STORED_USER_SUBJECTS', {
-                    subjects: response.data
-                })
-                resolve(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-                reject(error)
-            })
-        })
-    },
     googleSignIn({ commit }, googleObject) {
         return new Promise((resolve, reject) => {
             http.authenticateGoogleUser(googleObject)
