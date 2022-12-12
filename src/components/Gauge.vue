@@ -13,7 +13,7 @@
 			show-progress animated
 		>
 			<strong>
-				<span id="average-text">{{ score }}%</span>
+				<span id="average-text">{{ score.toFixed(1) }}%</span>
 			</strong>
 		</b-progress-bar>
 	</b-progress>
