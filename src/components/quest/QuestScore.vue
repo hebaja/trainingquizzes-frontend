@@ -12,7 +12,7 @@
 						{{ score.username }}
 					</span>
 					<span class="w-25">
-						<Gauge :score="score.score"/>
+						<Gauge :score="score.score * 10"/>
 					</span>
 				</div>
 			</b-list-group-item>
