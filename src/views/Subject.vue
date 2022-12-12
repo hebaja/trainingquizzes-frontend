@@ -141,7 +141,7 @@
 						<AppButton class="col-12"  @appButtonClick="saveSubject" buttonStyle="save">Save Subject</AppButton>
 					</b-overlay>
 				</b-col>
-				<b-col cols="12" class="text-center mt-3 text-danger">
+				<b-col v-if="!newSubject" cols="12" class="text-center mt-3 text-danger">
 					<h3>
 						<font-awesome-icon
 							icon="fa-solid fa-trash"

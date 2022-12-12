@@ -4,16 +4,16 @@
 		height="1.8em"
 		show-value
 	>
-		<b-progress-bar 
-			:value="score * 10"
+		<b-progress-bar max="100"
+			:value="score"
 			:variant="
-			score * 10 <= 40 ? 'danger' :
-			score * 10 > 40 && score * 10 < 80 ? 'warning' :
-			'success'" 
+				score <= 40 ? 'danger' :
+				score > 40 && score < 80 ? 'warning' :
+				'success'" 
 			show-progress animated
 		>
 			<strong>
-				<span id="average-text">{{ score.toFixed(1) }}%</span>
+				<span id="average-text">{{ score }}%</span>
 			</strong>
 		</b-progress-bar>
 	</b-progress>

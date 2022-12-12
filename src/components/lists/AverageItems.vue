@@ -16,20 +16,7 @@
 						<td>{{ average.user.username }}</td>
 						<td>{{ average.levelCapitalize }}</td>
 						<td>
-							<b-progress :max="100" height="1.8em"
-							show-value>
-								<b-progress-bar 
-								:value="average.averageForMeter"
-								:variant="
-								average.averageForMeter <= 40 ? 'danger' :
-								average.averageForMeter > 40 && average.averageForMeter < 80 ? 'warning' :
-								'success'" 
-								show-progress animated>
-									<strong>
-										<span id="average-text">{{ average.averageForMeter }}%</span>
-									</strong>
-								</b-progress-bar>
-							</b-progress>
+							<Gauge :score="average.averageForMeter"/>
 						</td>
 					</tr>
 				</tbody>
@@ -47,7 +34,7 @@
 								Level: {{ average.levelCapitalize }}
 							</b-col>
 							<b-col>
-								Maker: {{ average.user.username }}
+								Author: {{ average.user.username }}
 							</b-col>
 						</b-row>
 					</h6>

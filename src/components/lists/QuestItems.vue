@@ -1,32 +1,36 @@
 <template>
-	<b-list-group>
-		<b-list-group-item href="#" v-for="quest in quests" :key="quest.id" @click="openQuest(quest.id)" :style="questIsFinished(quest)">
-			<b-col class="mx-auto d-none d-md-none d-lg-block">
-				<b-col class="d-flex w-100 justify-content-between">
-					<b-col>
-						<h4 class="ms-3">{{ quest.title }}</h4>
-						<h6 class="ms-3"><font-awesome-icon class="me-1" icon="fa-solid fa-book"/>{{ quest.subject.title }}</h6>
-						<small class="ms-3">{{ quest.subject.level }}</small>
+	<div>
+		<b-card 
+			v-for="quest in quests" 
+			:key="quest.id" 
+			@click="openQuest(quest.id)" 
+			:header-bg-variant="quest.finished ? 'light' : 'warning'"
+			:border-variant="quest.finished ? '' : 'dark'"
+			class="mb-2 shadow-sm"
+			style="cursor: pointer;"
+			no-body>
+			<template #header>
+				<h4 class="mb-0">{{ quest.title }}</h4>
+			</template>
+			<b-card-body>
+				<b-card-title><h5><font-awesome-icon class="me-1" icon="fa-solid fa-book"/>{{ quest.subject.title }}</h5></b-card-title>
+				<b-card-sub-title>{{ quest.subject.level }}</b-card-sub-title>
+			</b-card-body>
+			<b-card-footer>
+				<b-row>
+					<b-col class="d-flex justify-content-center">
+						<small><font-awesome-icon icon="fa-solid fa-hourglass-start" /> {{ formatDate(quest.startDate) }}</small>
 					</b-col>
-					<b-col>
-						<small class="me-3 position-absolute end-0"><font-awesome-icon icon="fa-solid fa-hourglass-start" /> {{ formatDate(quest.startDate) }}</small>
-						<br/>
-						<small class="me-3 position-absolute end-0"><font-awesome-icon icon="fa-solid fa-hourglass-end" /> {{ formatDate(quest.finishDate) }}</small>
-						<br/>
-						<small class="me-3 position-absolute end-0"><font-awesome-icon icon="fa-solid fa-users" /> {{ quest.subscribedUsers.length }}</small>
+					<b-col class="d-flex justify-content-center">
+						<small><font-awesome-icon icon="fa-solid fa-hourglass-end" /> {{ formatDate(quest.finishDate) }}</small>
 					</b-col>
-				</b-col>
-			</b-col>
-			<b-col class="mx-auto d-md-block d-lg-none">
-					<h4>{{ quest.title }}</h4>
-					<h6><font-awesome-icon class="me-1" icon="fa-solid fa-book"/>{{ quest.subject.title }}</h6>
-					<small>{{ quest.subject.level }}</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<small><font-awesome-icon icon="fa-solid fa-hourglass-start" /> {{ formatDate(quest.startDate) }}</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<small><font-awesome-icon icon="fa-solid fa-hourglass-end" /> {{ formatDate(quest.finishDate) }}</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<small><font-awesome-icon icon="fa-solid fa-users" /> {{ quest.subscribedUsers.length }}</small>
-			</b-col>
-		</b-list-group-item>
-	</b-list-group>
+					<b-col class="d-flex justify-content-center">
+						<small><font-awesome-icon icon="fa-solid fa-users" /> {{ quest.subscribedUsers.length }}</small>
+					</b-col>
+				</b-row>
+			</b-card-footer>
+		</b-card>
+	</div>
 </template>
 
 <script>
