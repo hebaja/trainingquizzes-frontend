@@ -1,24 +1,6 @@
-frontend to trainingquizzes using Vue.js
-=======
-## Project setup
-```
-npm install
-```
+# Training Quizzes front-end
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+##### Training Quizzes is a platform aimed to help teachers of all kinds subjects to assess students' comprehension with constant practice.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+The **Training Quizzes** platform is currently hosted on [trainingquizzes.com](http://traininquizzes.com).
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
