@@ -132,7 +132,7 @@
 								Finishing time must be equal or higher than 24hrs.
 						</b-form-invalid-feedback>
 					</b-col>
-					<b-col cols="12" class="mt-1">
+					<b-col cols="12" class="mt-1" v-b-modal.subjects-modal>
 						Selected subject:
 						<b-card no-body class="shadow">
 							<div class="m-2">
@@ -147,23 +147,14 @@
 					</b-col>
 					<b-col cols="12" lg="8" offset-lg="2" class="mt-3">
 						<AppButton
-						:buttonDisabled="questIsNotNew"
-							v-b-toggle.collapse-2-inner>
+						v-b-modal.subjects-modal
+						:buttonDisabled="questIsNotNew">
 								<span v-if="subject">Change selected subject</span>
 								<span v-else>Choose a subject</span>
 								<font-awesome-icon 
 									class="ms-2" 
 									icon="fa-solid fa-rectangle-list" />
 						</AppButton>
-					</b-col>
-					<b-col cols="12" lg="8" offset-lg="2">
-						<b-collapse id="collapse-2-inner" class="mt-2">
-							<b-list-group>
-								<b-list-group-item href="#" v-for="subjectOption in userSubjectsOptions" :key="subjectOption.id" @click="changeSelectedSubject(subjectOption)">
-									<font-awesome-icon class="ms-1 me-2" icon="fa-solid fa-book" /><span>{{ subjectOption.title }} - {{ subjectOption.level }}</span>
-								</b-list-group-item>
-							</b-list-group>
-						</b-collapse>
 					</b-col>
 					<b-col cols="12" lg="8" offset-lg="2" class="mt-1">
 						<label for="quantity-of-trials">Quantity of trials</label>
@@ -243,6 +234,41 @@
 					</div>
 				</b-row>
 			</b-form>
+			<div>
+				<b-modal id="subjects-modal" hide-header hide-footer hide-header-close centered>
+					<b-row>
+						<b-col cols="12" offset="11" class="mb-2">
+							<span @click="$bvModal.hide('subjects-modal')" style="cursor: pointer;"><font-awesome-icon icon="fa-solid fa-xmark"/></span>
+						</b-col>
+						<b-col cols="12" class="mb-2">
+							<b-form-input
+								id="search-input"
+								v-model="subjectSearch"
+								type="text"
+								placeholder="Filter">
+							</b-form-input>
+						</b-col>
+						<b-col cols="12" class="mb-3">
+							<b-list-group v-if="!subjectSearch && quest.user">
+								<b-list-group-item href="#" v-for="subject in paginate(quest.user.subjects, subjectsPageSize, subjectsPageNumber)" :key="subject.id" @click="changeSelectedSubject(subject)">
+									<font-awesome-icon class="ms-1 me-2" icon="fa-solid fa-book" /><span>{{ subject.title }} - {{ subject.level }}</span>
+								</b-list-group-item>
+							</b-list-group>
+							<b-list-group v-else>
+								<b-list-group-item href="#" v-for="subject in paginate(filteredUserSubjects, subjectsPageSize, subjectsPageNumber)" :key="subject.id" @click="changeSelectedSubject(subject)">
+									<font-awesome-icon class="ms-1 me-2" icon="fa-solid fa-book" /><span>{{ subject.title }} - {{ subject.level }}</span>
+								</b-list-group-item>
+							</b-list-group>
+						</b-col>
+						<b-col cols="12">
+							<b-button-group size="md">
+								<b-button :disabled="disablePrevButton" variant="light" @click="shiftListBackward">prev</b-button>
+								<b-button :disabled="disableNextButton" variant="light" @click="shiftListForward">next</b-button>
+							</b-button-group>
+						</b-col>
+					</b-row>
+				</b-modal>
+			</div>
 		</div>
 	</b-overlay>
 </template>
@@ -272,7 +298,6 @@ export default {
 			subject: '',
 			formatStartTime: '',
 			formatFinishTime: '',
-			userSubjectsOptions: '',
 			selected: null,
 			startDateContext: null,
 			startTimeContext: null,
@@ -284,7 +309,10 @@ export default {
 			errorMessage: '',
 			showQuestOverlay: false,
 			timeZone: '',
-			urlBase: process.env.VUE_APP_DEFAULT_BASE_URL
+			urlBase: process.env.VUE_APP_DEFAULT_BASE_URL,
+			subjectsPageSize: 10,
+			subjectsPageNumber: 1,
+			subjectSearch: '',
         }
     },
 	components: {
@@ -350,7 +378,6 @@ export default {
 					results.push(result)
 				}
 			}
-
 			return results.sort((resultA, resultB) => {
 				return resultB.score - resultA.score
 			})
@@ -358,6 +385,32 @@ export default {
 		questIsNotNew() {
 			return this.quest.id != null
 		},
+		filteredUserSubjects() {
+			if(this.quest.user) {
+				return this.quest.user.subjects.filter(subject => {
+					return subject.title.toLowerCase().indexOf(this.subjectSearch.toLowerCase()) > -1
+				})
+			} else {
+				return ''
+			}
+		},
+		subjectsListSize() {
+			if(this.quest.user) {
+				if(this.filteredUserSubjects) return this.filteredUserSubjects.length
+				else return this.quest.user.subjects.length
+			} else {
+				return 0
+			}
+		},
+		subjectsListlastPage() {
+			return Math.ceil(this.subjectsListSize / this.subjectsPageSize)
+		},
+		disablePrevButton() {
+			return this.subjectsPageNumber == 1
+		},
+		disableNextButton() {
+			return this.subjectsPageNumber == this.subjectsListlastPage
+		}
 	},
 	mounted() {
 		if(this.openQuest) {
@@ -365,7 +418,6 @@ export default {
 			this.subject = this.quest.subject
 			this.trialsQuantity = this.quest.timeInterval
 			this.timeZone = this.quest.timeZone
-			this.userSubjectsOptions = this.quest.user.subjects.filter(subject => subject.id != this.subject.id)
 			this.formatDates()
 		} else {
 			this.$router.push({ name: 'quests-by-user' })
@@ -394,8 +446,14 @@ export default {
 		}
 	},
 	methods: {
-		compararNumeros(a, b) {
-			return a - b;
+		paginate(array, pageSize, pageNumber) {
+			return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+		},
+		shiftListForward() {
+			this.subjectsPageNumber++
+		},
+		shiftListBackward() {
+			this.subjectsPageNumber--
 		},
 		saveQuest() {
 			if(!this.$v.$invalid && this.finishDateIsHigherThanOneDay) {
@@ -459,11 +517,9 @@ export default {
 		onFinishTimeContext(context) {
 			this.finishTimeContext = context
 		},
-		changeSelectedSubject(subjectOption) {
-			let previousSubject = this.subject
-			this.subject = subjectOption
-			if(previousSubject != '') this.userSubjectsOptions.push(previousSubject)
-			this.userSubjectsOptions = this.userSubjectsOptions.filter(element => element.id != this.subject.id)
+		changeSelectedSubject(subject) {
+			this.subject = subject
+			this.$bvModal.hide('subjects-modal')
 		},
 		formatDates() {
 			const startDate = new Date(this.quest.startDate)

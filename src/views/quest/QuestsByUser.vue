@@ -96,7 +96,7 @@ export default {
 					title: '',
 					trials: [],
 					timeZone: dateUtil.getTimeZone(),
-					user: this.storedUser
+					user: this.payload.content[0].user	
 				}
 				this.$router.push({ name: 'quest', params: { openQuest: createdQuest } })
 			})

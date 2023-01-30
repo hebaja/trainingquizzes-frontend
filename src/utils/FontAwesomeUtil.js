@@ -1,6 +1,7 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faSave } from '@fortawesome/free-solid-svg-icons'
 import { faAt } from '@fortawesome/free-solid-svg-icons'
 import { faLock } from '@fortawesome/free-solid-svg-icons'
@@ -47,7 +48,8 @@ export class FontAwesomeCreator {
 	buildIcons() {
 		library.add(
 			faCheckCircle, 
-			faTimesCircle, 
+			faTimesCircle,
+			faXmark,
 			faSave, 
 			faAt, 
 			faLock, 
