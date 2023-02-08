@@ -17,7 +17,7 @@
 							:placeholder="inputLabel"
 							required>
 						</b-form-input>
-						<b-form-select v-if="!isSubjectsFilteredByUser" class="form-control" v-model="searchOptionSelected" :options="searchOptions"></b-form-select>
+						<b-form-select v-if="!isFilteredByUser" class="form-control" v-model="searchOptionSelected" :options="searchOptions"></b-form-select>
 						<b-button style="background-color: #ffa726;" type="submit">
 							<span v-if="mobileUtil.isMobile()">Go</span>
 							<span v-else>Search</span>
@@ -53,7 +53,7 @@ const mobileUtil = new MobileUtil()
 export default {
 	name: 'search',
 	props: {
-		isSubjectsFilteredByUser: {
+		isFilteredByUser: {
 			type: Boolean,
 			default: false
 		},
@@ -64,7 +64,7 @@ export default {
 		userId: {
 			type: Number,
 			default: null
-		}
+		},
 	},
 	data() {
 		return {
@@ -105,9 +105,7 @@ export default {
 				this.searching = true
 				this.componentKey++
 				this.overlayShowSearch = true
-
 				let request = null
-
 				if(this.isInputSearchSubjectsFilteredByUser()) {
 					request = this.$http.getReducedSubjects(this.pageRequest, this.pageSize, 'creationDate,desc', this.searchQuery, this.userId)
 				} else if(this.IsInputSearchSubjects()) {

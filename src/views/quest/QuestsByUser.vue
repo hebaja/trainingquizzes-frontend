@@ -12,7 +12,10 @@
 				<p v-if="errorMessage" class="text-center text-danger">{{ errorMessage }}</p>	
 			</b-col>
 			<div v-if="createdQuestsTabActive">
-				<Pagination :payload="payload" :overlayShow="overlayShow" @shiftPage="shiftQuestsPage">
+				<b-col cols="12" >
+					<QuestSearch :userId="storedUser.id" @questItemClick="openCreatedQuest($event)"/>
+				</b-col>
+				<Pagination title="Recent quests:" :payload="payload" :overlayShow="overlayShow" @shiftPage="shiftQuestsPage">
 					<QuestItems :quests="payload.content" @questItemClick="openCreatedQuest($event)"/>
 				</Pagination>
 				<b-col cols="12" lg="8"  class="mx-auto mt-2">
@@ -23,7 +26,10 @@
 				</b-col>
 			</div>
 			<div v-if="subscribedQuestTabActive">
-				<Pagination :payload="payload" :overlayShow="overlayShow" @shiftPage="shiftQuestsPage">
+				<b-col cols="12" >
+					<QuestSearch :userId="storedUser.id" :isSubscribedQuests="true" @questItemClick="openSubscribedQuest($event)"/>
+				</b-col>
+				<Pagination title="Recent quests" :payload="payload" :overlayShow="overlayShow" @shiftPage="shiftQuestsPage">
 					<QuestItems :quests="payload.content" @questItemClick="openSubscribedQuest($event)"/>
 				</Pagination>
 			</div>
@@ -37,6 +43,7 @@ import Pagination from '../../components/Pagination.vue'
 import QuestItems from '../../components/lists/QuestItems.vue'
 import AppButton from '../../components/buttons/AppButton.vue'
 import { DateUtil } from '../../utils/DateUtil'
+import QuestSearch from '../../components/QuestSearch.vue'
 
 const dateUtil = new DateUtil()
 
@@ -57,7 +64,8 @@ export default {
 	components: {
 		Pagination,
 		QuestItems,
-		AppButton
+		AppButton,
+		QuestSearch
 	},
 	computed: {
 		...mapGetters(['storedUser']),

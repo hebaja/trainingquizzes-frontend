@@ -16,7 +16,7 @@
 					<h2 class="text-center">{{ currentUserAuthor.username }}'s subjects</h2>
 				</b-col>
 				<b-col cols="12" >
-					<Search :isSubjectsFilteredByUser="true" :userId="currentUserAuthor.id" :inputLabel="'Search in ' + currentUserAuthor.username + '\'s subjects'"/>
+					<AppSearch :isFilteredByUser="true" :userId="currentUserAuthor.id" :inputLabel="'Search in ' + currentUserAuthor.username + '\'s subjects'"/>
 				</b-col>
 				<b-col cols="12" class="mt-4">
 					<h4 class="text-center">Search by level</h4>
@@ -35,7 +35,7 @@
 				</b-row>
 				<Pagination v-if="payload" :payload="payload" @shiftPage="shiftPage" :overlayShow="subjectsOvelayShow">
 					<hr />
-					<SubjectItems :subjects="subjects"/>
+					<SubjectItems :subjects="subjects" @subjectItemClick="open($event)"/>
 				</Pagination>
 			</div>
 		</div>
@@ -49,7 +49,7 @@
 import { mapGetters } from 'vuex'
 import AppButton from '../../components/buttons/AppButton.vue'
 import Quiz from '../../components/Quiz.vue'
-import Search from '../../components/Search.vue'
+import AppSearch from '../../components/AppSearch.vue'
 import Pagination from '../../components/Pagination.vue'
 import SubjectItems from '../../components/lists/SubjectItems.vue'
 import { required } from 'vuelidate/lib/validators'
@@ -137,7 +137,7 @@ export default {
 		AppButton,
 		Quiz,
 		Pagination,
-		Search,
+		AppSearch,
 		SubjectItems
 	},
 	computed: {
@@ -147,6 +147,10 @@ export default {
 		
 	},
 	methods: {
+		open(subject) {
+			this.$router.push({ name: 'regular-quiz', params: { subjectId: subject.id } })
+			this.$store.dispatch('defineUserAuthor', subject.user)
+		},
 		fetchSubjects(level, index) {
 			this.levels.forEach(level => level.buttonDisabled = false)
 			this.levels[index].buttonDisabled = true

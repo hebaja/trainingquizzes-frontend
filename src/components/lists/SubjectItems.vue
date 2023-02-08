@@ -53,8 +53,7 @@ export default {
 	},
 	methods: {
 		open(subject) {
-			this.$router.push({ name: 'regular-quiz', params: { subjectId: subject.id } })
-			this.$store.dispatch('defineUserAuthor', subject.user)
+			this.$emit('subjectItemClick', subject)
 		},
 		formatDate(creationDate) {
 			return dateUtil.formatDate(creationDate)

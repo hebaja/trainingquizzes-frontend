@@ -105,8 +105,14 @@ export default {
 	getCreatedQuests(userId, page, size) {
 		return http.get('/api/quest/created-quests', { params: { userId: userId, page: page, size: size,  sort: 'startDate,desc' }})
 	},
+	getCreatedQuestsByTitle(page, size, query, userId) {
+		return http.get('/api/quest/created-quests', { params: { query: query, userId: userId, page: page, size: size,  sort: 'startDate,desc' }})
+	},
 	getSubscribedQuests(userId, page, size) {
 		return http.get('/api/quest/subscribed-quests', { params: { userId: userId, page: page, size: size, sort: 'startDate,desc' }})
+	},
+	getSubscribedQuestsByTitle(page, size, query, userId) {
+		return http.get('/api/quest/subscribed-quests', { params: { query: query, userId: userId, page: page, size: size,  sort: 'startDate,desc' }})
 	},
 	registerQuest(quest) {
 		return http.put('/api/quest', quest)

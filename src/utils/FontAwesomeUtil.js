@@ -42,6 +42,7 @@ import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 import { faGlobe } from '@fortawesome/free-solid-svg-icons'
 import { faAndroid } from '@fortawesome/free-brands-svg-icons'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
 export class FontAwesomeCreator {
 
@@ -89,7 +90,8 @@ export class FontAwesomeCreator {
 			faCheckDouble,
 			faGlobe,
 			faAndroid,
-			faClock)
+			faClock,
+			faHeart)
 	}
 }
 

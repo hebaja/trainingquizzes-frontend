@@ -3,22 +3,19 @@
 		<b-col cols="12" style="line-height: normal;">
 			<p id="home-main-text">Assess the knowledge and understanding of your students with steady practice! Join <span style="color: #1a237e;">Training Quizzes</span>!</p>
 		</b-col>
-
 		<b-col cols="10" class="mx-auto mt-2">
 			<AppButton @appButtonClick="subscribeToQuest">
 				Subscribe to quest
 			</AppButton>
 		</b-col>
-
 		<b-col cols="12" xl="10" class="mt-4 mx-auto">
 			<AppSearch :inputLabel='mobileUtil.isMobile() ? "Text here" : "What are you looking for?"'/>
 		</b-col>
 		<b-col cols="12" xl="10" class="mt-3 mx-auto">
 			<Pagination title="Latest subjects:" :payload="payload" @shiftPage="shiftLatestSubjectsPage">
-				<SubjectItems :subjects="payload.content" :overlayShow="overlayShow"/>
+				<SubjectItems :subjects="payload.content" :overlayShow="overlayShow" @subjectItemClick="open($event)"/>
 			</Pagination>
-		</b-col>
-			
+		</b-col>		
 		<b-col cols="12" class="mx-auto mt-2">
 			<img id="home-main-image" class="center" src="../assets/home.svg" alt="English training quizzes home image">
 		</b-col>
@@ -28,7 +25,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Pagination from '../components/Pagination.vue'
-import AppSearch from '../components/Search.vue'
+import AppSearch from '../components/AppSearch.vue'
 import SubjectItems from '../components/lists/SubjectItems.vue'
 import { MobileUtil } from '../utils/MobileUtil'
 import AppButton from '../components/buttons/AppButton.vue'
@@ -60,6 +57,10 @@ export default {
 		this.requestSubjects(page)
 	},
 	methods: {
+		open(subject) {
+			this.$router.push({ name: 'regular-quiz', params: { subjectId: subject.id } })
+			this.$store.dispatch('defineUserAuthor', subject.user)
+		},	
 		shiftLatestSubjectsPage(page) {
 			this.overlayShow = true
 			this.requestSubjects(page)

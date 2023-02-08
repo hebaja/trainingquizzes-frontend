@@ -1,9 +1,16 @@
 <template>
 	<b-row class="mt-3">
+		<b-col cols="12" >
+			<AppSearch 
+				:isFilteredByUser="true" 
+				:userId="storedUser.id" 
+				:inputLabel="'Search in ' + storedUser.username + '\'s subjects'"
+				/>
+		</b-col>
 		<b-overlay :show="overlayShow" rounded="sm" opacity="0.9" variant="transparent" blur="5px">
 			<b-col cols="12" v-if="payload != ''">
-				<Pagination :payload="payload" @shiftPage="shiftSubjectsPage">
-					<SubjectsItems :subjects="payload.content" @subjectItemClick="openSubject($event)" />
+				<Pagination title="Your latest subjects:" :payload="payload" @shiftPage="shiftSubjectsPage">
+					<SubjectItems :subjects="payload.content" @subjectItemClick="openSubject($event)" />
 				</Pagination>
 			</b-col>
 			<b-col cols="12" lg="8"  class="mx-auto mt-2">
@@ -21,7 +28,8 @@ import { mapGetters } from 'vuex'
 import AppButton from '../components/buttons/AppButton.vue'
 import { MobileUtil } from '../utils/MobileUtil'
 import Pagination from '../components/Pagination.vue'
-import SubjectsItems from '../components/lists/SubjectsItems.vue'
+import SubjectItems from '../components/lists/SubjectItems.vue'
+import AppSearch from '../components/AppSearch.vue'
 
 const mobileUtil = new MobileUtil()
 
@@ -42,7 +50,8 @@ export default {
 	components: {
 		AppButton,
 		Pagination,
-		SubjectsItems
+		SubjectItems,
+		AppSearch
 	},
 	computed: {
 		...mapGetters(['storedUser'])
@@ -97,7 +106,6 @@ export default {
 			}
 			this.$router.push({ name: 'subject', params: { newSubject: subject } })
 		},
-
 		requestSubjects(page) {
 			this.overlayShow = true
 			this.$http.getSubjectByTeacerh(this.storedUser.id, page, this.pageSize)
@@ -115,9 +123,9 @@ export default {
 			this.overlayShow = true
 			this.requestSubjects(page)
 		},
-		openSubject(subjectId) {
-			this.$store.commit('DEFINE_EDIT_SUBJECT_ID', subjectId)
-			this.$router.push({ name: 'subject', params: { subjectId: subjectId} })
+		openSubject(subject) {
+			this.$store.commit('DEFINE_EDIT_SUBJECT_ID', subject.id)
+			this.$router.push({ name: 'subject', params: { subjectId: subject.id } })
 		}
 	}
 }

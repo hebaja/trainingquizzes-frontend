@@ -7,7 +7,6 @@
 		<div v-if="reducedListTasks">
 			<Quiz :tasksList="reducedListTasks" :subjectId="subjectId" />
 		</div>
-		
     </div>
 </template>
 
@@ -62,6 +61,7 @@ export default {
 	}
 }
 </script>
+
 
 <style>
 

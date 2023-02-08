@@ -1,6 +1,6 @@
 <template>
 	<b-list-group>
-		<b-list-group-item href="#" v-for="subject in subjects" :key="subject.id" @click="openSubject(subject.id)">
+		<b-list-group-item href="#" v-for="subject in subjects" :key="subject.id" @click="openSubject(subject)">
 			<b-row class="d-flex w-100 justify-content-between">
 				<b-col cols="7">
 					<span><font-awesome-icon class="me-1" icon="fa-solid fa-book"/>{{ subject.title }}</span>
@@ -35,8 +35,8 @@ export default {
 		subjects: Array
 	},
 	methods: {
-		openSubject(subjectId) {
-			this.$emit('subjectItemClick', subjectId)
+		openSubject(subject) {
+			this.$emit('subjectItemClick', subject.id)
 		},
 		formatDate(date) {
 			return dateUtil.formatDate(date)
