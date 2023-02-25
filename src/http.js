@@ -88,8 +88,17 @@ export default {
 	getSubjectsByUserAndLevel(userAuthorId, page, size, level) {
 		return http.get('/api/subject/user', { params: { userId: userAuthorId, page: page, size: size, sort: 'creationDate,desc', level: level }})
 	},
-	getSubjectByTeacerh(userId, page, size) {
-		return http.get('/api/subject/pageable-teacher', { params: { userId: userId, page: page, size: size, sort:'creationDate,desc' }})
+	getSubjectsByTeacher(query, userId, page, size, isPublicFiltered) {
+		return http.get('/api/subject/pageable-teacher', { params: { isPublicFiltered: isPublicFiltered, query: query, userId: userId, page: page, size: size, sort:'creationDate,desc' }})
+	},
+	getPublicSubjectsByTeacher(query, userId, page, size, isPublicFiltered) {
+		return http.get('/api/subject/pageable-teacher', { params: { isPublicFiltered: isPublicFiltered, query: query, userId: userId, page: page, size: size, sort:'creationDate,desc' }})
+	},
+	getFavoriteSubjects(userId, page, size, query) {
+		return http.get('/api/subject/get-favorites', { params: {query: query, userId: userId, page: page, size: size, sort:'creationDate,desc' } })
+	},
+	favoriteSubject(form) {
+		return http.post('/api/subject/favorite/', form)
 	},
 
 	getRegularQuiz(subjectId) {

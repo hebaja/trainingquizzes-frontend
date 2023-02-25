@@ -2,7 +2,8 @@
 	<b-row class="mt-3">
 		<b-col cols="12" >
 			<AppSearch 
-				:isFilteredByUser="true" 
+				:isFilteredByUser="true"
+				:isPublicSubjectsFiltered="false"
 				:userId="storedUser.id" 
 				:inputLabel="'Search in ' + storedUser.username + '\'s subjects'"
 				/>
@@ -43,7 +44,6 @@ export default {
 			overlayShow: false,
 			mobileUtil: mobileUtil,
 			pageSize: 10,
-
 			payload: ''
         }
     },
@@ -92,7 +92,9 @@ export default {
 				title: '',
 				level: 'EASY',
 				tasks: [],
-				user: this.storedUser
+				user: this.storedUser,
+				isUserOwner: true,
+				publicSubject: true
 			})
 			for(let i = 0; i < 10; i++) {
 				subject.tasks.push({
@@ -108,7 +110,7 @@ export default {
 		},
 		requestSubjects(page) {
 			this.overlayShow = true
-			this.$http.getSubjectByTeacerh(this.storedUser.id, page, this.pageSize)
+			this.$http.getSubjectsByTeacher(null, this.storedUser.id, page, this.pageSize)
 			.then((response) => {
 				this.payload = response.data
 				this.overlayShow = false

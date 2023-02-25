@@ -43,6 +43,8 @@ import { faGlobe } from '@fortawesome/free-solid-svg-icons'
 import { faAndroid } from '@fortawesome/free-brands-svg-icons'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 
 export class FontAwesomeCreator {
 
@@ -91,7 +93,9 @@ export class FontAwesomeCreator {
 			faGlobe,
 			faAndroid,
 			faClock,
-			faHeart)
+			faHeart,
+			faCircleCheck,
+			faCircleXmark)
 	}
 }
 

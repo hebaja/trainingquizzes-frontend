@@ -8,6 +8,7 @@
             <b-navbar-nav v-if="userIsSignedIn" class="ms-lg-auto ms-md-3 ms-sm-3 ms-3 me-3">
                 <!-- <b-nav-item href="#" to="quiz-by-levels">Play</b-nav-item> -->
                 <b-nav-item v-if="userIsStudent" href="#" to="pin"><b>Subscribe to quest</b></b-nav-item>
+                <b-nav-item v-if="userIsStudent" href="#" to="favorite-subjects">Favorites</b-nav-item>
                 <b-nav-item v-if="userIsStudent" href="#" to="averages">Averages</b-nav-item>
                 <b-nav-item v-if="userIsTeacher" href="#" to="subjects">Subjects</b-nav-item>
                 <b-nav-item href="#" to="quests">Quests</b-nav-item>

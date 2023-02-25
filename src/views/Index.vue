@@ -9,7 +9,7 @@
 			</AppButton>
 		</b-col>
 		<b-col cols="12" xl="10" class="mt-4 mx-auto">
-			<AppSearch :inputLabel='mobileUtil.isMobile() ? "Text here" : "What are you looking for?"'/>
+			<AppSearch :isAllSubjects="true" :inputLabel='mobileUtil.isMobile() ? "Text here" : "What are you looking for?"'/>
 		</b-col>
 		<b-col cols="12" xl="10" class="mt-3 mx-auto">
 			<Pagination title="Latest subjects:" :payload="payload" @shiftPage="shiftLatestSubjectsPage">
@@ -58,7 +58,7 @@ export default {
 	},
 	methods: {
 		open(subject) {
-			this.$router.push({ name: 'regular-quiz', params: { subjectId: subject.id } })
+			this.$router.push({ name: 'subject-profile', params: { subject: subject } })
 			this.$store.dispatch('defineUserAuthor', subject.user)
 		},	
 		shiftLatestSubjectsPage(page) {

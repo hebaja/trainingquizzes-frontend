@@ -201,7 +201,8 @@ const getters = {
     userHasSingleRole: state => state.user.roles ? state.user.roles.length === 1 : true,
     storedUserAuthor: state => state.userAuthor,
     storedSubscribeQuestId: state => state.subscribeQuestId,
-    storedEditSubjectId: state => state.editSubjectId
+    storedEditSubjectId: state => state.editSubjectId,
+    userFavoriteSubjectsIds: state => state.user.favoriteSubjectsIds
 }
 
 export default new Vuex.Store({

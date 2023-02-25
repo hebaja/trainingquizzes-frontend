@@ -57,7 +57,7 @@ export default {
 		},
 		formatDate(creationDate) {
 			return dateUtil.formatDate(creationDate)
-        },
+		},
 	}
 }
 </script>

@@ -25,6 +25,8 @@ import AndroidRedirect from './views/user/AndroidRedirect'
 import QuestSubscribeFilter from './views/quest/QuestSubscribeFilter'
 import QuestPinInsert from './views/quest/QuestPinInsert'
 import HowItWorks from './views/HowItWorks.vue'
+import SubjectProfile from './views/SubjectProfile'
+import FavoriteSubjects from './views/FavoriteSubjects'
 
 Vue.use(VueRouter)
 
@@ -184,6 +186,20 @@ const routes = [
 		meta: {
 			public: true
 		}
+	},
+	{
+		path: "/subject-profile",
+		name: "subject-profile",
+		component: SubjectProfile,
+		meta: {
+			public: true
+		},
+		props: true
+	},
+	{
+		path: "/favorite-subjects",
+		name: "favorite-subjects",
+		component: FavoriteSubjects
 	}
 ]
 

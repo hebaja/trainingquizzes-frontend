@@ -53,7 +53,15 @@ const mobileUtil = new MobileUtil()
 export default {
 	name: 'search',
 	props: {
+		isAllSubjects: {
+			type: Boolean,
+			default: false
+		},
 		isFilteredByUser: {
+			type: Boolean,
+			default: false
+		},
+		isFavoriteSubjects: {
 			type: Boolean,
 			default: false
 		},
@@ -65,6 +73,10 @@ export default {
 			type: Number,
 			default: null
 		},
+		isPublicSubjectsFiltered: {
+			type: Boolean,
+			default: true
+		}
 	},
 	data() {
 		return {
@@ -106,23 +118,26 @@ export default {
 				this.componentKey++
 				this.overlayShowSearch = true
 				let request = null
-				if(this.isInputSearchSubjectsFilteredByUser()) {
-					request = this.$http.getReducedSubjects(this.pageRequest, this.pageSize, 'creationDate,desc', this.searchQuery, this.userId)
-				} else if(this.IsInputSearchSubjects()) {
+
+				if(this.isAllSubjects && this.searchOptionSelected == 0) {
 					request = this.$http.getReducedSubjects(this.pageRequest, this.pageSize, 'creationDate,desc', this.searchQuery)
-				} else {
+				} else if(this.isFilteredByUser)
+					if(this.isFavoriteSubjects) {
+						request = this.$http.getFavoriteSubjects(this.userId, this.pageRequest, this.pageSize, this.searchQuery)
+					} else {
+						if(this.isPublicSubjectsFiltered) {
+							request = this.$http.getPublicSubjectsByTeacher(this.searchQuery, this.userId, this.pageRequest, this.pageSize, this.isPublicSubjectsFiltered)
+						} else {
+							request = this.$http.getSubjectsByTeacher(this.searchQuery, this.userId, this.pageRequest, this.pageSize, this.isPublicSubjectsFiltered)
+						}
+					}
+				else {
 					request = this.$http.getTeachers( this.pageRequest, this.pageSize, this.searchQuery)
 				}
 				this.makeRequest(request)
 			} else {
 				this.$v.$touch()
 			}
-		},
-		isInputSearchSubjectsFilteredByUser() {
-			return this.searchOptionSelected === 0 && this.isSubjectsFilteredByUser
-		},
-		IsInputSearchSubjects() {
-			return this.searchOptionSelected === 0 && !this.isSubjectsFilteredByUser
 		},
 		makeRequest(request) {
 			request.then((response) => {
